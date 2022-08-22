@@ -47,6 +47,7 @@ const NavBarContainer = styled.div`
   min-width: 1000px;
   overflow: hidden;
   height: 52px;
+  z-index: 10;
 `;
 
 const NavItem = styled.div`

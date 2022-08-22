@@ -22,6 +22,7 @@ const MainBar = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  z-index: 10;
 `;
 
 const Logo = styled.img`
