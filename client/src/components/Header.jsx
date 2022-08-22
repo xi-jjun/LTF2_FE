@@ -21,6 +21,7 @@ const MainBar = styled.div`
   height: 29px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Logo = styled.img`
