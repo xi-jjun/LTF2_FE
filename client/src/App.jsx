@@ -8,9 +8,9 @@ function App() {
     <BrowserRouter>
       <Header/>
       <Routes>
-        <Route path='/' exact component={Home}/>
-        <Route path='/detail/:id' exact component={Detail}/>
-        <Route path='/cart' exact component={Cart}/>
+        <Route path='/' exact element={<Home/>}/>
+        <Route path='/detail/:id' exact element={<Detail/>}/>
+        <Route path='/cart' exact element={<Cart/>}/>
       </Routes>
     </BrowserRouter>
   );
