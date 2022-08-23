@@ -12,7 +12,7 @@ import {
   SideBar,
   DiscountCard,
   SideLabel,
-} from "./Detailcss";
+} from "../styles/Detailcss";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { LGButton } from "../components/Button";
 import { plan } from "../DummyData";

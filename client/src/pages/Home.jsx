@@ -1,14 +1,5 @@
-import React from 'react'
-import {Grid} from '@mui/material'
+import React from "react";
 
-export default function Home() {
-  return (
-    <main>
-      <div/>
-      <Grid container justify="center" spacing={4}>
-        
-      </Grid>
-    </main>
-  )
+export default function Home({ phones }) {
+  return <div>Home</div>;
 }
-
