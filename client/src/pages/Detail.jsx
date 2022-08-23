@@ -1,25 +1,49 @@
-import { Button } from "@mui/material";
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import * as PlanCard from "../css/PlanCard";
+import * as PhoneInfo from "../css/PhoneInfo";
+import { ColorDot } from "../components/ColorDot";
+import {
+  Row,
+  OrderBar,
+  OrderItem,
+  Price,
+  DetailInfoContainer,
+  PhoneDescription,
+  SideBar,
+  DiscountCard,
+  SideLabel,
+} from "./Detailcss";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { LGButton } from "../components/Button";
+import { plan } from "../DummyData";
 
 export default function Detail() {
   const sampleData = {
     title: "갤럭시 Z Flip 4",
     model: "SM-F721N",
     description: "#최적의화면비, #가벼워진무게, #멀티태스킹",
-    color: ["보라 퍼플"],
+    color: [
+      { name: "보라 퍼플", hex: "purple" },
+      { name: "핑크 골드", hex: "pink" },
+      { name: "블루", hex: "blue" },
+      { name: "그라파이트", hex: "black" },
+    ],
   };
 
   const navArray = [
-    { label: "모바일 기기", link: "" },
-    { label: "모바일 요금제", link: "" },
-    { label: "인터넷/IPTV", link: "" },
-    { label: "마이페이지", link: "" },
-    { label: "혜택", link: "" },
-    { label: "고객지원", link: "" },
-    { label: "유플일상", link: "" },
-    { label: "유독", link: "" },
+    { label: "예상 납부금액", link: "" },
+    { label: "상품정보", link: "" },
+    { label: "전문가 리뷰/구매후기", link: "" },
+    { label: "상품 문의", link: "" },
+    { label: "가입안내 및 유의사항", link: "" },
   ];
+
+  const [active, setActive] = useState("예상 납부금액");
+  const [activeColor, setActiveColor] = useState(sampleData.color[0]);
+
+  const nowActive = (row) => {
+    setActive(row.label);
+  };
 
   const storageText = (storage) => {
     switch (storage) {
@@ -32,56 +56,129 @@ export default function Detail() {
         return "";
     }
   };
+
   return (
     <div>
-      <FirstRow>
-        <MainImage />
-        <PhoneDetail>
+      <Row justify="center">
+        <PhoneInfo.ImgContainer>
+          <PhoneInfo.ImageMain activeColor={activeColor} />
+          <Row justify="center">
+            <PhoneInfo.ImageSub activeColor={activeColor} />
+            <PhoneInfo.ImageSub activeColor={activeColor} />
+            <PhoneInfo.ImageSub activeColor={activeColor} />
+            <PhoneInfo.ImageSub activeColor={activeColor} />
+          </Row>
+        </PhoneInfo.ImgContainer>
+        <PhoneInfo.Container>
           <div className="phone-info">
-            <div>
+            <PhoneInfo.Info>
               <h1>{sampleData.title}</h1>
               <h4>{`(${sampleData.model})`}</h4>
-            </div>
-            <h4>{sampleData.description}</h4>
-            <div>
-              <h4>색상</h4>
-              <p>{sampleData.color[0]}</p>
-            </div>
-            <div>
-              <h4>색상</h4>
-              <p>{sampleData.color[0]}</p>
-            </div>
-            <h4>저장공간</h4>
-            <div>
-              <Button variant="outlined">256GB</Button>
-            </div>
-            <p>{storageText("256GB")}</p>
+            </PhoneInfo.Info>
+            <PhoneInfo.Info>{sampleData.description}</PhoneInfo.Info>
+            <PhoneInfo.Info>
+              <h4 style={{ margin: "0 10px 0 0" }}>색상</h4>
+              <p>{activeColor.name}</p>
+            </PhoneInfo.Info>
+            <PhoneInfo.Info>
+              {sampleData.color.map((row) => (
+                <ColorDot
+                  key={row.hex}
+                  hex={row.hex}
+                  activeColor={activeColor}
+                  onClick={() => setActiveColor(row)}
+                />
+              ))}
+            </PhoneInfo.Info>
+            <PhoneInfo.Info>저장공간</PhoneInfo.Info>
+            <Row justify="left">
+              <LGButton variant="outline-dark" size="lg" rec>
+                256GB
+              </LGButton>
+            </Row>
+            <PhoneInfo.Info>{storageText("256GB")}</PhoneInfo.Info>
+
+            <PhoneInfo.Price>
+              <h1>월 109,270원</h1>
+              <p>(갤럭시워치5) 5G 다이렉트 65, 무약정 요금제 기준</p>
+              <p>휴대폰 44,270 원</p>
+              <p>통신료 65,000 원</p>
+              <p>정상가 999,900 원</p>
+            </PhoneInfo.Price>
+            <PhoneInfo.Info>
+              <Row justify="center">
+                <LGButton variant="outline-dark" size="lg">
+                  장바구니
+                </LGButton>
+                <LGButton variant="primary" size="lg">
+                  온라인 주문
+                </LGButton>
+              </Row>
+            </PhoneInfo.Info>
           </div>
-          <div className="phone-price">
-            <h1>월 109,270원</h1>
-            <p>(갤럭시워치5) 5G 다이렉트 65, 무약정 요금제 기준</p>
-            <p>휴대폰 44,270 원</p>
-            <p>통신료 65,000 원</p>
-            <p>정상가 999,900 원</p>
-          </div>
-          <div>
-            <Button variant="outlined">장바구니</Button>
-            <Button variant="contained">온라인 주문</Button>
-          </div>
-        </PhoneDetail>
-      </FirstRow>
+        </PhoneInfo.Container>
+      </Row>
       <OrderBar>
         {navArray.map((row) => {
-          return <OrderItem key={row.label} children={row.label} />;
+          return (
+            <OrderItem
+              key={row.label}
+              children={row.label}
+              navId={row.label}
+              active={active}
+              onClick={() => nowActive(row)}
+            />
+          );
         })}
       </OrderBar>
+      <Row justify="center">
+        <DetailInfoContainer>
+          <DetailInfo active={active} />
+        </DetailInfoContainer>
+        <SideBar>
+          <h2>{sampleData.title}</h2>
+          <p>{`${sampleData.color[0].name} | 256GB`}</p>
+          <hr />
+          <h4>최종 결제금액 계산</h4>
+          <SideLabel>
+            <h4>월 휴대폰 할부금</h4>
+            <h4>59,900 원</h4>
+          </SideLabel>
+          <p>{`정상가 1,353,000 원`}</p>
+          <p>{`실구매가 1,353,000 원`}</p>
+          <p>{`할부 개월수 24개월`}</p>
+          <p>{`할부수수료 (연 5.9%) 24개월`}</p>
+          <hr />
+          <h4>{`월 통신료 65,000 원`}</h4>
+          <p>{`(갤럭시워치5) 5G 다이렉트 65 65,000 원`}</p>
+          <hr />
+          <h4>{`월 납부금액 124,900 원`}</h4>
+          <LGButton variant="primary" size="lg">
+            온라인 주문
+          </LGButton>
+          <LGButton variant="outline-dark" size="lg">
+            장바구니
+          </LGButton>
+        </SideBar>
+      </Row>
+    </div>
+  );
+}
+
+const DetailInfo = ({ active }) => {
+  if (active === "예상 납부금액") {
+    return (
       <div>
         <Price>
           <div className="label">배송방법</div>
           <div className="content">
             <p>배송비는 무료입니다.</p>
-            <Button variant="outlined">우체국택배</Button>
-            <Button variant="outlined">오늘 도착</Button>
+            <LGButton variant="outline-dark" size="lg" rec>
+              우체국택배
+            </LGButton>
+            <LGButton variant="outline-dark" size="lg" rec>
+              오늘 도착
+            </LGButton>
             <li>
               평일 오후 4시까지 신청하면 다음 날 받을 수 있습니다. 도서, 산간
               지역은 2일 정도 걸립니다.
@@ -93,107 +190,36 @@ export default function Detail() {
           <div className="label">요금제</div>
           <div className="content">
             <p>추천 요금제</p>
+            {plan.map((row) => (
+              <PlanCard.Container key={row.name}>
+                <PlanCard.Title>{row.name}</PlanCard.Title>
+                <PlanCard.Price>{`${row.month_price.toLocaleString()}원`}</PlanCard.Price>
+                <PlanCard.Description>
+                  {`데이터 ${row.data}, 음성 ${row.voice}, ${
+                    row.share_data ? "나눠쓰기 사용가능" : ""
+                  }`}
+                  <AddCircleOutlineIcon />
+                </PlanCard.Description>
+              </PlanCard.Container>
+            ))}
+          </div>
+        </Price>
+        <Price>
+          <div className="label">
+            할인유형
+            <br />
+            할부기간
+            <p>할인유형과 할부기간을 선택해주세요.</p>
+          </div>
+          <div className="content">
+            <Row justify="center">
+              <DiscountCard left></DiscountCard>
+              <DiscountCard></DiscountCard>
+            </Row>
           </div>
         </Price>
       </div>
-    </div>
-  );
-}
-
-const FirstRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative;
-`;
-
-const MainImage = styled.div`
-  width: 700px;
-  height: 200px;
-  background-color: black;
-  position: sticky;
-  top: 0;
-`;
-
-const PhoneDetail = styled.div`
-  width: 500px;
-  padding: 50px 20px;
-
-  h1,
-  h2,
-  h4,
-  p {
-    margin: 0;
-  }
-
-  .phone-info {
-    h2,
-    h4,
-    p {
-      display: inline-block;
-    }
-
-    h1 {
-      margin: 0px 5px 0px 0px;
-      display: inline-block;
-    }
-
-    Button {
-      margin: 10px 0px;
-      padding: 10px 80px;
-    }
-  }
-
-  .phone-price {
-    padding: 10px 30px;
-    border-radius: 10px;
-    background-color: lightgrey;
-  }
-`;
-
-const OrderBar = styled.div`
-  text-align: left;
-  display: flex;
-  border-bottom: 1px solid lightgrey;
-  background-color: white;
-  width: 100%;
-  min-width: 1000px;
-  overflow: hidden;
-`;
-
-const OrderItem = styled.div`
-  margin: 0px 25px;
-  height: 50px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: large;
-
-  &:hover {
-    color: #e6007e;
-  }
-`;
-
-const Price = styled.div`
-  width: 100%;
-  padding: 10px;
-  margin: 0px 0px 80px 0px;
-
-  div {
-    display: inline-block;
-    box-sizing: border-box;
-  }
-
-  .label {
-    width: 20%;
-    font-weight: bold;
-    font-size: large;
-    vertical-align: top;
-    padding: 15px 10px;
-  }
-  .content {
-    width: 80%;
-  }
-`;
+    );
+  } else if (active === "상품정보") return <PhoneDescription />;
+  else return <div></div>;
+};
