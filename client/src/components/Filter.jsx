@@ -14,7 +14,7 @@ export default function Filter(){
     const Options = (rows) =>{
         return (rows.map((row,idx) => {
             if(idx === 0)
-                return (<FormControlLabel key={idx} checked value={idx} control={<Radio />} label={<Label text={row}/>}/>)
+                return (<FormControlLabel key={idx}  value={idx} control={<Radio />} label={<Label text={row}/>}/>)
             return  ( <FormControlLabel key={idx} value={idx} control={<Radio />} label={<Label text={row}/>}/>)
         }))
     }
@@ -36,7 +36,7 @@ export default function Filter(){
                         <FormControl>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue="female"
+                                defaultValue="0"
                                 name="radio-buttons-group"
                             >
                                {Options(data[key])}

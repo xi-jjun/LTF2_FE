@@ -7,8 +7,9 @@ import Filter from "../components/Filter";
 export default function Home({ phones }) {
   return (
     <Styles.TotalLayout>
+      <Styles.FilterTitle>5G 휴대폰</Styles.FilterTitle>
       <Grid container spacing={2}>
-        <Grid item md={3}>
+        <Grid item md={2}>
           <Filter />
         </Grid>
         <Grid item md={9}>
