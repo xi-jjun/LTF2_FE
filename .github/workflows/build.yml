@@ -22,9 +22,9 @@ jobs:
         run: npm install
         working-directory: "./client"
 
-      - name: build test
-        run: npm run test
-        working-directory: "./client"
+      # - name: build test
+      #   run: npm run test
+      #   working-directory: "./client"
 
       - name: npm build                  
         run: npm run build
