@@ -21,6 +21,7 @@ export const PriceRow = styled.div`
   div {
     display: inline-block;
     box-sizing: border-box;
+    margin-bottom: 20px;
   }
 
   .label {
@@ -28,10 +29,12 @@ export const PriceRow = styled.div`
     font-weight: bold;
     font-size: large;
     vertical-align: top;
-    padding: 15px 10px;
+    padding-top: 15px;
+    padding-right: 30px;
   }
   .content {
     width: 80%;
+    padding-right: 30px;
 
     li {
       font-size: small;
@@ -41,18 +44,41 @@ export const PriceRow = styled.div`
 
 export const DiscountCard = styled.div`
   box-sizing: border-box;
-  width: ${(props) => (props.left ? "30%" : "70%")};
-  padding: 10px 20px;
-  border: 2px solid black;
-  cursor: pointer;
-  margin: 10px 0px;
+  width: ${(props) => (props.left ? "33%" : "63%")};
+  height: 200px;
+  padding: 10px 30px;
+  color: ${(props) => (props.active ? "black" : "lightgrey")};
+  outline: ${(props) =>
+    props.active ? "2px solid black" : "1px solid lightgrey"};
+  border-radius: 10px;
+  ${(props) => (props.disabled ? "" : "cursor: pointer;")}
+  margin: 0 1%;
 
-  &:hover {
+  .type {
+    margin-bottom: 0px;
+  }
+  .type-description {
+    font-size: 24px;
+    margin-top: 0px;
+    font-weight: bold;
+  }
+  .type-price {
+    text-align: right;
+    span {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
+  ${(props) =>
+    props.disabled
+      ? ""
+      : `&:hover {
     background-color: #f5f5f5;
   }
   &:active {
     background-color: lightgrey;
-  }
+  }`}
 `;
 
 export const Spec = styled.div`
@@ -87,26 +113,20 @@ export const PlanTitle = styled.p`
 
 export const PlanPrice = styled.p`
   box-sizing: border-box;
-  width: 35%;
+  width: 30%;
   display: inline-block;
   font-size: 24px;
   font-weight: bold;
-  margin: 10px 10px;
+  padding: 0px 10px;
 `;
 
 export const PlanDescription = styled.p`
   box-sizing: border-box;
-  width: 55%;
+  width: 70%;
   display: inline-block;
   font-size: small;
-  margin: 10px 10px;
   text-align: right;
-
-  AddCircleOutlineIcon {
-    position: relative;
-    bottom: 10px;
-    right: 10px;
-  }
+  padding: 0px 10px;
 `;
 
 export const SideBarContainer = styled.div`
@@ -139,6 +159,7 @@ export const SideBarContainer = styled.div`
 export const SideFlex = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 
   .left {
     width: 60%;

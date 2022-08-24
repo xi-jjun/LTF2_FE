@@ -5,7 +5,9 @@ export const Row = styled.div`
   height: 100%;
   display: flex;
   justify-content: ${(props) => props.justify};
+  align-item: center;
   position: relative;
+  box-sizing: border-box;
 
   button {
     width: 50%;

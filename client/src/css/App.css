@@ -4,6 +4,10 @@
   width: 100%;
 }
 
+button {
+  font-family: "Noto Sans KR";
+}
+
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;

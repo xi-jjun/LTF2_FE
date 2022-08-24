@@ -1,7 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import * as detailInfo from "../styles/detailInfoStyle";
 import { LGButton } from "./Button";
 
 export default function DetailSideBar({ active, priceInfo }) {
+  const navigate = useNavigate();
+  const goToCart = () => {
+    navigate("/cart");
+  };
+  const goToOrder = () => {
+    navigate("/order", { state: active });
+  };
+
   return (
     <detailInfo.SideBarContainer>
       <h2>{active.phone.titleName}</h2>
@@ -62,7 +71,7 @@ export default function DetailSideBar({ active, priceInfo }) {
         <p className="left">{active.plan.name}</p>
         <p className="right">{active.plan.month_price.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
-      {active.discount === "선택약정" && (
+      {active.discount.indexOf("선택약정") !== -1 && (
         <detailInfo.SideFlex>
           <p className="left">선택 약정 할인</p>
           <p className="right">
@@ -75,10 +84,10 @@ export default function DetailSideBar({ active, priceInfo }) {
         <h3 className="left">월 납부금액</h3>
         <h3 className="right">{priceInfo.total.toLocaleString()} 원</h3>
       </detailInfo.SideFlex>
-      <LGButton variant="primary" size="lg">
+      <LGButton variant="primary" size="lg" onClick={goToOrder}>
         온라인 주문
       </LGButton>
-      <LGButton variant="outline-dark" size="lg">
+      <LGButton variant="outline-dark" size="lg" onClick={goToCart}>
         장바구니
       </LGButton>
     </detailInfo.SideBarContainer>

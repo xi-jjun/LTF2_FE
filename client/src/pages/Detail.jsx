@@ -25,12 +25,15 @@ export default function Detail() {
 
   let priceInfo = {
     phone: Math.ceil(actualPrice / active.installment / 100) * 100,
-    plan: active.plan.month_price * (active.discount === "선택약정" ? 0.75 : 1),
+    plan:
+      active.plan.month_price *
+      (active.discount.indexOf("선택약정") !== -1 ? 0.75 : 1),
     total:
       (active.installment === 1
         ? 0
         : Math.ceil(actualPrice / active.installment / 100) * 100) +
-      active.plan.month_price * (active.discount === "선택약정" ? 0.75 : 1),
+      active.plan.month_price *
+        (active.discount.indexOf("선택약정") !== -1 ? 0.75 : 1),
   };
 
   useEffect(() => {
