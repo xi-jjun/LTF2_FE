@@ -60,5 +60,5 @@ jobs:
           docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }} .
           docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
           echo "::set-output name=image::$REGISTRY/$REPOSITORY:$IMAGE_TAG"
-        working-directory: ".client"
+        working-directory: "./client"
       
