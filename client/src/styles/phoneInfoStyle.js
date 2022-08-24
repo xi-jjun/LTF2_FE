@@ -7,7 +7,6 @@ export const ImgContainer = styled.div`
   position: sticky;
   top: 0;
   padding: 100px;
-  border: 1px solid black;
 `;
 
 export const ImageMain = styled.div`
@@ -17,7 +16,7 @@ export const ImageMain = styled.div`
   border-radius: 10px;
   position: sticky;
   top: 0px;
-  background-color: ${(props) => props.activeColor.hex};
+  background-color: ${(props) => props.color.hexCode};
   margin: auto;
 `;
 
@@ -28,7 +27,7 @@ export const ImageSub = styled.div`
   border-radius: 10px;
   position: sticky;
   top: 0px;
-  background-color: ${(props) => props.activeColor.hex};
+  background-color: ${(props) => props.color.hexCode};
   margin: 20px 10px;
 `;
 
@@ -36,7 +35,6 @@ export const Container = styled.div`
   width: 40%;
   min-width: 500px;
   padding: 50px 20px;
-  border: 1px solid black;
 `;
 
 export const Info = styled.div`
@@ -68,6 +66,10 @@ export const Price = styled.div`
   border-radius: 10px;
   background-color: #f5f5f5;
 
+  h1 {
+    display: block;
+    margin: 5px 0px;
+  }
   p {
     display: block;
     margin: 5px 0px;

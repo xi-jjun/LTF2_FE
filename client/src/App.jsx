@@ -11,6 +11,8 @@ import { useEffect } from "react";
 
 function App() {
   const [phones, setPhones] = useState([]);
+  const [active, setActive] = useState("모바일 기기");
+
   const fetchPhones = async () => {
     const { data } = await getPhoneList();
     setPhones(data);
@@ -22,8 +24,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header />
-        <NavBar />
+        <Header setActive={setActive} />
+        <NavBar active={active} setActive={setActive} />
         <Routes>
           <Route path="/" exact element={<Home phones={phones} />} />
           <Route path="/detail/:id" exact element={<Detail />} />
