@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import { useState } from "react";
 import { getPhoneList } from "./api/api";
 import { useEffect } from "react";
+import Order from "./pages/Order";
 
 function App() {
   const [phones, setPhones] = useState([]);
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" exact element={<Home phones={phones} />} />
           <Route path="/detail/:id" exact element={<Detail />} />
           <Route path="/cart" exact element={<Cart />} />
+          <Route path="/order" exact element={<Order/>}/>
         </Routes>
       </div>
     </BrowserRouter>
