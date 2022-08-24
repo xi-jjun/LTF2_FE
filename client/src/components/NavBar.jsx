@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React from "react";
+import * as Bar from "../styles/barStyle";
 
-export default function NavBar() {
-  const [active, setActive] = useState(-1);
-
+export default function NavBar({ active, setActive }) {
   const navArray = [
     { label: "모바일 기기", link: "" },
     { label: "모바일 요금제", link: "" },
@@ -20,10 +18,10 @@ export default function NavBar() {
   };
 
   return (
-    <NavBarContainer>
+    <Bar.NavContainer>
       {navArray.map((row) => {
         return (
-          <NavItem
+          <Bar.NavItem
             key={row.label}
             children={row.label}
             navId={row.label}
@@ -32,37 +30,6 @@ export default function NavBar() {
           />
         );
       })}
-    </NavBarContainer>
+    </Bar.NavContainer>
   );
 }
-
-const NavBarContainer = styled.div`
-  text-align: left;
-  display: flex;
-  border-bottom: 1px solid lightgrey;
-  background-color: white;
-  position: fixed;
-  top: 50px;
-  width: 100%;
-  min-width: 1000px;
-  overflow: hidden;
-  height: 52px;
-  z-index: 10;
-`;
-
-const NavItem = styled.div`
-  margin: 0px 25px;
-  height: 50px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  border-bottom: ${(props) =>
-    props.navId === props.active ? "2px solid #e6007e" : "none"};
-  color: ${(props) => (props.navId === props.active ? "#e6007e" : "black")};
-
-  &:hover {
-    color: #e6007e;
-  }
-`;

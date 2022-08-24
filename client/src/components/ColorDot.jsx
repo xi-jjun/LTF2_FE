@@ -6,13 +6,13 @@ export const ColorDot = styled.div`
   width: 20px;
   height: 20px;
   border: 2px solid
-    ${(props) => (props.hex === props.activeColor.hex ? "white" : props.hex)};
+    ${(props) => (props.hex === props.color.hexCode ? "white" : props.hexCode)};
   border-radius: 50%;
-  background-color: ${(props) => props.hex};
+  background-color: ${(props) => props.hexCode};
   outline: 2px solid grey;
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => props.hex};
+    background-color: ${(props) => props.hexCode};
   }
 `;
