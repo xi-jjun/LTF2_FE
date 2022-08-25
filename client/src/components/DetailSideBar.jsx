@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import * as detailInfo from "../styles/detailInfoStyle";
 import { LGButton } from "./Button";
 
-export default function DetailSideBar({ active, priceInfo }) {
+export default function DetailSideBar({ active, priceInfo, saveCart }) {
   const navigate = useNavigate();
+
   const goToCart = () => {
+    saveCart(active);
     navigate("/cart");
   };
   const goToOrder = () => {
@@ -33,11 +35,13 @@ export default function DetailSideBar({ active, priceInfo }) {
         <div>
           <detailInfo.SideFlex>
             <p className="left">공시지원금 (sample)</p>
-            <p className="right">-{active.supportPrice.toLocaleString()} 원</p>
+            <p className="right" style={{ color: "#e6007e" }}>
+              -{active.supportPrice.toLocaleString()} 원
+            </p>
           </detailInfo.SideFlex>
           <detailInfo.SideFlex>
             <p className="left">추가지원금 (sample)</p>
-            <p className="right">
+            <p className="right" style={{ color: "#e6007e" }}>
               -{(active.supportPrice * 0.15).toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
@@ -58,7 +62,9 @@ export default function DetailSideBar({ active, priceInfo }) {
           </detailInfo.SideFlex>
           <detailInfo.SideFlex>
             <p className="left">할부수수료 (연 5.9%)</p>
-            <p className="right">계산식 필요</p>
+            <p className="right">
+              {priceInfo.installmentFee.toLocaleString()} 원
+            </p>
           </detailInfo.SideFlex>
         </div>
       )}
@@ -74,7 +80,7 @@ export default function DetailSideBar({ active, priceInfo }) {
       {active.discount.indexOf("선택약정") !== -1 && (
         <detailInfo.SideFlex>
           <p className="left">선택 약정 할인</p>
-          <p className="right">
+          <p className="right" style={{ color: "#e6007e" }}>
             -{(active.plan.month_price * 0.25).toLocaleString()} 원
           </p>
         </detailInfo.SideFlex>

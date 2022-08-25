@@ -31,6 +31,11 @@ export const PriceRow = styled.div`
     vertical-align: top;
     padding-top: 15px;
     padding-right: 30px;
+
+    .des {
+      font-weight: 200;
+      font-size: 16px;
+    }
   }
   .content {
     width: 80%;
@@ -45,7 +50,7 @@ export const PriceRow = styled.div`
 export const DiscountCard = styled.div`
   box-sizing: border-box;
   width: ${(props) => (props.left ? "33%" : "63%")};
-  height: 200px;
+  height: 220px;
   padding: 10px 30px;
   color: ${(props) => (props.active ? "black" : "lightgrey")};
   outline: ${(props) =>
@@ -120,13 +125,25 @@ export const PlanPrice = styled.p`
   padding: 0px 10px;
 `;
 
-export const PlanDescription = styled.p`
+export const PlanDescription = styled.div`
   box-sizing: border-box;
   width: 70%;
-  display: inline-block;
+  display: flex;
   font-size: small;
   text-align: right;
   padding: 0px 10px;
+  align-items: center;
+  margin: 0;
+
+  P {
+    display: inline-flex;
+    margin: 0;
+  }
+`;
+
+export const DiscountPrice = styled.div`
+  width: 100%;
+  padding-bottom: 50px;
 `;
 
 export const SideBarContainer = styled.div`

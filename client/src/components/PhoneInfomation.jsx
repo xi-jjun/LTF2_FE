@@ -5,11 +5,19 @@ import * as PhoneInfo from "../styles/phoneInfoStyle";
 import { Rating } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function PhoneInfomation({ active, setActive, priceInfo }) {
+export default function PhoneInfomation({
+  active,
+  setActive,
+  priceInfo,
+  saveCart,
+}) {
   const navigate = useNavigate();
+
   const goToCart = () => {
+    saveCart(active);
     navigate("/cart");
   };
+
   const goToOrder = () => {
     navigate("/order", { state: active });
   };

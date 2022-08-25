@@ -12,7 +12,6 @@ import {
 
 export default function DetailInfomation({ active, setActive }) {
   const nowActive = (key, value) => setActive({ ...active, [key]: value });
-  console.log(active);
 
   if (active.nav === "예상 납부금액") {
     return (
@@ -65,10 +64,14 @@ export default function DetailInfomation({ active, setActive }) {
                   <DetailInfo.PlanTitle>{row.name}</DetailInfo.PlanTitle>
                   <DetailInfo.PlanPrice>{`${row.month_price.toLocaleString()}원`}</DetailInfo.PlanPrice>
                   <DetailInfo.PlanDescription>
-                    {`데이터 ${row.data}, 음성 ${row.voice}, ${
-                      row.share_data ? "나눠쓰기 사용가능" : ""
-                    }`}
-                    <AddCircleOutlineIcon />
+                    <div>
+                      <p>{`데이터 ${row.data}, 음성 ${row.voice}, ${
+                        row.share_data ? "나눠쓰기 사용가능" : ""
+                      }`}</p>
+                    </div>
+                    <div>
+                      <AddCircleOutlineIcon />
+                    </div>
                   </DetailInfo.PlanDescription>
                 </DetailInfo.PlanCard>
               ))}
@@ -79,11 +82,18 @@ export default function DetailInfomation({ active, setActive }) {
               할인유형
               <br />
               할부기간
-              <p>할인유형과 할부기간을 선택해주세요.</p>
+              <p className="des">
+                할인유형과 할부기간을 <br />
+                선택해주세요.
+              </p>
             </div>
             <div className="content">
               <p>할인유형</p>
-              <Row justify="center">
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
                 <DetailInfo.DiscountCard
                   left
                   active={active.discount === "공시지원금"}
@@ -103,48 +113,58 @@ export default function DetailInfomation({ active, setActive }) {
                 >
                   <p className="type">선택약정</p>
                   <p className="type-description">통신요금 25% 할인</p>
-                  <FormControl style={{ width: "40%" }}>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={active.discount}
-                      onChange={(e) => nowActive("discount", e.target.value)}
+                  <DetailInfo.DiscountPrice>
+                    <FormControl style={{ width: "40%" }}>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="radio-buttons-group"
+                        value={active.discount}
+                        onChange={(e) => nowActive("discount", e.target.value)}
+                      >
+                        <FormControlLabel
+                          value="선택약정24"
+                          control={<Radio />}
+                          label="24개월 할인"
+                        />
+                        <FormControlLabel
+                          value="선택약정12"
+                          control={<Radio />}
+                          label="12개월 할인"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                    <div
+                      style={{
+                        width: "60%",
+                        display: "inline-block",
+                      }}
                     >
-                      <FormControlLabel
-                        value="선택약정24"
-                        control={<Radio />}
-                        label="24개월 할인"
-                      />
-                      <FormControlLabel
-                        value="선택약정12"
-                        control={<Radio />}
-                        label="12개월 할인"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                  <div
-                    style={{
-                      width: "60%",
-                      display: "inline-block",
-                    }}
-                  >
-                    <p className="type-price" style={{ margin: "0" }}>
-                      총 -
-                      <span>
-                        {(active.plan.month_price * 0.25 * 24).toLocaleString()}
-                      </span>
-                      원
-                    </p>
-                    <p className="type-price" style={{ margin: "5px 0" }}>
-                      총 -
-                      <span>
-                        {(active.plan.month_price * 0.25 * 12).toLocaleString()}
-                      </span>
-                      원
-                    </p>
-                  </div>
+                      <p className="type-price" style={{ margin: "0" }}>
+                        총 -
+                        <span>
+                          {(
+                            active.plan.month_price *
+                            0.25 *
+                            24
+                          ).toLocaleString()}
+                        </span>
+                        원
+                      </p>
+                      <p className="type-price" style={{ margin: "5px 0" }}>
+                        총 -
+                        <span>
+                          {(
+                            active.plan.month_price *
+                            0.25 *
+                            12
+                          ).toLocaleString()}
+                        </span>
+                        원
+                      </p>
+                    </div>
+                  </DetailInfo.DiscountPrice>
                 </DetailInfo.DiscountCard>
-              </Row>
+              </div>
               <p>할부기간</p>
               <Row justify="center">
                 <LGButton
