@@ -102,3 +102,30 @@ export const LGButton = styled.button`
     background-color: ${(props) => btnColor(props.variant).active.bg};
   }
 `;
+<<<<<<< Updated upstream
+=======
+
+export const FormButton = styled.button.attrs(props => ({
+  type: "button",
+}))`
+  margin-left: 8px;
+  width: 203px;
+  position: relative;
+  border-radius: 14px;
+  min-height: 48px;
+  padding: 0;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: none!important;
+  border: ${(props) => props.check ? "2px solid #000!important" : "1px solid #ddd!important" };
+  cursor: pointer;
+  font-weight : ${(props) => props.check ? "400px" : "300px" };
+  &:hover {
+    border: 2px solid #000!important;
+    font-weight: 400;
+  }
+  &:active {
+    border: 2px solid #000!important;
+    font-weight: 400;
+  }
+`
