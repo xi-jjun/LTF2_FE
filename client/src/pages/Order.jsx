@@ -4,6 +4,9 @@ import React from 'react'
 import { PageContainer } from '../components/PageContainer'
 import { pink } from '@mui/material/colors';
 import * as Styles from '../styles/orderStyle'
+import OrderPhoneInfo from '../components/OrderPhoneInfo';
+import {phone} from '../DummyData'
+import OrderForm from '../components/OrderForm';
 export default function Order() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   return (
@@ -42,9 +45,11 @@ export default function Order() {
                         </Accordion>
                     </Grid>
                 </Grid>
+                <Styles.UserProofTitle>가입자 본인인증</Styles.UserProofTitle>
+                <OrderForm/>
             </Styles.OrderInfoLayout>
             <Styles.PhoneInfoLayout>
-                Phone
+                <OrderPhoneInfo phone = {phone[0]}/>
             </Styles.PhoneInfoLayout>
         </Styles.OrderLayout>
     </PageContainer>

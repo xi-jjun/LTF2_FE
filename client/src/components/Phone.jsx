@@ -48,6 +48,7 @@ export default function Phone({ phone }) {
           <LGButton variant="light" size="sm">
             비교하기
           </LGButton>
+          <Styles.CartButton/>
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>

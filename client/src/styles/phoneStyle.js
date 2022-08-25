@@ -107,9 +107,9 @@ export const OrderNumber = styled.span`
   text-align: left;
 `;
 export const CompareButton = styled.div`
-  display: inline-block;
+  display: flex;
+  justify-content: right;
   width: 50%;
-  text-align: right;
 `;
 export const CompareText = styled.a`
   display: inline-block;
@@ -122,3 +122,16 @@ export const CompareText = styled.a`
   color: #000;
   background: none;
 `;
+
+export const CartButton = styled.div`
+  margin-right : 5px;
+  margin-left : 5px; 
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #bbb;
+  border-radius: 100%;
+  right: 0;
+  bottom: 14px;
+  background: url(https://image.lguplus.com/static/pc-static/common/images/indv-biz/base/sprites-mb-dev.svg) 4px -43px no-repeat;
+`
