@@ -1,13 +1,11 @@
 name: React build and push docker image to ECR
 on: 
-  pull_request:
+  # merge:
+  #   branches:
+  #     - dev
+  
+  pull_request_target:
     branches:
-      - main
-      - dev
-
-  push:                             
-    branches:
-      - main
       - dev
 
 env:
@@ -20,7 +18,8 @@ env:
   ECS_TASK_DEFINITION: front-dev-task
 
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -45,6 +44,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+      - run: echo "${{ secrets.AWS_ACCESS_KEY_ID }}"
           
       - name: Login to Amazon ECR
         id: login-ecr
