@@ -1,8 +1,8 @@
 name: React build and push docker image to ECR
 on: 
-  merge:
-    branches:
-      - dev
+  # merge:
+  #   branches:
+  #     - dev
   
   pull_request_target:
     branches:
@@ -18,7 +18,8 @@ env:
   ECS_TASK_DEFINITION: front-dev-task
 
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
