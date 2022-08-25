@@ -1,5 +1,8 @@
 import React from "react";
 import * as Bar from "../styles/barStyle";
+import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar({ active, setActive }) {
   const navArray = [
@@ -17,6 +20,11 @@ export default function NavBar({ active, setActive }) {
     setActive(row.label);
   };
 
+  const navigate = useNavigate();
+  const goToCart = () => {
+    navigate("/cart");
+  };
+
   return (
     <Bar.NavContainer>
       {navArray.map((row) => {
@@ -30,6 +38,16 @@ export default function NavBar({ active, setActive }) {
           />
         );
       })}
+      <Bar.NavItem
+        style={{ marginLeft: "auto" }}
+        children={<SearchIcon />}
+        navId={"util1"}
+      />
+      <Bar.NavItem
+        children={<ShoppingCartIcon />}
+        navId={"util2"}
+        onClick={goToCart}
+      />
     </Bar.NavContainer>
   );
 }

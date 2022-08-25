@@ -87,9 +87,10 @@ export const LGButton = styled.button`
   color: ${(props) => btnColor(props.variant).default.cl};
   border-radius: ${(props) => isRec(props.rec)};
   border: ${(props) => btnColor(props.variant).default.border};
-  cursor: pointer;
   background-color: ${(props) => btnColor(props.variant).default.bg};
   font-size: ${(props) => btnSize(props.size).fontSize};
+  cursor: pointer;
+  box-sizing: border-box;
 
   &:hover {
     color: ${(props) => btnColor(props.variant).hover.cl};
