@@ -7,6 +7,7 @@ export const OrderLayout = styled.section`
     padding : 30px;
     flex-direction: row;
 `
+
 export const OrderInfoLayout = styled.form`
     display : flex;
     flex-direction : column;
@@ -24,6 +25,17 @@ export const OrderAgree = styled.div`
 export const AgreeTitle = styled.h2`
     font-size: 24px;
 `
+export const AgreeSubTilte = styled.strong`
+    margin-top: 8px;
+    padding: 0;
+    font-style: normal;
+`
+export const AgreeSubDesc = styled.p`
+    font-size: 14px;
+    color: #666;
+    padding-left: 8px;
+`
+
 export const UserProofTitle = styled.h2`
     font-size: 24px;
     font-weight: 700;

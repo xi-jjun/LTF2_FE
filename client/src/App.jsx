@@ -116,6 +116,11 @@ function App() {
             element={<Cart deleteCart={deleteCart} />}
           />
           <Route
+            path="/order"
+            exact
+            element={<Order/>}
+          />
+          <Route
             path="/*"
             element={
               <div>

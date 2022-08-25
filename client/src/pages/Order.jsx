@@ -34,7 +34,7 @@ export default function Order() {
                                 },
                             }}
                             />
-                            <Typography>모든 약관에 동의</Typography>
+                            <Styles.AgreeSubTilte>모든 약관에 동의</Styles.AgreeSubTilte>
                             </AccordionSummary>
                             <AccordionDetails>
                             <Typography>
@@ -55,22 +55,3 @@ export default function Order() {
     </PageContainer>
   )
 }
-
-
-/**
- * 
- * <Styles.OrderAgree>
-                    <Styles.AgreeTitle>이용 약관 동의</Styles.AgreeTitle>
-                    <Accordion >
-                        <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                        >
-                        <Typography>Accordion 1</Typography>
-                    
-                        </AccordionSummary>
-                    </Accordion>
-                </Styles.OrderAgree>
-
- */
