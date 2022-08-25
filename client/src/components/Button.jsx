@@ -103,7 +103,9 @@ export const LGButton = styled.button`
   }
 `;
 
-export const FormButton = styled.button`
+export const FormButton = styled.button.attrs(props => ({
+  type: "button",
+}))`
   margin-left: 8px;
   width: 203px;
   position: relative;
@@ -113,9 +115,9 @@ export const FormButton = styled.button`
   border-radius: 6px;
   background-color: #fff;
   box-shadow: none!important;
-  border: 1px solid #ddd!important;
+  border: ${(props) => props.check ? "2px solid #000!important" : "1px solid #ddd!important" };
   cursor: pointer;
-  
+  font-weight : ${(props) => props.check ? "400px" : "300px" };
   &:hover {
     border: 2px solid #000!important;
     font-weight: 400;
