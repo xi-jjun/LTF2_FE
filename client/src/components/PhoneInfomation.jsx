@@ -2,8 +2,26 @@ import { Row } from "../styles/gridStyle";
 import { LGButton } from "./Button";
 import { ColorDot } from "./ColorDot";
 import * as PhoneInfo from "../styles/phoneInfoStyle";
+import { Rating } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function PhoneInfomation({ active, setActive, priceInfo }) {
+export default function PhoneInfomation({
+  active,
+  setActive,
+  priceInfo,
+  saveCart,
+}) {
+  const navigate = useNavigate();
+
+  const goToCart = () => {
+    saveCart(active);
+    navigate("/cart");
+  };
+
+  const goToOrder = () => {
+    navigate("/order", { state: active });
+  };
+
   const storageText = (storage) => {
     switch (storage) {
       case "256GB":
@@ -36,6 +54,7 @@ export default function PhoneInfomation({ active, setActive, priceInfo }) {
           <PhoneInfo.Info>
             #최적의화면비, #가벼워진무게, #멀티태스킹
           </PhoneInfo.Info>
+          <Rating name="read-only" value={5} readOnly size="small" />
           <PhoneInfo.Info>
             <h4 style={{ margin: "0 10px 0 0" }}>색상</h4>
             <p>{active.color.name}</p>
@@ -67,10 +86,10 @@ export default function PhoneInfomation({ active, setActive, priceInfo }) {
           </PhoneInfo.Price>
           <PhoneInfo.Info>
             <Row justify="center">
-              <LGButton variant="outline-dark" size="lg">
+              <LGButton variant="outline-dark" size="lg" onClick={goToCart}>
                 장바구니
               </LGButton>
-              <LGButton variant="primary" size="lg">
+              <LGButton variant="primary" size="lg" onClick={goToOrder}>
                 온라인 주문
               </LGButton>
             </Row>
