@@ -69,10 +69,62 @@ export const NavMap = styled.div`
   width: 100%;
   height: 300px;
   background: #fff;
-  display: ${(props) => (props.nowHover ? "block" : "none")};
+  display: ${(props) => (props.nowHover ? "flex" : "none")};
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-  top: 103;
+  top: 103px;
   z-index: 100;
+`;
+
+export const NavMapCategory = styled.div`
+  width: 12.5%;
+  height: 100%;
+  background: #fff;
+
+  ul {
+    list-style: none;
+    text-indent: -15px;
+
+    p {
+      margin: 15px 0px;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    li {
+      margin: 5px 0px;
+      cursor: pointer;
+      text-indent: -10px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:before {
+        content: "- ";
+      }
+    }
+  }
+`;
+
+export const NavMapMain = styled.p`
+  font-weight: bold;
+  list-style-type: none;
+  padding-left: 0px;
+  margin: 10px 0px;
+`;
+
+export const NavMapContent = styled.li`
+  list-style-type: none;
+  padding-left: 0px;
+  margin: 10px 0px;
+
+  &:before {
+    content: –;
+  }
 `;
 
 export const MainContainer = styled.div`
@@ -95,38 +147,34 @@ export const MainLogo = styled.img`
 `;
 
 export const ShowflowMenu = styled.ul`
-    display:  ${(props) => (props.show ? 
-        "block"
-        :
-        "none"
-        )};
-    position: fixed;
-    width: 240px;
-    top: 100px;
-    right: 15px;
-    margin-top: -3px;
-    padding: 0 10px;
-    border-radius: 12px;
-    box-shadow: 2px 3px 20px rgb(0 0 0 / 18%);
-    background: #fff;
-    z-index: 99;
-`
+  display: ${(props) => (props.show ? "block" : "none")};
+  position: fixed;
+  width: 240px;
+  top: 100px;
+  right: 15px;
+  margin-top: -3px;
+  padding: 0 10px;
+  border-radius: 12px;
+  box-shadow: 2px 3px 20px rgb(0 0 0 / 18%);
+  background: #fff;
+  z-index: 99;
+`;
 
 export const ShowflowMenuLi = styled.li`
-    list-style: none;
-    padding: 8px 0;
-    display: flex;
-`
+  list-style: none;
+  padding: 8px 0;
+  display: flex;
+`;
 
 export const SearchInput = styled.input`
-    background: none;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: #e6007e;
-    width: 200px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #e6007e;
+  width: 200px;
 
-    &:focus {
-        outline: none;
-    }
-`
+  &:focus {
+    outline: none;
+  }
+`;
