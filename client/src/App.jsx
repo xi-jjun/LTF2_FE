@@ -82,11 +82,11 @@ function App() {
 
   // 장바구니 아이템 삭제하기
   const deleteCart = (id) => {
-    const returnArray = [...cart];
+    const returnArray = [...cart.data];
     const deleteId = returnArray.findIndex((row) => row.id === id);
     returnArray.splice(deleteId, 1);
-    setCart(returnArray);
-    setCookie("cart", returnArray);
+    setCart({count:cart.count, data: returnArray});
+    setCookie("cart", {count:cart.count, data: returnArray});
   };
 
   useEffect(() => {
@@ -113,7 +113,7 @@ function App() {
           <Route
             path="/cart"
             exact
-            element={<Cart deleteCart={deleteCart} />}
+            element={<Cart cart={cart} deleteCart={deleteCart} />}
           />
           <Route
             path="/order"

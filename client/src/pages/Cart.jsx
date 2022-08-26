@@ -6,8 +6,9 @@ import * as Styled from "../styles/cartStyle";
 import CartProduct from "../components/CartProduct";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { LGButton } from "../components/Button";
+import { useCookies } from "react-cookie";
 
-export default function Cart() {
+export default function Cart({ cart, deleteCart }) {
   const [active, setActive] = useState({
     nav: "통신상품",
     item: "전체"
@@ -36,7 +37,7 @@ export default function Cart() {
 
         <div>
             {
-              active.nav === "통신상품"
+              active.nav === "통신상품" && cart.data.length >= 1
               ?
               <div>
                 <Styled.CartTabMenuUl>
@@ -45,8 +46,9 @@ export default function Cart() {
                   <LGButton variant={active.item === "모바일요금제" ? "outline-primary" : "outline-dark"} children={`모바일요금제 (0)`} onClick={()=>onClickTab("모바일요금제")} style={{marginRight:10}}/>
                   <LGButton variant={active.item === "인터넷/IPTV" ? "outline-primary" : "outline-dark"} children={`인터넷/IPTV (0)`} onClick={()=>onClickTab("인터넷/IPTV")} style={{marginRight:10}}/>
                 </Styled.CartTabMenuUl>
+
                 {
-                  1 === 1
+                  active.item === "모바일기기" || active.item ==="전체" && cart.data.length >= 1
                   ?
                   <div style={{marginTop: 40}}>
                     <Styled.CartProductTbl>
@@ -55,11 +57,15 @@ export default function Cart() {
                         <Styled.CartProductEm> (2)</Styled.CartProductEm></p>
                       </Styled.CartProductTblTitle>
                       <ul style={{listStyle: "none", margin:0, padding:0}}>
-                        <CartProduct></CartProduct>
-                        <CartProduct></CartProduct>
+                        {
+                          cart.data.map((c) => (
+                            <CartProduct key={c.id} data={c} deleteCart = { deleteCart }></CartProduct>
+                          ))
+                        }
                       </ul>
                     </Styled.CartProductTbl>
                   </div>
+                  
                   :
                   <div></div>
                 }
