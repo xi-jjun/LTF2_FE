@@ -10,6 +10,7 @@ import { useState } from "react";
 import { getPhoneList } from "./api/api";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import Order from "./pages/Order";
 
 function App() {
   const [phones, setPhones] = useState([]);
@@ -113,6 +114,11 @@ function App() {
             path="/cart"
             exact
             element={<Cart deleteCart={deleteCart} />}
+          />
+          <Route
+            path="/order"
+            exact
+            element={<Order/>}
           />
           <Route
             path="/*"
