@@ -119,5 +119,6 @@ export default function NavBar({ active, setActive }) {
       />
       <Bar.NavMap nowHover={nowHover !== ""} />
     </Bar.NavContainer>
+  </div>
   );
 }
