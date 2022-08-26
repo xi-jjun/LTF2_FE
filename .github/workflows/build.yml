@@ -25,7 +25,6 @@ jobs:
       run: echo For security reasons, all pull requests need to be approved first before running any automated CI
 
   CI_CD_start:
-    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
