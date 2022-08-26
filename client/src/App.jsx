@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
 import Cart from "./pages/Cart";
+import Search from "./pages/Search";
 import Header from "./components/Header";
 import "./css/App.css";
 import NavBar from "./components/NavBar";
@@ -10,6 +11,7 @@ import { useState } from "react";
 import { getPhoneList } from "./api/api";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
 
 function App() {
@@ -50,7 +52,6 @@ function App() {
     const existSameValueInCart = () => {
       let result = false;
       for (let i of cart.data) {
-        console.log(i, cookieUploadObject());
         if (
           i.color === cookieUploadObject().color &&
           i.discount === cookieUploadObject().discount &&
@@ -64,7 +65,6 @@ function App() {
       }
       return result;
     };
-
     // 장바구니가 쿠키에 존재하고
     if (cart) {
       // 장바구니에 겹치는 데이터가 없다면
@@ -76,17 +76,18 @@ function App() {
         };
         setCookie("cart", newCart);
         setCart(newCart);
-      }
-    }
+        return "success";
+      } else return "alreadyExist";
+    } else return "error";
   };
 
   // 장바구니 아이템 삭제하기
   const deleteCart = (id) => {
-    const returnArray = [...cart];
+    const returnArray = [...cart.data];
     const deleteId = returnArray.findIndex((row) => row.id === id);
     returnArray.splice(deleteId, 1);
-    setCart(returnArray);
-    setCookie("cart", returnArray);
+    setCart({ count: cart.count, data: returnArray });
+    setCookie("cart", { count: cart.count, data: returnArray });
   };
 
   useEffect(() => {
@@ -99,6 +100,7 @@ function App() {
       <div className="App">
         <Header setActive={setActive} />
         <NavBar active={active} setActive={setActive} />
+        {/* <ComparedPopup /> */}
         <Routes>
           <Route
             path="/"
@@ -113,12 +115,17 @@ function App() {
           <Route
             path="/cart"
             exact
-            element={<Cart deleteCart={deleteCart} />}
+            element={<Cart cart={cart} deleteCart={deleteCart} />}
           />
           <Route
             path="/order"
             exact
             element={<Order/>}
+          />
+          <Route 
+            path="/search/:keyword"
+            exact
+            element={<Search phones={phones} saveCart={saveCart} />}
           />
           <Route
             path="/*"

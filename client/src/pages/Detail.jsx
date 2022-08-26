@@ -68,7 +68,7 @@ export default function Detail({ saveCart }) {
       ship: "우체국택배",
       installment: 24,
       supportPrice: 108000,
-      discount: "공시지원금",
+      discount: "선택약정24",
     });
   }, []);
 
