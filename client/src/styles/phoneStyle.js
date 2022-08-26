@@ -124,6 +124,7 @@ export const CompareText = styled.a`
 `;
 
 export const CartButton = styled.div`
+  cursor : pointer;
   margin-right : 5px;
   margin-left : 5px; 
   display: inline-block;
