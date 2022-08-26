@@ -10,6 +10,7 @@ import { useState } from "react";
 import { getPhoneList } from "./api/api";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import ComparedPopup from "./components/ComparedPopup";
 
 function App() {
   const [phones, setPhones] = useState([]);
@@ -49,7 +50,6 @@ function App() {
     const existSameValueInCart = () => {
       let result = false;
       for (let i of cart.data) {
-        console.log(i, cookieUploadObject());
         if (
           i.color === cookieUploadObject().color &&
           i.discount === cookieUploadObject().discount &&
@@ -63,7 +63,6 @@ function App() {
       }
       return result;
     };
-
     // 장바구니가 쿠키에 존재하고
     if (cart) {
       // 장바구니에 겹치는 데이터가 없다면
@@ -75,8 +74,9 @@ function App() {
         };
         setCookie("cart", newCart);
         setCart(newCart);
-      }
-    }
+        return "success";
+      } else return "alreadyExist";
+    } else return "error";
   };
 
   // 장바구니 아이템 삭제하기
@@ -98,6 +98,7 @@ function App() {
       <div className="App">
         <Header setActive={setActive} />
         <NavBar active={active} setActive={setActive} />
+        {/* <ComparedPopup /> */}
         <Routes>
           <Route
             path="/"

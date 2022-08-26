@@ -187,3 +187,18 @@ export const SideFlex = styled.div`
     text-align: right;
   }
 `;
+
+export const NoContractDiv = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 112px;
+  background: #f8f8f8;
+  display: flex;
+  padding: 32px;
+  text-align: center;
+
+  div {
+    color: grey;
+    margin: auto;
+  }
+`;
