@@ -3,7 +3,8 @@ import React from "react";
 import Phone from "./Phone";
 import * as Styles from '../styles/phoneListStyle'
 
-export default function PhoneList({ phones }) {
+export default function PhoneList({ phones, search }) {
+    const phonesArray = search ? [...phones].slice(0,4) : [...phones]
   return (
     <>
         <Styles.InfoArea>
@@ -19,7 +20,7 @@ export default function PhoneList({ phones }) {
             </Styles.InfoBox>
         </Styles.InfoArea>
         <Grid container justify="center" spacing={2}>
-        {phones.map((phone) => (
+        {phonesArray.map((phone) => (
             <Grid key={phone.id} item xs={12} sm={6} md={4} lg={3}>
             <Phone phone={phone} />
             </Grid>

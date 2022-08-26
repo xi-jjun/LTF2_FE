@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
 import Cart from "./pages/Cart";
+import Search from "./pages/Search";
 import Header from "./components/Header";
 import "./css/App.css";
 import NavBar from "./components/NavBar";
@@ -119,6 +120,11 @@ function App() {
             path="/order"
             exact
             element={<Order/>}
+          />
+          <Route 
+            path="/search/:keyword"
+            exact
+            element={<Search phones={phones} saveCart={saveCart} />}
           />
           <Route
             path="/*"

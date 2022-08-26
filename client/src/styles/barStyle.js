@@ -79,3 +79,40 @@ export const MainContainer = styled.div`
 export const MainLogo = styled.img`
   height: 20px;
 `;
+
+export const ShowflowMenu = styled.ul`
+    display:  ${(props) => (props.show ? 
+        "block"
+        :
+        "none"
+        )};
+    position: fixed;
+    width: 240px;
+    top: 100px;
+    right: 15px;
+    margin-top: -3px;
+    padding: 0 10px;
+    border-radius: 12px;
+    box-shadow: 2px 3px 20px rgb(0 0 0 / 18%);
+    background: #fff;
+    z-index: 99;
+`
+
+export const ShowflowMenuLi = styled.li`
+    list-style: none;
+    padding: 8px 0;
+    display: flex;
+`
+
+export const SearchInput = styled.input`
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    color: #e6007e;
+    width: 200px;
+
+    &:focus {
+        outline: none;
+    }
+`
