@@ -53,8 +53,6 @@ export default function NavBar({ active, setActive }) {
       }
   }
 
-  const [show, setShow] = useState(false);
-
   const { keyword } = useParams();
 
   const [nowValue, setNowValue] = useState(keyword);
