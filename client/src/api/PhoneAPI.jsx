@@ -15,7 +15,7 @@ export const getPhonesAll = async (code) => {
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 }
 
@@ -34,7 +34,7 @@ export const getPhonesByTelecomTech = async (code) => {
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 }
 
@@ -53,7 +53,7 @@ export const getPhoneByPhoneId = async (code) => {
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 
 }
