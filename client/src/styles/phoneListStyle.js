@@ -21,4 +21,4 @@ export const Select = styled.select`
 `
 export const Option = styled.option`
     color: #000;
-`
+` 
