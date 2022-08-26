@@ -8,6 +8,7 @@ import OrderPhoneInfo from '../components/OrderPhoneInfo';
 import {phone} from '../DummyData'
 import OrderForm from '../components/OrderForm';
 import { useState } from 'react';
+import OrderUserInfoForm from '../components/OrderUserInfoForm';
 export default function Order() {
     const [expand, setExpand] = useState(false);
 
@@ -50,6 +51,8 @@ export default function Order() {
                 </Grid>
                 <Styles.UserProofTitle>가입자 본인인증</Styles.UserProofTitle>
                 <OrderForm/>
+                <Styles.UserProofTitle>가입자 정보</Styles.UserProofTitle>
+                <OrderUserInfoForm/>
             </Styles.OrderInfoLayout>
             <Styles.PhoneInfoLayout>
                 <OrderPhoneInfo phone = {phone[0]}/>

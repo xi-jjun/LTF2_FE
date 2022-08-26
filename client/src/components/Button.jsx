@@ -107,7 +107,7 @@ export const LGButton = styled.button`
 export const FormButton = styled.button.attrs(props => ({
   type: "button",
 }))`
-  margin-left: 8px;
+  margin-right: 8px;
   width: 203px;
   position: relative;
   border-radius: 14px;
