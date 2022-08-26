@@ -5,6 +5,7 @@ export const InfoArea = styled.div`
     min-height: 48px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 `
 export const Total = styled.div`
     height: 50px;
@@ -21,4 +22,4 @@ export const Select = styled.select`
 `
 export const Option = styled.option`
     color: #000;
-`
+` 

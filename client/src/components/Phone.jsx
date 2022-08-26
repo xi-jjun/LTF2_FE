@@ -1,11 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
 export default function Phone({ phone }) {
+  
+  const navigate = useNavigate();
+
   return (
     <Styles.CardLayout>
-      <Styles.CardHeader>
+      <Styles.CardHeader onClick={()=> navigate("/detail/1")}>
         <Styles.ImageLayout>
           <Styles.Image src={phone.image_link} />
           <Styles.ColorList>
@@ -48,6 +52,7 @@ export default function Phone({ phone }) {
           <LGButton variant="light" size="sm">
             비교하기
           </LGButton>
+          <Styles.CartButton/>
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>
