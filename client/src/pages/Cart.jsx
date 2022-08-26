@@ -6,7 +6,6 @@ import * as Styled from "../styles/cartStyle";
 import CartProduct from "../components/CartProduct";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { LGButton } from "../components/Button";
-import { useCookies } from "react-cookie";
 
 export default function Cart({ cart, deleteCart }) {
   const [active, setActive] = useState({
