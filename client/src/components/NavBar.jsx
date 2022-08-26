@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import * as Bar from "../styles/barStyle";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 
 export default function NavBar({ active, setActive }) {
   const navigate = useNavigate();
@@ -33,7 +36,33 @@ export default function NavBar({ active, setActive }) {
     navigate("/cart");
   };
 
-  const onSearch = () => setShow(!show);
+  const onClickSearch = () => {
+    if(nowValue.length < 2) {
+        alert("두 글자 이상 입력하세요")
+    } else if(nowValue.length > 20) {
+        alert("검색어의 최대길이는 20자입니다.")
+    } else {
+        navigate(`/search/${nowValue}`)
+        setShow(!show)
+        setNowValue("")
+    }
+  }
+
+  const onKeyPress = (e) => {
+      if(e.key == 'Enter') {
+          onClickSearch();
+      }
+  }
+
+  const [show, setShow] = useState(false);
+
+  const { keyword } = useParams();
+
+  const [nowValue, setNowValue] = useState(keyword);
+
+  const changeValue = e => setNowValue(e.target.value);
+
+  const inputRef = useRef(null);
 
   return (
     <div
@@ -41,42 +70,57 @@ export default function NavBar({ active, setActive }) {
         setNowHover("");
       }}
     >
-      <Bar.NavContainer nowHover={nowHover !== ""}>
-        {navArray.map((row) => {
-          return (
-            <Bar.NavItem
-              key={row.label}
-              children={row.label}
-              navId={row.label}
-              active={active}
-              nowHover={nowHover}
-              onClick={() => nowActive(row)}
-              onMouseEnter={() => {
-                if (row.label === "유플일상" || row.label === "유독") {
-                  setNowHover("");
-                } else setNowHover(row.label);
-              }}
+    <Bar.NavContainer nowHover={nowHover !== ""}>
+      {navArray.map((row) => {
+        return (
+          <Bar.NavItem
+            key={row.label}
+            children={row.label}
+            navId={row.label}
+            active={active}
+            onClick={() => nowActive(row)}
+            nowHover={nowHover}
+            onMouseEnter={() => {
+              if (row.label === "유플일상" || row.label === "유독") {
+                setNowHover("");
+              } else setNowHover(row.label);
+            }}
+          />
+        );
+      })}
+      <Bar.NavItem
+        style={{ marginLeft: "auto", marginRight: "0px"}}
+        navId={"util1"}
+        onMouseEnter={() => {
+          setNowHover("");
+        }}
+      >
+        <SearchIcon onClick={() => {
+          setShow(!show);
+          setTimeout(() => inputRef.current.focus(), 50);
+          }} />
+        <Bar.ShowflowMenu show={show}>
+          <Bar.ShowflowMenuLi>
+            <Bar.SearchInput 
+              value={nowValue} 
+              onChange={changeValue} 
+              onKeyPress={onKeyPress} 
+              onBlur={() => setTimeout(() => setShow(false), 100)}
+              ref={inputRef}
             />
-          );
-        })}
-        <Bar.NavItem
-          style={{ marginLeft: "auto" }}
-          children={<SearchIcon onClick={onSearch} />}
-          navId={"util1"}
-          onMouseEnter={() => {
-            setNowHover("");
-          }}
-        />
-        <Bar.NavItem
-          children={<ShoppingCartIcon />}
-          navId={"util2"}
-          onClick={goToCart}
-          onMouseEnter={() => {
-            setNowHover("");
-          }}
-        />
-      </Bar.NavContainer>
+            <SearchIcon onClick={onClickSearch}/>
+          </Bar.ShowflowMenuLi>
+        </Bar.ShowflowMenu>
+      </Bar.NavItem>
+      <Bar.NavItem
+        children={<ShoppingCartIcon />}
+        navId={"util2"}
+        onClick={goToCart}
+        onMouseEnter={() => {
+          setNowHover("");
+        }}
+      />
       <Bar.NavMap nowHover={nowHover !== ""} />
-    </div>
+    </Bar.NavContainer>
   );
 }
