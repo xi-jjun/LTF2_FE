@@ -1,9 +1,5 @@
 name: React build and push docker image to ECR
 on: 
-  # merge:
-  #   branches:
-  #     - dev
-  
   pull_request_target:
     branches: [ dev ]
 
