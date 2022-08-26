@@ -54,11 +54,25 @@ export const NavItem = styled.div`
   font-weight: 500;
   border-bottom: ${(props) =>
     props.navId === props.active ? "2px solid #e6007e" : "none"};
-  color: ${(props) => (props.navId === props.active ? "#e6007e" : "black")};
+  color: ${(props) =>
+    props.navId === props.active || props.navId === props.nowHover
+      ? "#e6007e"
+      : "black"};
 
   &:hover {
     color: #e6007e;
   }
+`;
+
+export const NavMap = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 300px;
+  background: #fff;
+  display: ${(props) => (props.nowHover ? "block" : "none")};
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+  top: 103;
+  z-index: 100;
 `;
 
 export const MainContainer = styled.div`
@@ -72,12 +86,12 @@ export const MainContainer = styled.div`
   height: 29px;
   display: flex;
   align-items: center;
-  cursor: pointer;
   z-index: 10;
 `;
 
 export const MainLogo = styled.img`
   height: 20px;
+  cursor: pointer;
 `;
 
 export const ShowflowMenu = styled.ul`
