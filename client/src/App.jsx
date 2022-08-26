@@ -10,11 +10,8 @@ import { useState } from "react";
 import { getPhoneList } from "./api/api";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-<<<<<<< HEAD
 import ComparedPopup from "./components/ComparedPopup";
-=======
 import Order from "./pages/Order";
->>>>>>> b90d209c02ce20f88fb6c0ec4e532cccc3b77b74
 
 function App() {
   const [phones, setPhones] = useState([]);
@@ -88,8 +85,8 @@ function App() {
     const returnArray = [...cart.data];
     const deleteId = returnArray.findIndex((row) => row.id === id);
     returnArray.splice(deleteId, 1);
-    setCart({count:cart.count, data: returnArray});
-    setCookie("cart", {count:cart.count, data: returnArray});
+    setCart({ count: cart.count, data: returnArray });
+    setCookie("cart", { count: cart.count, data: returnArray });
   };
 
   useEffect(() => {
@@ -119,11 +116,7 @@ function App() {
             exact
             element={<Cart cart={cart} deleteCart={deleteCart} />}
           />
-          <Route
-            path="/order"
-            exact
-            element={<Order/>}
-          />
+          <Route path="/order" exact element={<Order />} />
           <Route
             path="/*"
             element={
