@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "../components/Button";
 
-export default function CartProduct() {
+export default function CartProduct({data, deleteCart}) {
     const [over, setOver] = useState(false)
+
+    const onDelBtnClick = () => {
+      deleteCart(data.id);
+    }
 
     return (
         <li style={{borderTop : "1px solid #ddd"}}>
@@ -19,15 +23,15 @@ export default function CartProduct() {
               <Styled.CartProductContainerPProductTit>
                 <a style={{textDecoration: "none", color: "inherit", verticalAlign: "middle"}} href="">갤럭시 A33 5G</a>
                 <span style={{marginLeft: 8}}></span>
-                </Styled.CartProductContainerPProductTit>
+              </Styled.CartProductContainerPProductTit>
               <Styled.CartProductContainerPProductDesc>
                 5G 심플+<span style={{fontSize: 14}}></span>
               </Styled.CartProductContainerPProductDesc>
-              <p style={{margin: 0, marginBottom:6}}>
+              <div style={{margin: 0, marginBottom:6}}>
                 <Styled.OptionItemSpan>어썸블루</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
                 <Styled.OptionItemSpan>128GB</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
                 <Styled.OptionItemSpan>24개월 할부</Styled.OptionItemSpan>
-              </p>
+              </div>
               <Styled.ProductNotice>
               온라인 주문을 하시려면 추가 정보가 필요합니다. <br />
               상품페이지에서 요금제, 사은품 등 선택을 완료해 주세요.
@@ -67,7 +71,7 @@ export default function CartProduct() {
               비교하기
             </LGButton>
           </div>
-          <Styled.ProductContainerBtnDel>
+          <Styled.ProductContainerBtnDel onClick={()=>onDelBtnClick()}>
             <Styled.IsBlind>상품삭제</Styled.IsBlind>
           </Styled.ProductContainerBtnDel>
         </Styled.CartProductContainer>
