@@ -9,6 +9,7 @@ export const CardLayout = styled.div`
 `;
 
 export const CardHeader = styled.div`
+  cursor : pointer;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
