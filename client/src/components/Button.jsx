@@ -103,8 +103,6 @@ export const LGButton = styled.button`
     background-color: ${(props) => btnColor(props.variant).active.bg};
   }
 `;
-<<<<<<< Updated upstream
-=======
 
 export const FormButton = styled.button.attrs(props => ({
   type: "button",
