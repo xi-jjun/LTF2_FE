@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ImgContainer = styled.div`
   width: 50%;
   min-width: 700px;
-  height: 100%;
+  height: 500px;
   position: sticky;
   top: 0;
   padding: 100px;
@@ -14,7 +14,6 @@ export const ImageMain = styled.div`
   height: 350px;
   border: 1px solid grey;
   border-radius: 10px;
-  position: sticky;
   top: 0px;
   background-color: ${(props) => props.color.hexCode};
   margin: auto;
@@ -25,15 +24,15 @@ export const ImageSub = styled.div`
   height: 60px;
   border: 1px solid grey;
   border-radius: 10px;
-  position: sticky;
   top: 0px;
   background-color: ${(props) => props.color.hexCode};
   margin: 20px 10px;
 `;
 
 export const Container = styled.div`
-  width: 40%;
+  width: 30%;
   min-width: 500px;
+  height: 500px;
   padding: 50px 20px;
 `;
 

@@ -19,6 +19,8 @@ function App() {
   const [active, setActive] = useState("모바일 기기");
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
+  const [compareList, setCompareList] = useState([]);
+  console.log(phones);
 
   const fetchPhones = async () => {
     const { data } = await getPhoneList();
@@ -100,7 +102,10 @@ function App() {
       <div className="App">
         <Header setActive={setActive} />
         <NavBar active={active} setActive={setActive} />
-        {/* <ComparedPopup /> */}
+        <ComparedPopup
+          compareList={compareList}
+          setCompareList={setCompareList}
+        />
         <Routes>
           <Route
             path="/"
@@ -117,12 +122,8 @@ function App() {
             exact
             element={<Cart cart={cart} deleteCart={deleteCart} />}
           />
+          <Route path="/order" exact element={<Order />} />
           <Route
-            path="/order"
-            exact
-            element={<Order/>}
-          />
-          <Route 
             path="/search/:keyword"
             exact
             element={<Search phones={phones} saveCart={saveCart} />}

@@ -73,7 +73,7 @@ export default function Detail({ saveCart }) {
   }, []);
 
   return (
-    <PageContainer>
+    <div>
       <PhoneInfomation
         active={active}
         setActive={setActive}
@@ -89,6 +89,6 @@ export default function Detail({ saveCart }) {
           saveCart={saveCart}
         />
       </Row>
-    </PageContainer>
+    </div>
   );
 }

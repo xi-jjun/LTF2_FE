@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   box-sizing: border-box;
   display: inline-box;
-  width: 70%;
-  min-width: 850px;
+  width: 1200px;
   padding: 20px 10px 0px 20px;
   margin: 0px 0px 80px 0px;
 
@@ -155,7 +154,7 @@ export const SideBarContainer = styled.div`
   height: 1000px;
   background-color: #f5f5f5;
   position: sticky;
-  top: 0px;
+  top: 153px;
 
   h2,
   h3 {
