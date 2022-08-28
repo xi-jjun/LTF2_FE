@@ -57,7 +57,7 @@ export default function DetailInfomation({ active, setActive }) {
             <div className="content">
               <p>배송비는 무료입니다.</p>
               <Row justify="center">
-                <ShipBtn ship="우체국택배" />
+                <ShipBtn ship="우체국 택배" />
                 <ShipBtn ship="오늘 도착" />
               </Row>
               <li>
@@ -70,7 +70,10 @@ export default function DetailInfomation({ active, setActive }) {
           <DetailInfo.PriceRow>
             <div className="label">요금제</div>
             <div className="content">
-              <p>추천 요금제</p>
+              <p style={{ float: "left" }}>추천 요금제</p>
+              <p style={{ display: "inline-block", float: "right" }}>
+                추천 요금제
+              </p>
               {plan.map((row) => (
                 <DetailInfo.PlanCard
                   key={row.name}
@@ -84,7 +87,7 @@ export default function DetailInfomation({ active, setActive }) {
                         row.share_data ? "나눠쓰기 사용가능" : ""
                       }`}</p>
                     </div>
-                    <div>
+                    <div className="icon">
                       <AddCircleOutlineIcon />
                     </div>
                   </DetailInfo.PlanDescription>
@@ -148,12 +151,12 @@ export default function DetailInfomation({ active, setActive }) {
                           }
                         >
                           <FormControlLabel
-                            value="선택약정24"
+                            value="선택약정24개월"
                             control={<Radio />}
                             label="24개월 할인"
                           />
                           <FormControlLabel
-                            value="선택약정12"
+                            value="선택약정12개월"
                             control={<Radio />}
                             label="12개월 할인"
                           />

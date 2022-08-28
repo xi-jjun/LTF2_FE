@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Row } from "../styles/gridStyle";
-import { PageContainer } from "../components/PageContainer";
 import OrderBar from "../components/OrderBar";
 import PhoneInfomation from "../components/PhoneInfomation";
 import DetailInfomation from "../components/DetailInfomation";
@@ -13,7 +12,7 @@ export default function Detail({ saveCart }) {
     phone: phone[0],
     plan: plan[0],
     color: phone[0].colorList[0],
-    ship: "우체국택배",
+    ship: "우체국 택배",
     installment: 24,
     supportPrice: 108000,
     discount: "공시지원금",
@@ -65,10 +64,10 @@ export default function Detail({ saveCart }) {
       phone: phone[0],
       plan: plan[0],
       color: phone[0].colorList[0],
-      ship: "우체국택배",
+      ship: "우체국 택배",
       installment: 24,
       supportPrice: 108000,
-      discount: "선택약정24",
+      discount: "선택약정24개월",
     });
   }, []);
 
@@ -81,7 +80,7 @@ export default function Detail({ saveCart }) {
         saveCart={saveCart}
       />
       <OrderBar active={active} setActive={setActive} />
-      <Row justify="center">
+      <Row justify="center" body>
         <DetailInfomation active={active} setActive={setActive} />
         <DetailSideBar
           active={active}

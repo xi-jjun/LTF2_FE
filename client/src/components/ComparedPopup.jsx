@@ -1,29 +1,42 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as Compare from "../styles/CompareStyle";
+import * as Compare from "../styles/compareStyle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { useEffect } from "react";
 import { LGButton } from "./Button";
 
-export default function ComparedPopup({ compareList, setCompareList }) {
-  const [show, setShow] = useState(true);
-
+export default function ComparedPopup({
+  modalShow,
+  setModalShow,
+  comparePhoneList,
+  setComparePhoneList,
+}) {
   useEffect(() => {
-    // if (compareList.length === 0 && show) {
-    //   setShow(false);
-    // } else if (compareList.length !== 0 && !show) {
-    //   setShow(true);
-    // }
-  }, [compareList]);
+    if (
+      comparePhoneList.filter((row) => row.id).length === 0 &&
+      modalShow.comparePopup
+    ) {
+      setModalShow({ ...modalShow, comparePopup: false });
+    } else if (
+      comparePhoneList.filter((row) => row.id).length !== 0 &&
+      !modalShow.comparePopup
+    ) {
+      setModalShow({ ...modalShow, comparePopup: true });
+    }
+  }, [comparePhoneList]);
 
-  const togglePopup = () => setShow(!show);
+  const togglePopup = () =>
+    setModalShow({ ...modalShow, comparePopup: !modalShow.comparePopup });
 
   const toggle = () => {
     switch (true) {
-      case !show && compareList.length !== 0: {
+      case !modalShow.comparePopup &&
+        comparePhoneList.filter((row) => row.id).length !== 0: {
         return "remain";
       }
-      case !show && compareList.length === 0: {
+      case !modalShow.comparePopup &&
+        comparePhoneList.filter((row) => row.id).length === 0: {
         return "none";
       }
       default:
@@ -31,43 +44,71 @@ export default function ComparedPopup({ compareList, setCompareList }) {
     }
   };
 
-  return (
-    <Compare.CompareDiv show={toggle()}>
-      <Compare.CompareTitle>
-        <h3>비교하기 ({compareList.length})</h3>
+  const openModal = () => {
+    if (comparePhoneList.filter((row) => row.id).length) {
+      setModalShow({ ...modalShow, compare: true });
+    }
+  };
 
-        <Compare.CloseBtn
-          children={show ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-          onClick={togglePopup}
-        />
-      </Compare.CompareTitle>
-      <Compare.CompareContent show={show}>
-        <Compare.ComparePhone>
-          <Compare.ComparePhoneImg src="https://d3t32hsnjxo7q6.cloudfront.net/i/d4f7d82b4858c622bb3c1cef07b9d850_ra,w158,h184_pa,w158,h184.png" />
-          <Compare.ComparePhoneInfo>
-            <p>Maybelline Fit Me Bronzer</p>
-            <h2>130,260원</h2>
-          </Compare.ComparePhoneInfo>
-        </Compare.ComparePhone>
-        <Compare.ComparePhone>
-          <Compare.ComparePhoneImg src="https://d3t32hsnjxo7q6.cloudfront.net/i/d4f7d82b4858c622bb3c1cef07b9d850_ra,w158,h184_pa,w158,h184.png" />
-          <Compare.ComparePhoneInfo>
-            <p>Maybelline Fit Me Bronzer</p>
-            <h2>130,260원</h2>
-          </Compare.ComparePhoneInfo>
-        </Compare.ComparePhone>
-        <Compare.ComparePhone>
-          <Compare.ComparePhoneImg src="https://d3t32hsnjxo7q6.cloudfront.net/i/d4f7d82b4858c622bb3c1cef07b9d850_ra,w158,h184_pa,w158,h184.png" />
-          <Compare.ComparePhoneInfo>
-            <p>Maybelline Fit Me Bronzer</p>
-            <h2>130,260원</h2>
-          </Compare.ComparePhoneInfo>
-        </Compare.ComparePhone>
-        <Compare.CompareBtnGroup>
-          <LGButton children="비교하기" />
-          <LGButton variant="outline-dark" children="전체삭제" />
-        </Compare.CompareBtnGroup>
-      </Compare.CompareContent>
-    </Compare.CompareDiv>
+  const deleteOne = (idx) => {
+    const returnArray = [...comparePhoneList];
+    returnArray.splice(idx, 1);
+    returnArray.push({});
+    setComparePhoneList(returnArray);
+  };
+
+  const deleteAll = () => {
+    setComparePhoneList([{}, {}, {}]);
+  };
+
+  return (
+    <div>
+      <Compare.PopUp show={toggle()} active={!modalShow.comparePopup}>
+        <Compare.PopUpTitle>
+          <h3>비교하기 ({comparePhoneList.filter((row) => row.id).length})</h3>
+
+          <Compare.PopUpCloseBtn
+            children={
+              modalShow.comparePopup ? (
+                <KeyboardArrowDownIcon />
+              ) : (
+                <KeyboardArrowUpIcon />
+              )
+            }
+            onClick={togglePopup}
+          />
+        </Compare.PopUpTitle>
+        <Compare.PopUpContent show={modalShow.comparePopup}>
+          {comparePhoneList.map((row, i) => {
+            if (row.id) {
+              return (
+                <Compare.PopUpPhone key={i}>
+                  <Compare.PopUpPhoneImg src={row.image_link} />
+                  <Compare.PopUpPhoneInfo>
+                    <p>{row.name}</p>
+                    <h2>130,260원</h2>
+                  </Compare.PopUpPhoneInfo>
+                  <Compare.PopUpDeleteBtn
+                    children={<CloseIcon />}
+                    onClick={() => deleteOne(i)}
+                  />
+                </Compare.PopUpPhone>
+              );
+            } else
+              return (
+                <Compare.PopUpPhone key={i}>기기 미선택</Compare.PopUpPhone>
+              );
+          })}
+          <Compare.PopUpBtnGroup>
+            <LGButton children="비교하기" onClick={openModal} />
+            <LGButton
+              variant="outline-dark"
+              children="전체삭제"
+              onClick={deleteAll}
+            />
+          </Compare.PopUpBtnGroup>
+        </Compare.PopUpContent>
+      </Compare.PopUp>
+    </div>
   );
 }

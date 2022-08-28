@@ -76,13 +76,17 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       {active.discount === "공시지원금" && (
         <div>
           <detailInfo.SideFlex>
-            <p className="left">공시지원금 (sample)</p>
+            <p className="left" style={{ color: "#e6007e" }}>
+              공시지원금 (sample)
+            </p>
             <p className="right" style={{ color: "#e6007e" }}>
               -{active.supportPrice.toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
           <detailInfo.SideFlex>
-            <p className="left">추가지원금 (sample)</p>
+            <p className="left" style={{ color: "#e6007e" }}>
+              추가지원금 (sample)
+            </p>
             <p className="right" style={{ color: "#e6007e" }}>
               -{(active.supportPrice * 0.15).toLocaleString()} 원
             </p>
@@ -121,7 +125,9 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       </detailInfo.SideFlex>
       {active.discount.indexOf("선택약정") !== -1 && (
         <detailInfo.SideFlex>
-          <p className="left">선택 약정 할인</p>
+          <p className="left" style={{ color: "#e6007e" }}>
+            선택 약정 할인
+          </p>
           <p className="right" style={{ color: "#e6007e" }}>
             -{(active.plan.month_price * 0.25).toLocaleString()} 원
           </p>

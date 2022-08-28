@@ -6,6 +6,7 @@ import { Rating } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MessageModal from "./MessageModal";
+import { SideFlex } from "../styles/detailInfoStyle";
 
 export default function PhoneInfomation({
   active,
@@ -68,6 +69,25 @@ export default function PhoneInfomation({
     }
   };
 
+  const JoinBtn = () => {
+    const typeArr = ["기기변경", "번호이동", "신규가입"];
+
+    return (
+      <>
+        {typeArr.map((row) => (
+          <LGButton
+            key={row}
+            variant="outline-dark"
+            size="lg"
+            rec
+            children={row}
+            style={{ margin: "0px 5px" }}
+          />
+        ))}
+      </>
+    );
+  };
+
   return (
     <Row justify="center">
       <MessageModal
@@ -92,15 +112,21 @@ export default function PhoneInfomation({
             <h1>{active.phone.titleName}</h1>
             <h4>{`(${active.phone.model})`}</h4>
           </PhoneInfo.Info>
-          <PhoneInfo.Info>
-            #최적의화면비, #가벼워진무게, #멀티태스킹
+          <PhoneInfo.Info style={{ marginBottom: "20px" }}>
+            <p>#최적의화면비, #가벼워진무게, #멀티태스킹</p>
+            <Rating
+              name="read-only"
+              value={5}
+              readOnly
+              size="small"
+              style={{ float: "right" }}
+            />
           </PhoneInfo.Info>
-          <Rating name="read-only" value={5} readOnly size="small" />
           <PhoneInfo.Info>
             <h4 style={{ margin: "0 10px 0 0" }}>색상</h4>
             <p>{active.color.name}</p>
           </PhoneInfo.Info>
-          <PhoneInfo.Info>
+          <PhoneInfo.Info style={{ marginBottom: "20px" }}>
             {active.phone.colorList.map((row) => (
               <ColorDot
                 key={row.hexCode}
@@ -110,22 +136,70 @@ export default function PhoneInfomation({
               />
             ))}
           </PhoneInfo.Info>
-          <PhoneInfo.Info>저장공간</PhoneInfo.Info>
-          <Row justify="left">
-            <LGButton variant="outline-dark" size="lg" rec>
-              256GB
-            </LGButton>
+          <PhoneInfo.Info children="저장공간" />
+          <Row justify="left" style={{ margin: "10px 0px" }}>
+            <LGButton variant="outline-dark" size="lg" rec children="256GB" />
           </Row>
-          <PhoneInfo.Info>{storageText("256GB")}</PhoneInfo.Info>
+          <PhoneInfo.Info
+            children={storageText("256GB")}
+            style={{ marginBottom: "20px" }}
+          />
+          <PhoneInfo.Info children="가입유형" />
+          <Row justify="left" style={{ margin: "10px 0px" }}>
+            {JoinBtn()}
+          </Row>
 
           <PhoneInfo.Price>
             <h1>월 {priceInfo.total.toLocaleString()}원</h1>
             <p>
               {active.plan.name}, {active.discount} 기준
             </p>
-            <p>휴대폰 {priceInfo.phone.toLocaleString()} 원</p>
-            <p>통신료 {priceInfo.plan.toLocaleString()} 원</p>
-            <p>정상가 {active.phone.price.toLocaleString()} 원</p>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                휴대폰
+              </p>
+              <p className="left" style={{ width: "80%", color: "#000000" }}>
+                {priceInfo.phone.toLocaleString()} 원
+              </p>
+            </SideFlex>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                통신료
+              </p>
+              {active.discount.indexOf("선택약정") === -1 ? (
+                <p className="left" style={{ width: "80%", color: "#000000" }}>
+                  {priceInfo.plan.toLocaleString()} 원
+                </p>
+              ) : (
+                <p className="left" style={{ width: "80%" }}>
+                  <span style={{ color: "#000000" }}>
+                    {priceInfo.plan.toLocaleString()} 원
+                  </span>{" "}
+                  <span
+                    style={{
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    {active.plan.month_price.toLocaleString()} 원
+                  </span>
+                  <span
+                    style={{
+                      color: "#e6007e",
+                    }}
+                  >
+                    (25% ↓)
+                  </span>
+                </p>
+              )}
+            </SideFlex>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                정상가
+              </p>
+              <p className="left" style={{ width: "80%", color: "#000000" }}>
+                {active.phone.price.toLocaleString()} 원
+              </p>
+            </SideFlex>
           </PhoneInfo.Price>
           <PhoneInfo.Info>
             <Row justify="center">

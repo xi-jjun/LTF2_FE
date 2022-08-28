@@ -32,7 +32,7 @@ export const ImageSub = styled.div`
 export const Container = styled.div`
   width: 30%;
   min-width: 500px;
-  height: 500px;
+  height: 800px;
   padding: 50px 20px;
 `;
 

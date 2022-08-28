@@ -3,9 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   box-sizing: border-box;
   display: inline-box;
-  width: 1200px;
-  padding: 20px 10px 0px 20px;
-  margin: 0px 0px 80px 0px;
+  width: 70%;
+  padding: 20px 10px 0px 50px;
 
   button {
     box-sizing: border-box;
@@ -134,9 +133,15 @@ export const PlanDescription = styled.div`
   align-items: center;
   margin: 0;
 
-  P {
+  p {
     display: inline-flex;
-    margin: 0;
+    margin: 0 10px;
+  }
+
+  .icon {
+    position: relative;
+    right: 0px;
+    bottom: -7px;
   }
 `;
 
@@ -176,6 +181,10 @@ export const SideFlex = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+
+  p {
+    color: grey;
+  }
 
   .left {
     width: 60%;

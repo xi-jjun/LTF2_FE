@@ -13,18 +13,27 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
+import ComparedModal from "./components/ComparedModal";
 
 function App() {
   const [phones, setPhones] = useState([]);
   const [active, setActive] = useState("모바일 기기");
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
-  const [compareList, setCompareList] = useState([]);
+  const [comparePhoneList, setComparePhoneList] = useState([]);
+  const [comparePlanList, setComparePlanList] = useState([]);
+  const [modalShow, setModalShow] = useState({
+    comparePopup: false,
+    compare: false,
+    plan: false,
+  });
   console.log(phones);
 
   const fetchPhones = async () => {
     const { data } = await getPhoneList();
     setPhones(data);
+    // 폰 데이터 비교에 쓰일 데이터 설정 (구현 후 삭제 예정)
+    setComparePhoneList([data[0], data[1], {}]);
   };
 
   // 장바구니 데이터 쿠키에서 가져오기
@@ -103,8 +112,18 @@ function App() {
         <Header setActive={setActive} />
         <NavBar active={active} setActive={setActive} />
         <ComparedPopup
-          compareList={compareList}
-          setCompareList={setCompareList}
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          comparePhoneList={comparePhoneList}
+          setComparePhoneList={setComparePhoneList}
+        />
+        <ComparedModal
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          comparePhoneList={comparePhoneList}
+          setComparePhoneList={setComparePhoneList}
+          comparePlanList={comparePlanList}
+          setComparePlanList={setComparePlanList}
         />
         <Routes>
           <Route
