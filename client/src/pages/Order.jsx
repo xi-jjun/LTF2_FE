@@ -9,8 +9,10 @@ import {phone} from '../DummyData'
 import OrderForm from '../components/OrderForm';
 import { useState } from 'react';
 import OrderUserInfoForm from '../components/OrderUserInfoForm';
+import { LGButton } from '../components/Button';
 export default function Order() {
     const [expand, setExpand] = useState(false);
+    const [show,setShow] = useState(false);
 
     const toggleExpand = () =>{
         setExpand((prev) => !prev);
@@ -50,9 +52,14 @@ export default function Order() {
                     </Grid>
                 </Grid>
                 <Styles.UserProofTitle>가입자 본인인증</Styles.UserProofTitle>
-                <OrderForm/>
-                <Styles.UserProofTitle>가입자 정보</Styles.UserProofTitle>
-                <OrderUserInfoForm/>
+                <OrderForm showUserInfo = {setShow}/>
+                { 
+                    show &&
+                    <>
+                        <Styles.UserProofTitle>가입자 정보</Styles.UserProofTitle>
+                        <OrderUserInfoForm/>
+                    </>
+                }
             </Styles.OrderInfoLayout>
             <Styles.PhoneInfoLayout>
                 <OrderPhoneInfo phone = {phone[0]}/>
