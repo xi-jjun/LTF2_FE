@@ -9,14 +9,16 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { useState } from "react";
 
 export default function DetailInfomation({ active, setActive }) {
   // active 요소 변경 함수
   const nowActive = (key, value) => setActive({ ...active, [key]: value });
+  const [more, setMore] = useState(false);
 
   // 현재 선택된 할부인지
   const thisInstallment = (month) =>
-    active.installment === month ? "primary" : "outline-dark";
+    active.installment === month ? "dark" : "outline-dark";
 
   // 할부 선택 버튼
   const InstallmentBtn = ({ month }) => (
@@ -31,7 +33,7 @@ export default function DetailInfomation({ active, setActive }) {
   // 배송 선택 버튼
   const ShipBtn = ({ ship }) => (
     <LGButton
-      variant={active.ship === ship ? "primary" : "outline-dark"}
+      variant={active.ship === ship ? "dark" : "outline-dark"}
       size="lg"
       rec
       style={{ margin: "0px 0.5%", width: "49%" }}
@@ -47,6 +49,10 @@ export default function DetailInfomation({ active, setActive }) {
   // 선택약정 할인 요금
   const optAgree = (month) =>
     (active.plan.month_price * 0.25 * month).toLocaleString();
+
+  const installmentArr = more
+    ? [1, 3, 6, 9, 10, 12, 24, 30, 36, 48]
+    : [1, 12, 24, 36];
 
   if (active.nav === "예상 납부금액") {
     return (
@@ -181,10 +187,15 @@ export default function DetailInfomation({ active, setActive }) {
               )}
               <p>할부기간</p>
               <Row justify="center">
-                <InstallmentBtn month={1} />
-                <InstallmentBtn month={12} />
-                <InstallmentBtn month={24} />
-                <InstallmentBtn month={36} />
+                {installmentArr.map((row) => (
+                  <InstallmentBtn month={row} />
+                ))}
+                <LGButton
+                  style={{ width: "24%", margin: "0.5% 0.5%" }}
+                  variant="primary"
+                  children={more ? "접기" : "더 보기"}
+                  onClick={() => setMore(!more)}
+                />
               </Row>
             </div>
           </DetailInfo.PriceRow>

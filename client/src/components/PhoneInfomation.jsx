@@ -77,11 +77,12 @@ export default function PhoneInfomation({
         {typeArr.map((row) => (
           <LGButton
             key={row}
-            variant="outline-dark"
+            variant={active.registration === row ? "dark" : "outline-dark"}
             size="lg"
             rec
             children={row}
             style={{ margin: "0px 5px" }}
+            onClick={() => setActive({ ...active, registration: row })}
           />
         ))}
       </>

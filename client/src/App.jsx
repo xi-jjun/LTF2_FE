@@ -14,26 +14,37 @@ import { useCookies } from "react-cookie";
 import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
 import ComparedModal from "./components/ComparedModal";
+import { ThemeProvider } from "styled-components";
+import { createTheme } from "@mui/system";
 
 function App() {
   const [phones, setPhones] = useState([]);
   const [active, setActive] = useState("모바일 기기");
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
-  const [comparePhoneList, setComparePhoneList] = useState([]);
-  const [comparePlanList, setComparePlanList] = useState([]);
+  const [comparePhoneList, setComparePhoneList] = useState([{}, {}, {}]);
+  const [compareDataList, setCompareDataList] = useState([{}, {}, {}]);
+  let propsList = {
+    comparePhoneList,
+    setComparePhoneList,
+    compareDataList,
+    setCompareDataList,
+  };
   const [modalShow, setModalShow] = useState({
     comparePopup: false,
     compare: false,
     plan: false,
   });
-  console.log(phones);
+
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Noto Sans KR",
+    },
+  });
 
   const fetchPhones = async () => {
     const { data } = await getPhoneList();
     setPhones(data);
-    // 폰 데이터 비교에 쓰일 데이터 설정 (구현 후 삭제 예정)
-    setComparePhoneList([data[0], data[1], {}]);
   };
 
   // 장바구니 데이터 쿠키에서 가져오기
@@ -107,57 +118,62 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header setActive={setActive} />
-        <NavBar active={active} setActive={setActive} />
-        <ComparedPopup
-          modalShow={modalShow}
-          setModalShow={setModalShow}
-          comparePhoneList={comparePhoneList}
-          setComparePhoneList={setComparePhoneList}
-        />
-        <ComparedModal
-          modalShow={modalShow}
-          setModalShow={setModalShow}
-          comparePhoneList={comparePhoneList}
-          setComparePhoneList={setComparePhoneList}
-          comparePlanList={comparePlanList}
-          setComparePlanList={setComparePlanList}
-        />
-        <Routes>
-          <Route
-            path="/"
-            exact
-            element={<Home phones={phones} saveCart={saveCart} />}
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <div className="App">
+          <Header setActive={setActive} />
+          <NavBar active={active} setActive={setActive} />
+          <ComparedPopup
+            modalShow={modalShow}
+            setModalShow={setModalShow}
+            propsList={propsList}
           />
-          <Route
-            path="/detail/:id"
-            exact
-            element={<Detail saveCart={saveCart} />}
+          <ComparedModal
+            modalShow={modalShow}
+            setModalShow={setModalShow}
+            propsList={propsList}
           />
-          <Route
-            path="/cart"
-            exact
-            element={<Cart cart={cart} deleteCart={deleteCart} />}
-          />
-          <Route path="/order" exact element={<Order />} />
-          <Route
-            path="/search/:keyword"
-            exact
-            element={<Search phones={phones} saveCart={saveCart} />}
-          />
-          <Route
-            path="/*"
-            element={
-              <div>
-                <p>잘못된 페이지입니다.</p>
-              </div>
-            }
-          />
-        </Routes>
-      </div>
-    </BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              exact
+              element={
+                <Home
+                  phones={phones}
+                  modalShow={modalShow}
+                  saveCart={saveCart}
+                  propsList={propsList}
+                />
+              }
+            />
+            <Route
+              path="/detail/:id"
+              exact
+              element={<Detail saveCart={saveCart} propsList={propsList} />}
+            />
+            <Route
+              path="/cart"
+              exact
+              element={<Cart cart={cart} deleteCart={deleteCart} />}
+            />
+            <Route path="/order" exact element={<Order />} />
+            <Route
+              path="/search/:keyword"
+              exact
+              element={<Search phones={phones} saveCart={saveCart} />}
+            />
+            <Route
+              path="/*"
+              element={
+                <div>
+                  <p>잘못된 페이지입니다.</p>
+                </div>
+              }
+            />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

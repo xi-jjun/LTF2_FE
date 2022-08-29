@@ -50,7 +50,7 @@ export const Body = styled.div`
   position: absolute;
   top: 60px;
   left: 0px;
-  background: lightgrey;
+  background: #fff;
   overflow: auto;
   width: 100%;
   height: 660px;

@@ -6,25 +6,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { LGButton } from "./Button";
 
-export default function ComparedPopup({
-  modalShow,
-  setModalShow,
-  comparePhoneList,
-  setComparePhoneList,
-}) {
+export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
   useEffect(() => {
     if (
-      comparePhoneList.filter((row) => row.id).length === 0 &&
+      propsList.comparePhoneList.filter((row) => row.id).length === 0 &&
       modalShow.comparePopup
     ) {
       setModalShow({ ...modalShow, comparePopup: false });
     } else if (
-      comparePhoneList.filter((row) => row.id).length !== 0 &&
+      propsList.comparePhoneList.filter((row) => row.id).length !== 0 &&
       !modalShow.comparePopup
     ) {
       setModalShow({ ...modalShow, comparePopup: true });
     }
-  }, [comparePhoneList]);
+  }, [propsList.comparePhoneList]);
 
   const togglePopup = () =>
     setModalShow({ ...modalShow, comparePopup: !modalShow.comparePopup });
@@ -32,11 +27,11 @@ export default function ComparedPopup({
   const toggle = () => {
     switch (true) {
       case !modalShow.comparePopup &&
-        comparePhoneList.filter((row) => row.id).length !== 0: {
+        propsList.comparePhoneList.filter((row) => row.id).length !== 0: {
         return "remain";
       }
       case !modalShow.comparePopup &&
-        comparePhoneList.filter((row) => row.id).length === 0: {
+        propsList.comparePhoneList.filter((row) => row.id).length === 0: {
         return "none";
       }
       default:
@@ -45,27 +40,30 @@ export default function ComparedPopup({
   };
 
   const openModal = () => {
-    if (comparePhoneList.filter((row) => row.id).length) {
+    if (propsList.comparePhoneList.filter((row) => row.id).length) {
       setModalShow({ ...modalShow, compare: true });
     }
   };
 
   const deleteOne = (idx) => {
-    const returnArray = [...comparePhoneList];
+    const returnArray = [...propsList.comparePhoneList];
     returnArray.splice(idx, 1);
     returnArray.push({});
-    setComparePhoneList(returnArray);
+    propsList.setComparePhoneList(returnArray);
   };
 
   const deleteAll = () => {
-    setComparePhoneList([{}, {}, {}]);
+    propsList.setComparePhoneList([{}, {}, {}]);
   };
 
   return (
     <div>
       <Compare.PopUp show={toggle()} active={!modalShow.comparePopup}>
         <Compare.PopUpTitle>
-          <h3>비교하기 ({comparePhoneList.filter((row) => row.id).length})</h3>
+          <h3>
+            비교하기 (
+            {propsList.comparePhoneList.filter((row) => row.id).length})
+          </h3>
 
           <Compare.PopUpCloseBtn
             children={
@@ -79,7 +77,7 @@ export default function ComparedPopup({
           />
         </Compare.PopUpTitle>
         <Compare.PopUpContent show={modalShow.comparePopup}>
-          {comparePhoneList.map((row, i) => {
+          {propsList.comparePhoneList.map((row, i) => {
             if (row.id) {
               return (
                 <Compare.PopUpPhone key={i}>
@@ -100,7 +98,13 @@ export default function ComparedPopup({
               );
           })}
           <Compare.PopUpBtnGroup>
-            <LGButton children="비교하기" onClick={openModal} />
+            <LGButton
+              children="비교하기"
+              onClick={openModal}
+              disabled={
+                propsList.comparePhoneList.filter((row) => row.id).length < 2
+              }
+            />
             <LGButton
               variant="outline-dark"
               children="전체삭제"

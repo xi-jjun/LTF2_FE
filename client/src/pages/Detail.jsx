@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Row } from "../styles/gridStyle";
 import OrderBar from "../components/OrderBar";
@@ -6,7 +7,7 @@ import DetailInfomation from "../components/DetailInfomation";
 import DetailSideBar from "../components/DetailSideBar";
 import { plan, phone } from "../DummyData";
 
-export default function Detail({ saveCart }) {
+export default function Detail({ saveCart, propsList }) {
   const [active, setActive] = useState({
     nav: "예상 납부금액",
     phone: phone[0],
@@ -61,6 +62,7 @@ export default function Detail({ saveCart }) {
   useEffect(() => {
     setActive({
       nav: "예상 납부금액",
+      registration: "기기변경",
       phone: phone[0],
       plan: plan[0],
       color: phone[0].colorList[0],
@@ -70,6 +72,12 @@ export default function Detail({ saveCart }) {
       discount: "선택약정24개월",
     });
   }, []);
+
+  useEffect(() => {
+    if (propsList.comparePhoneList.filter((row) => row.id).length) {
+      propsList.setComparePhoneList([{}, {}, {}]);
+    }
+  }, [propsList.comparePhoneList]);
 
   return (
     <div>

@@ -127,7 +127,7 @@ export const PopUpDeleteBtn = styled.div`
 export const ModalPhoneBox = styled.div`
   width: 350px;
   height: 350px;
-  border: 1px solid grey;
+  border: 1px solid lightgrey;
   border-radius: 10px;
   margin: 10px 25px;
   display: flex;
@@ -144,7 +144,7 @@ export const ModalPhoneImg = styled.img`
 export const ModalPhoneText = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 120px;
+  height: 130px;
   text-align: center;
   padding: 20px;
 
@@ -164,15 +164,36 @@ export const ModalPhoneFooter = styled.div`
   height: 35px;
 `;
 
-export const CartBtn = styled.button`
+export const ModalPhoneDetailBox = styled.div`
   box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  width: 35px;
-  height: 35px;
-  border: 1px solid #680039;
-  border-radius: 100%;
-  background-color: #ffffff;
-  background: url(https://image.lguplus.com/static/pc-static/common/images/indv-biz/base/sprites-mb-dev.svg)
-    6px -40px no-repeat;
+  width: 350px;
+  padding: 15px 30px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  margin: 10px 25px;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+  flex-direction: column;
+
+  p {
+    margin: 5px 0px;
+  }
+`;
+
+export const ModalPhoneDetailHeader = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px 0px;
+
+  h2,
+  h3 {
+    margin: 0;
+  }
 `;
