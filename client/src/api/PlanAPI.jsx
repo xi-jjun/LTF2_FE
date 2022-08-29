@@ -15,7 +15,7 @@ import instance from "./index";
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 }
 
@@ -34,7 +34,7 @@ import instance from "./index";
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 }
 
@@ -53,7 +53,7 @@ import instance from "./index";
         );
         return data;
     } catch(e) {
-        console.log(e);
+        return {"status": e.response.status,"message" : e.response.data.message};
     }
 
 }
