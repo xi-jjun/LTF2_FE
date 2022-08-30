@@ -6,12 +6,41 @@ import * as Styled from "../styles/cartStyle";
 import CartProduct from "../components/CartProduct";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { LGButton } from "../components/Button";
+import {getCartInfo} from "../api/CartAPI";
+
 
 export default function Cart({ cart, deleteCart }) {
+  const [loading, setLoading] = useState(true);
+
   const [active, setActive] = useState({
     nav: "통신상품",
     item: "전체"
   });
+
+  const [cartArr, setCartArr] = useState(
+    []
+  );
+
+  const handleData = async () => {
+    const pr = await Promise.all(cart.data.map(async (d) => (
+      await getCartInfo({"phone_id":d.phone, "plan_id":/**d.plan*/1, "color_id": /**d.color_id*/15})
+      .then((data) => {
+        const tempArr = {
+          "date": /**d.date*/"2022년 8월 24일 (수)",
+          "discount": /**d.discount*/24,
+          "info": data,
+          "registration": /**registration*/"기기변경",
+          "ship": d.ship,
+        }
+        return tempArr;  
+      })
+      .catch((e) => {console.log(e)})
+    ))
+    )
+    console.log(pr);
+    setCartArr(pr);
+    setLoading(false);
+  }
 
   const onClickTab = (value) => {
     setActive({
@@ -21,14 +50,22 @@ export default function Cart({ cart, deleteCart }) {
   }
 
   useEffect(() => {
+    setLoading(true);
     setActive({
       nav: "통신상품",
       item: "전체"
     });
-  }, []);
+  }, [])
+
+  useEffect(async () => {
+    if (loading) {
+      await handleData();
+    }
+  }, [loading])
 
   return (
     <PageContainer>
+      {loading ? <div>로딩중입니다~</div> : 
       <div style={{margin:0, padding:0}}>
       <TitleSection></TitleSection>
       <div style={{textAlign : "center"}}>
@@ -40,10 +77,10 @@ export default function Cart({ cart, deleteCart }) {
               ?
               <div>
                 <Styled.CartTabMenuUl>
-                  <LGButton variant={active.item === "전체" ? "outline-primary" : "outline-dark"} children={`전체 (2)`} onClick={()=>onClickTab("전체")} style={{marginRight:10}}/>
-                  <LGButton variant={active.item === "모바일기기" ? "outline-primary" : "outline-dark"} children={`모바일기기 (2)`} onClick={()=>onClickTab("모바일기기")} style={{marginRight:10}}/>
-                  <LGButton variant={active.item === "모바일요금제" ? "outline-primary" : "outline-dark"} children={`모바일요금제 (0)`} onClick={()=>onClickTab("모바일요금제")} style={{marginRight:10}}/>
-                  <LGButton variant={active.item === "인터넷/IPTV" ? "outline-primary" : "outline-dark"} children={`인터넷/IPTV (0)`} onClick={()=>onClickTab("인터넷/IPTV")} style={{marginRight:10}}/>
+                  <LGButton variant={active.item === "전체" ? "outline-primary" : "outline-dark"} children={`전체 (${cart.data != null ? cart.data.length : 0})`} onClick={()=>onClickTab("전체")} style={{marginRight:10}}/>
+                  <LGButton variant={active.item === "모바일기기" ? "outline-primary" : "outline-dark"} children={`모바일기기 (${cart.data != null ? cart.data.length : 0})`} onClick={()=>onClickTab("모바일기기")} style={{marginRight:10}}/>
+                  <LGButton variant={active.item === "모바일요금제" ? "outline-primary" : "outline-dark"} children={`모바일요금제 (${cart.plan != null ? cart.plan.length : 0})`} onClick={()=>onClickTab("모바일요금제")} style={{marginRight:10}}/>
+                  <LGButton variant={active.item === "인터넷/IPTV" ? "outline-primary" : "outline-dark"} children={`인터넷/IPTV (${cart.iptv != null ? cart.iptv.length : 0})`} onClick={()=>onClickTab("인터넷/IPTV")} style={{marginRight:10}}/>
                 </Styled.CartTabMenuUl>
 
                 {
@@ -53,11 +90,11 @@ export default function Cart({ cart, deleteCart }) {
                     <Styled.CartProductTbl>
                       <Styled.CartProductTblTitle>
                         <p style={{fontSize: 24, fontWeight: 700}}>모바일기기
-                        <Styled.CartProductEm> (2)</Styled.CartProductEm></p>
+                        <Styled.CartProductEm> ({cart.data.length})</Styled.CartProductEm></p>
                       </Styled.CartProductTblTitle>
                       <ul style={{listStyle: "none", margin:0, padding:0}}>
                         {
-                          cart.data.map((c) => (
+                          cartArr.map((c) => (
                             <CartProduct key={c.id} data={c} deleteCart = { deleteCart }></CartProduct>
                           ))
                         }
@@ -106,7 +143,7 @@ export default function Cart({ cart, deleteCart }) {
           </div>
         </div>
       </div>
-      </div>
+      </div>}
     </PageContainer>
   );
 }

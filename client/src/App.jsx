@@ -42,10 +42,12 @@ function App() {
     // color, phone, plan의 id, 할인 정보(공시지원금, 선택약정), 배송 방법
     const cookieUploadObject = () => ({
       color: object.color.colorId,
+      registration: object.registration,
       discount: object.discount,
       phone: object.phone.phoneId,
-      plan: object.plan.name,
+      plan: object.plan.planId,
       ship: object.ship,
+      date: object.date,
     });
 
     // 장바구니 내에 같은 데이터가 존재하는 지 여부
