@@ -19,7 +19,7 @@ function InputBankAccount({
   handleChange,
   handleNumber,
   handleBlur,
-  handleSubmit,
+  handleAuth,
   state,
   errors,
 }) {
@@ -32,13 +32,6 @@ function InputBankAccount({
     },
   });
 
-  const handleAuth = (e) => {
-    setModalMsg(() => ({
-      ...modalMsg,
-      message: `신용카드 인증이 완료되었습니다!`,
-    }));
-    setOpen(true);
-  };
   return (
     <>
       <MessageModal
@@ -54,14 +47,13 @@ function InputBankAccount({
           <FormControl required sx={{ m: 1, minWidth: 100 }}>
             <InputLabel id="bank">은행 선택</InputLabel>
             <Select
-              size
               labelId="bank"
               value={state.bank}
-              label="bank"
+              name="bank"
               onChange={handleChange}
             >
               {banks.map((name) => (
-                <MenuItem key={name} value={name}>
+                <MenuItem key={name} name="bank" value={name}>
                   {name}
                 </MenuItem>
               ))}
@@ -87,7 +79,7 @@ function InputBankAccount({
                 type="button"
                 size="sm"
                 variant="secondary"
-                onClick={handleSubmit}
+                onClick={handleAuth}
               >
                 인증하기
               </LGButton>

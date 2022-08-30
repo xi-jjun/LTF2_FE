@@ -8,14 +8,23 @@ import InputBankAccount from "./InputBankAccount";
 import InputCardInfo from "./InputCardInfo";
 import MessageModal from "./MessageModal";
 
-function OrderUserInfoForm() {
+function OrderUserInfoForm({
+  data,
+  setData,
+  handleChange,
+  handleNumber,
+  handleAuth,
+  handleBlur,
+  state,
+  errors,
+}) {
   const [userData, setUserData] = useState({
-    phoneNumber: "",
+    ablePhone: "",
     email: "",
     address: "",
     billType: "문자 메시지",
     payType: "신용카드",
-    payInfo: "",
+    payInfo: {},
     cardNumber: "",
     cardExpiration: "",
     bank: "국민은행",
@@ -36,21 +45,9 @@ function OrderUserInfoForm() {
       message: `${state.payType} 인증 완료!`,
       btnMessage: "확인",
     }));
+    setData(state);
     setOpen(true);
   };
-
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    handleNumber,
-    state,
-    errors,
-  } = useForm({
-    initState: userData,
-    callback: submit,
-    validator,
-  });
 
   return (
     <Styles.FormTable>
@@ -68,11 +65,11 @@ function OrderUserInfoForm() {
             <TextField
               variant="standard"
               color="error"
-              name="phoneNumber"
+              name="ablePhone"
               placeholder="'-'없이 숫자만 입력"
               inputProps={{ maxLength: 11 }}
-              error={errors.phoneNumber ? true : false}
-              helperText={errors.phoneNumber}
+              error={errors.ablePhone ? true : false}
+              helperText={errors.ablePhone}
               onChange={handleNumber}
               onBlur={handleBlur}
             />
@@ -86,7 +83,6 @@ function OrderUserInfoForm() {
               color="error"
               name="email"
               placeholder="xxxx@lguplus.com"
-              autocomplete="none"
               error={errors.email ? true : false}
               helperText={errors.email}
               onChange={handleChange}
@@ -102,7 +98,6 @@ function OrderUserInfoForm() {
               color="error"
               name="address"
               placeholder="주소를 입력해주세요"
-              autocomplete="none"
               error={errors.address ? true : false}
               helperText={errors.address}
               onChange={handleChange}
@@ -157,7 +152,7 @@ function OrderUserInfoForm() {
             handleChange={handleChange}
             handleNumber={handleNumber}
             handleBlur={handleBlur}
-            handleSubmit={handleSubmit}
+            handleAuth={handleAuth}
             errors={errors}
           />
         ) : (
@@ -165,12 +160,18 @@ function OrderUserInfoForm() {
             handleChange={handleChange}
             handleNumber={handleNumber}
             handleBlur={handleBlur}
-            handleSubmit={handleSubmit}
+            handleAuth={handleAuth}
             state={state}
             errors={errors}
           />
         )}
-        <LGButton size="lg" style={{ marginTop: "20px" }}>
+        <LGButton
+          type="button"
+          size="lg"
+          style={{ marginTop: "20px" }}
+          disabled={auth}
+          onClick={handleSubmit}
+        >
           주문하기
         </LGButton>
       </tbody>

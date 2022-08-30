@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 const useForm = ({ initState, callback, validator }) => {
   const [state, setState] = useState(initState);
   const [errors, setErrors] = useState({});
-  const [isSubmited, setIsSubmited] = useState(false);
-
+  const [isAuth, setIsAuth] = useState(false);
+  const [auth, setAuth] = useState(true)
 // ******************************
   useEffect(() => {
     const isValidErrors = Object.values(errors).filter(error => typeof error !== "undefined")
         .length > 0;
     // Auth 버튼 누르고, errors 메시지가 없다면,
-    if (isSubmited && !isValidErrors) {
+    if (isAuth && !isValidErrors) {
       callback();
-      setIsSubmited(false);
+      setIsAuth(false);
     }
   }, [errors]);
 
@@ -38,14 +38,21 @@ const useForm = ({ initState, callback, validator }) => {
   };
 
 // ******************************
-  const handleSubmit = e => {
-    e.preventDefault();
-    Object.keys(state).map((k) => {
+  const handleAuth = (checkData) => {
+    Object.keys(checkData).map((k) => {
         const fieldName = k
         const faildFiels = validator(state, fieldName);
         setErrors((prev) => ({ ...prev, [fieldName]: faildFiels[fieldName] }));
-        setIsSubmited(true);
+        setIsAuth(true);
     })
+    setAuth((prev) =>(
+      !Object.values(errors).filter(error => typeof error !== "undefined")
+        .length === 0))
+  };
+
+// ******************************
+  const handleSubmit = e => {
+    
   };
 
 // ******************************
@@ -56,11 +63,13 @@ const useForm = ({ initState, callback, validator }) => {
 
   return {
     handleChange,
+    handleAuth,
     handleSubmit,
     handleBlur,
     handleNumber,
     state,
     errors,
+    auth
   };
 };
 

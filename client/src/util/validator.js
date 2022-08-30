@@ -8,10 +8,10 @@ export const validator = (state, fieldName) => {
         validateName(state.userName,errors);
         break;
       case "userPhone" :
-      case"phoneNumber":
+      case"ablePhone":
         let phone = state.userPhone
         if(phone === undefined)
-          phone = state.phoneNumber
+          phone = state.ablePhone
         validatePhoneNumber(fieldName,phone,errors)
         break;
       case "email":

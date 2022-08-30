@@ -17,13 +17,48 @@ import OrderForm from "../components/OrderForm";
 import { useState } from "react";
 import OrderUserInfoForm from "../components/OrderUserInfoForm";
 import { LGButton } from "../components/Button";
+import useForm from "../util/useForm";
+import { validator } from "../util/validator";
+
 export default function Order() {
+  const [data, setData] = useState({
+    userType: "내국인",
+    authType: "휴대폰",
+    userName: "",
+    userId: "",
+    userPhone: "",
+    ablePhone: "",
+    email: "",
+    address: "",
+    billType: "문자 메시지",
+    payType: "신용카드",
+    cardNumber: "",
+    cardExpiration: "",
+    bank: "국민은행",
+    account: "",
+  });
   const [expand, setExpand] = useState(false);
   const [show, setShow] = useState(false);
 
   const toggleExpand = () => {
     setExpand((prev) => !prev);
   };
+
+  const setSubmitData = (state) => {
+    Object.keys(state).map((k) => {
+      if (data.payType !== state.payType) {
+        if (data.payType === "신용카드")
+          setData((prev) => ({ ...prev, cardNumber: "", cardExpiration: "" }));
+        else setData((prev) => ({ ...prev, bank: "", account: "" }));
+      }
+    });
+  };
+  const { handleChange, handleNumber, handleAuth, handleBlur, state, errors } =
+    useForm({
+      initState: data,
+      callback: setSubmitData,
+      validator,
+    });
   return (
     <PageContainer>
       <Styles.OrderLayout>
@@ -57,15 +92,33 @@ export default function Order() {
               </Accordion>
             </Grid>
           </Grid>
+          {/*  */}
           <Styles.UserProofTitle>가입자 본인인증</Styles.UserProofTitle>
-          <OrderForm showUserInfo={setShow} />
+          <OrderForm
+            showUserInfo={setShow}
+            handleChange={handleChange}
+            handleNumber={handleNumber}
+            handleAuth={handleAuth}
+            handleBlur={handleBlur}
+            state={state}
+            errors={errors}
+          />
 
           {show && (
             <>
               <Styles.UserProofTitle>가입자 정보</Styles.UserProofTitle>
-              <OrderUserInfoForm />
+              <OrderUserInfoForm
+                data={data}
+                handleChange={handleChange}
+                handleNumber={handleNumber}
+                handleAuth={handleAuth}
+                handleBlur={handleBlur}
+                state={state}
+                errors={errors}
+              />
             </>
           )}
+          {/*  */}
         </Styles.OrderInfoLayout>
         <Styles.PhoneInfoLayout>
           <OrderPhoneInfo phone={phone[0]} />

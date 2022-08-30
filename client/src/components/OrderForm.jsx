@@ -7,8 +7,16 @@ import MessageModal from "./MessageModal";
 import { check, validator } from "../util/validator";
 import useForm from "../util/useForm";
 
-function OrderForm({ showUserInfo }) {
-  const [userData, setUserData] = useState({
+function OrderForm({
+  showUserInfo,
+  handleChange,
+  handleNumber,
+  handleAuth,
+  handleBlur,
+  state,
+  errors,
+}) {
+  const [checkData, setCheckData] = useState({
     userType: "내국인",
     auth: "휴대폰",
     userName: "",
@@ -32,18 +40,6 @@ function OrderForm({ showUserInfo }) {
     }));
     setOpen(true);
   };
-  const {
-    handleChange,
-    handleNumber,
-    handleSubmit,
-    handleBlur,
-    state,
-    errors,
-  } = useForm({
-    initState: userData,
-    callback: submit,
-    validator,
-  });
 
   const iterButton = (key) => {
     switch (key) {
@@ -148,7 +144,7 @@ function OrderForm({ showUserInfo }) {
               type="submit"
               size="sm"
               variant="secondary"
-              onClick={handleSubmit}
+              onClick={handleAuth(checkData)}
             >
               인증하기
             </LGButton>
