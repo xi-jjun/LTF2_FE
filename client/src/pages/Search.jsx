@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getList } from "../api/SearchAPI";
 
-export default function Search({ saveCart }) {
+export default function Search({ saveCart, propsList }) {
     const { keyword } = useParams();
 
     const [searchPhones, setSearchPhones] = useState([]);
@@ -38,7 +38,7 @@ export default function Search({ saveCart }) {
             <SearchStyle.TotalLayout>
                 <SearchBar keyword={keyword} isShowMore={isShowMore} setIsShowMore={setIsShowMore} />
                 <SearchResultCount  searchPhones={searchPhones} keyword={keyword} />
-                {(searchPhones.length > 0) && <SearchResult searchPhones={searchPhones} isShowMore={isShowMore} setIsShowMore={setIsShowMore} saveCart={saveCart}/>}
+                {(searchPhones.length > 0) && <SearchResult searchPhones={searchPhones} isShowMore={isShowMore} setIsShowMore={setIsShowMore} saveCart={saveCart} propsList={propsList}/>}
             </SearchStyle.TotalLayout>
         </PageContainer>
     );

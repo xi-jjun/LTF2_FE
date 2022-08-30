@@ -158,7 +158,7 @@ function App() {
           <Route
             path="/search/:keyword"
             exact
-            element={<Search saveCart={saveCart} />}
+            element={<Search saveCart={saveCart} propsList={propsList} />}
           />
           <Route path="/*" element={<NotFound />} />
         </Routes>
