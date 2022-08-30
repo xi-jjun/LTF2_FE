@@ -9,19 +9,42 @@ import "./css/App.css";
 import NavBar from "./components/NavBar";
 import { useState } from "react";
 import { getPhoneList } from "./api/api";
+import { getPhonesAll } from "./api/PhoneAPI";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
+import ComparedModal from "./components/ComparedModal";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [phones, setPhones] = useState([]);
   const [active, setActive] = useState("모바일 기기");
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
+  const [comparePhoneList, setComparePhoneList] = useState([{}, {}, {}]);
+  const [compareDataList, setCompareDataList] = useState([{}, {}, {}]);
+  let propsList = {
+    comparePhoneList,
+    setComparePhoneList,
+    compareDataList,
+    setCompareDataList,
+  };
+  const [modalShow, setModalShow] = useState({
+    comparePopup: false,
+    compare: false,
+    plan: false,
+  });
 
   const fetchPhones = async () => {
-    const { data } = await getPhoneList();
+    const data = await getPhonesAll()
+    .then((data) => {
+      console.log(data.phoneList);
+      return data.phoneList;
+    })
+    .catch((e) => {
+        console.log(e)
+    });
     setPhones(data);
   };
 
@@ -30,9 +53,6 @@ function App() {
     // 쿠키에 데이터가 있을 시 가져오기
     if (cookies.cart) {
       setCart(cookies.cart);
-    } else {
-      // 데이터가 없을 경우 빈 배열로 장바구니 생성
-      setCookie("cart", cart);
     }
   };
 
@@ -91,7 +111,6 @@ function App() {
     setCart({ count: cart.count, data: returnArray });
     setCookie("cart", { count: cart.count, data: returnArray });
   };
-
   useEffect(() => {
     fetchPhones();
     getCartDatas();
@@ -102,41 +121,46 @@ function App() {
       <div className="App">
         <Header setActive={setActive} />
         <NavBar active={active} setActive={setActive} />
-        {/* <ComparedPopup /> */}
+        <ComparedPopup
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          propsList={propsList}
+        />
+        <ComparedModal
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          propsList={propsList}
+        />
         <Routes>
           <Route
             path="/"
             exact
-            element={<Home phones={phones} saveCart={saveCart} />}
+            element={
+              <Home
+                phones={phones}
+                modalShow={modalShow}
+                saveCart={saveCart}
+                propsList={propsList}
+              />
+            }
           />
           <Route
             path="/detail/:id"
             exact
-            element={<Detail saveCart={saveCart} />}
+            element={<Detail saveCart={saveCart} propsList={propsList} />}
           />
           <Route
             path="/cart"
             exact
             element={<Cart cart={cart} deleteCart={deleteCart} />}
           />
+          <Route path="/order" exact element={<Order />} />
           <Route
-            path="/order"
-            exact
-            element={<Order/>}
-          />
-          <Route 
             path="/search/:keyword"
             exact
-            element={<Search phones={phones} saveCart={saveCart} />}
+            element={<Search saveCart={saveCart} />}
           />
-          <Route
-            path="/*"
-            element={
-              <div>
-                <p>잘못된 페이지입니다.</p>
-              </div>
-            }
-          />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

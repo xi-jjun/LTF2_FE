@@ -125,3 +125,104 @@ export const phone = [
     ],
   },
 ];
+
+export const defaultValue = {
+  plan: {
+    planId: 1,
+    name: "5G 시그니처",
+    monthPrice: 130000,
+    data: "무제한",
+    dataPlus: "",
+    shareData: "60GB+60GB",
+    shareDataPlus: "+참 쉬운 가족 데이터 50GB",
+    voice: "집/이동전화 무제한",
+    voicePlus: "+부가통화 300분",
+    message: "기본제공",
+    smartDevice: "2회선",
+    smartDeviceDiscount: "회선 당 최대 11,000원 할인",
+    premiumService: "카테고리 팩",
+    basicBenefit: "U+ 모바일tv 무료",
+    familySig5g: "33,000원",
+    telecomTech: "5G",
+    planType: "데이터 무제한",
+    mediaServices: [
+      "U+영화월정액",
+      "지니뮤직(모바일+PC)",
+      "U+아이들생생도서관",
+      "밀리의 서재",
+    ],
+  },
+  phone: {
+    phoneId: 1,
+    titleName: "갤럭시 Z Flip 4",
+    model: "SM-F721N",
+    price: 1353000,
+    manufacturingCompany: "삼성",
+    telecomTech: "5G",
+    phoneInfo: {
+      phoneInfoId: 1,
+      cpu: "Snapdragon 8+ Gen 1(4nm)",
+      display:
+        "메인 : 7.6”(192.1 mm) QXGA+, Dynamic AMOLED 2X / 커버 : 6.2“(157.3 mm) HD+, Dynamic AMOLED 2X",
+      size: "접었을때 : 155.1 x 67.1 x 14.2 / 15.8mm , 펼쳤을때 : 155.1 x 130.1 x 6.3mm",
+      weight: "263g",
+      camera:
+        "후면 : 12MP (F2.2) , 50MP Dual Pixel AF, OIS, F1.8 전면 : UDC 2.0 4MP F1.8 커버 : 10MP Dual Pixel F2.2",
+      memory: 256,
+      memoryDes: "RAM 12GB, ROM 256GB",
+      storage: "4,400 mAh",
+      waterproof: "IPX8",
+      colorList: ["퍼플", "올리브", "블루", "블랙"],
+    },
+    phoneDesImgList: [
+      "https://image.lguplus.com/static/pc-contents/images/fcmm/cnts/imge/20220812-123056-120-5Eb8oAhV.jpg",
+      "https://image.lguplus.com/static/pc-contents/images/fcmm/cnts/imge/20220812-123159-898-A0RYMpQ9.jpg",
+    ],
+    colorList: [
+      {
+        colorId: 15,
+        name: "퍼플",
+        hexCode: "#800080",
+        phoneImgList: [
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020618-663-OMVftJP5.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020618-678-C8yYoMIx.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020618-674-ItkOP0vp.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020618-663-cMCHj8k6.jpg",
+        ],
+      },
+      {
+        colorId: 9,
+        name: "올리브",
+        hexCode: "#808000",
+        phoneImgList: [
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020631-391-bPE9jcWN.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020631-412-gCsMNDbi.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020631-408-G3z83woI.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020631-401-2JepFcRu.jpg",
+        ],
+      },
+      {
+        colorId: 2,
+        name: "블루",
+        hexCode: "#0000ff",
+        phoneImgList: [
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020644-529-ZPW12jIy.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020644-547-64XjTeRC.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020644-560-4vO3OWch.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020644-539-mlrSiD9s.jpg",
+        ],
+      },
+      {
+        colorId: 4,
+        name: "블랙",
+        hexCode: "#000000",
+        phoneImgList: [
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020701-465-vFiTeAxV.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020701-465-VGEBhGV7.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020701-471-PIQiO80S.jpg",
+          "https://image.lguplus.com/static/pc-contents/images/prdv/20220812-020701-460-sxZD3Tpa.jpg",
+        ],
+      },
+    ],
+  },
+};

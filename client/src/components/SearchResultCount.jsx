@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import * as ResultCount from "../styles/searchResultCountStyle";
 import { LGButton } from "./Button";
 
-export default function SearchResultCount({phones, keyword}) {
+export default function SearchResultCount({searchPhones, keyword}) {
     const navigate = useNavigate();
 
     const goHome = () => navigate("/");
@@ -13,9 +13,9 @@ export default function SearchResultCount({phones, keyword}) {
                 "{keyword}"
             </span>
             에 대한 검색 결과는
-            {(phones > 0) ?
+            {(searchPhones.length > 0) ?
                 <span>
-                    &nbsp;{phones}건입니다.
+                    &nbsp;{searchPhones.length}건입니다.
                 </span> :
                 <>
                     <span>
