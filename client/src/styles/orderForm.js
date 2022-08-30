@@ -13,6 +13,7 @@ export const FormRow = styled.tr`
 `
 
 export const FormTh = styled.th`
+    width:200px;
     padding: 16px 0;
     text-align: left;
     font-size: 16px;
