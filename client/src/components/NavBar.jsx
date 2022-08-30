@@ -58,65 +58,64 @@ export default function NavBar({ active, setActive }) {
   const inputRef = useRef(null);
 
   return (
-    <div
+    <Bar.NavContainer
+      nowHover={nowHover !== ""}
       onMouseLeave={() => {
         setNowHover("");
       }}
     >
-      <Bar.NavContainer nowHover={nowHover !== ""}>
-        {navArray.map((row) => {
-          return (
-            <Bar.NavItem
-              key={row.label}
-              children={row.label}
-              navId={row.label}
-              active={active}
-              onClick={() => nowActive(row)}
-              nowHover={nowHover}
-              onMouseEnter={() => {
-                if (row.label === "유플일상" || row.label === "유독") {
-                  setNowHover("");
-                } else setNowHover(row.label);
-              }}
-            />
-          );
-        })}
-        <Bar.NavItem
-          style={{ marginLeft: "auto", marginRight: "0px" }}
-          navId={"util1"}
-          onMouseEnter={() => {
-            setNowHover("");
-          }}
-        >
-          <SearchIcon
-            onClick={() => {
-              setShow(!show);
-              setTimeout(() => inputRef.current.focus(), 50);
+      {navArray.map((row) => {
+        return (
+          <Bar.NavItem
+            key={row.label}
+            children={row.label}
+            navId={row.label}
+            active={active}
+            onClick={() => nowActive(row)}
+            nowHover={nowHover}
+            onMouseEnter={() => {
+              if (row.label === "유플일상" || row.label === "유독") {
+                setNowHover("");
+              } else setNowHover(row.label);
             }}
           />
-          <Bar.ShowflowMenu show={show}>
-            <Bar.ShowflowMenuLi>
-              <Bar.SearchInput
-                value={nowValue}
-                onChange={changeValue}
-                onKeyPress={onKeyPress}
-                onBlur={() => setTimeout(() => setShow(false), 100)}
-                ref={inputRef}
-              />
-              <SearchIcon onClick={onClickSearch} />
-            </Bar.ShowflowMenuLi>
-          </Bar.ShowflowMenu>
-        </Bar.NavItem>
-        <Bar.NavItem
-          children={<ShoppingCartIcon />}
-          navId={"util2"}
-          onClick={goToCart}
-          onMouseEnter={() => {
-            setNowHover("");
+        );
+      })}
+      <Bar.NavItem
+        style={{ marginLeft: "auto", marginRight: "0px" }}
+        navId={"util1"}
+        onMouseEnter={() => {
+          setNowHover("");
+        }}
+      >
+        <SearchIcon
+          onClick={() => {
+            setShow(!show);
+            setTimeout(() => inputRef.current.focus(), 50);
           }}
         />
-        {nowHover !== "" && <NavMap nowHover={nowHover} />}
-      </Bar.NavContainer>
-    </div>
+        <Bar.ShowflowMenu show={show}>
+          <Bar.ShowflowMenuLi>
+            <Bar.SearchInput
+              value={nowValue}
+              onChange={changeValue}
+              onKeyPress={onKeyPress}
+              onBlur={() => setTimeout(() => setShow(false), 100)}
+              ref={inputRef}
+            />
+            <SearchIcon onClick={onClickSearch} />
+          </Bar.ShowflowMenuLi>
+        </Bar.ShowflowMenu>
+      </Bar.NavItem>
+      <Bar.NavItem
+        children={<ShoppingCartIcon />}
+        navId={"util2"}
+        onClick={goToCart}
+        onMouseEnter={() => {
+          setNowHover("");
+        }}
+      />
+      {nowHover !== "" && <NavMap nowHover={nowHover} />}
+    </Bar.NavContainer>
   );
 }

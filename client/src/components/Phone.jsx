@@ -1,31 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { inputComparePhone } from "../methods/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
-export default function Phone({ phone }) {
-  
+export default function Phone({ phone, modalShow, saveCart, propsList }) {
   const navigate = useNavigate();
+
+  const compareDisabled =
+    propsList.comparePhoneList.filter((row) => row.id).length === 3;
 
   return (
     <Styles.CardLayout>
-      <Styles.CardHeader onClick={()=> navigate("/detail/1")}>
+      <Styles.CardHeader onClick={() => navigate(`/detail/${phone.id}`)}>
         <Styles.ImageLayout>
-          <Styles.Image src={phone.image_link} />
+          <Styles.Image src={phone.previewImg} />
           <Styles.ColorList>
-            {phone.product_colors.map((color, idx) => (
+            {phone.colorList.map((color, idx) => (
               <Styles.Color
                 key={idx}
-                title={color.color_name}
-                background={color.hex_value}
+                title={color.name}
+                background={color.hexCode}
               />
             ))}
           </Styles.ColorList>
         </Styles.ImageLayout>
-        <Styles.Title>{phone.name}</Styles.Title>
+        <Styles.Title>{phone.titleName}</Styles.Title>
         <Styles.SubTitle>
           {/* 대표 요금제 이름 */}
-          (갤럭시 워치5) 5G 다이렉트 65
+          5G 다이렉트 65
         </Styles.SubTitle>
       </Styles.CardHeader>
       <Styles.CardBody>
@@ -39,20 +42,36 @@ export default function Phone({ phone }) {
             통신료 월65,000원
           </Styles.PlanMoney>
           <Styles.TotalMoney>
-            {/* 월 총 납부 금액 */}월 130,260원
+            {/* 월 총 납부 금액 */}
+            월 130,260원
           </Styles.TotalMoney>
         </Styles.PlanLayout>
       </Styles.CardBody>
       <Styles.CardFooter>
         <Styles.OrderNumber>
           {/* 총 구매자 */}
-          구매 1,234명
+          구매 {phone.orderCount}명
         </Styles.OrderNumber>
         <Styles.CompareButton>
-          <LGButton variant="light" size="sm">
+          <LGButton
+            variant={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.id === phone.id
+              ) === -1
+                ? "light"
+                : "dark"
+            }
+            size="sm"
+            disabled={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.id === phone.id
+              ) === -1 && compareDisabled
+            }
+            onClick={() => inputComparePhone(phone, propsList)}
+          >
             비교하기
           </LGButton>
-          <Styles.CartButton/>
+          <Styles.CartButton />
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>

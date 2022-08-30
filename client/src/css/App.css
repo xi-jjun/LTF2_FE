@@ -1,7 +1,9 @@
 .App {
   font-family: "Noto Sans KR";
-  overflow: auto;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 button {

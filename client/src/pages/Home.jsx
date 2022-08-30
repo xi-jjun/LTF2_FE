@@ -5,7 +5,7 @@ import PhoneList from "../components/PhoneList";
 import Filter from "../components/Filter";
 import { PageContainer } from "../components/PageContainer";
 
-export default function Home({ phones }) {
+export default function Home({ phones, modalShow, saveCart, propsList }) {
   return (
     <PageContainer>
       <Styles.TotalLayout>
@@ -15,7 +15,12 @@ export default function Home({ phones }) {
             <Filter />
           </Grid>
           <Grid item md={9}>
-            <PhoneList phones={phones} />
+            <PhoneList
+              phones={phones}
+              modalShow={modalShow}
+              saveCart={saveCart}
+              propsList={propsList}
+            />
           </Grid>
         </Grid>
       </Styles.TotalLayout>
