@@ -58,7 +58,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
         func={modalMsg.func}
       />
       <h2>{active.phone.titleName}</h2>
-      <p>{`${active.color.name} | 256GB`}</p>
+      <p>{`${active.color.name} | 256GB | ${active.registration}`}</p>
       <hr />
       <h3>최종 결제금액 계산</h3>
       <detailInfo.SideFlex>
@@ -73,14 +73,14 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
         <p className="left">정상가</p>
         <p className="right">{active.phone.price.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
-      {active.discount === "공시지원금" && (
+      {active.discount === -1 && (
         <div>
           <detailInfo.SideFlex>
             <p className="left" style={{ color: "#e6007e" }}>
               공시지원금 (sample)
             </p>
             <p className="right" style={{ color: "#e6007e" }}>
-              -{active.supportPrice.toLocaleString()} 원
+              -{(active.supportPrice / 1.15).toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
           <detailInfo.SideFlex>
@@ -88,7 +88,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
               추가지원금 (sample)
             </p>
             <p className="right" style={{ color: "#e6007e" }}>
-              -{(active.supportPrice * 0.15).toLocaleString()} 원
+              -{((active.supportPrice / 1.15) * 0.15).toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
         </div>
@@ -96,8 +96,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       <detailInfo.SideFlex>
         <p className="left">실구매가</p>
         <p className="right">
-          {(active.phone.price - active.supportPrice * 1.15).toLocaleString()}{" "}
-          원
+          {(active.phone.price - active.supportPrice).toLocaleString()} 원
         </p>
       </detailInfo.SideFlex>
       {active.installment !== 1 && (
@@ -121,23 +120,34 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       </detailInfo.SideFlex>
       <detailInfo.SideFlex>
         <p className="left">{active.plan.name}</p>
-        <p className="right">{active.plan.month_price.toLocaleString()} 원</p>
+        <p className="right">{active.plan.monthPrice.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
-      {active.discount.indexOf("선택약정") !== -1 && (
+      {active.discount > 11 && (
         <detailInfo.SideFlex>
           <p className="left" style={{ color: "#e6007e" }}>
             선택 약정 할인
           </p>
           <p className="right" style={{ color: "#e6007e" }}>
-            -{(active.plan.month_price * 0.25).toLocaleString()} 원
+            -{(active.plan.monthPrice * 0.25).toLocaleString()} 원
           </p>
         </detailInfo.SideFlex>
       )}
       <hr />
-      <detailInfo.SideFlex>
-        <h3 className="left">월 납부금액</h3>
-        <h3 className="right">{priceInfo.total.toLocaleString()} 원</h3>
-      </detailInfo.SideFlex>
+      <div
+        style={{
+          background: "#fff",
+          height: "80px",
+          padding: "10px 10px",
+          boxSizing: "border-box",
+          borderRadius: "10px",
+        }}
+      >
+        <detailInfo.SideFlex>
+          <h3 className="left">월 납부금액</h3>
+          <h2 className="right">{priceInfo.total.toLocaleString()} 원</h2>
+        </detailInfo.SideFlex>
+        <hr />
+      </div>
       <LGButton variant="primary" size="lg" onClick={goToOrder}>
         온라인 주문
       </LGButton>

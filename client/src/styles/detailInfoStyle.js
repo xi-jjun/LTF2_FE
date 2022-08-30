@@ -4,7 +4,7 @@ export const Container = styled.div`
   box-sizing: border-box;
   display: inline-box;
   width: 70%;
-  padding: 20px 10px 0px 50px;
+  padding: 20px 50px 0px 50px;
 
   button {
     box-sizing: border-box;
@@ -50,11 +50,11 @@ export const DiscountCard = styled.div`
   width: ${(props) => (props.left ? "33%" : "63%")};
   height: 220px;
   padding: 10px 30px;
-  color: ${(props) => (props.active ? "black" : "lightgrey")};
-  outline: ${(props) =>
-    props.active ? "2px solid black" : "1px solid lightgrey"};
+  color: ${(props) => (props.active ? "black" : "grey")};
+  outline: ${(props) => (props.active ? "2px solid black" : "2px solid grey")};
   border-radius: 10px;
   ${(props) => (props.disabled ? "" : "cursor: pointer;")}
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
   margin: 0 1%;
 
   .type {
@@ -67,6 +67,19 @@ export const DiscountCard = styled.div`
   }
   .type-price {
     text-align: right;
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    span {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+  .type-support-price {
+    text-align: right;
+    position: relative;
+    bottom: -40px;
+    right: 0px;
     span {
       font-size: 24px;
       font-weight: bold;
@@ -82,24 +95,26 @@ export const DiscountCard = styled.div`
   &:active {
     background-color: lightgrey;
   }`}
+
+  transition: all 0.2s ease-in-out;
 `;
 
-export const Spec = styled.div`
+export const Spec = styled.img`
   box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  height: 2000px;
-  background-color: black;
 `;
 
 export const PlanCard = styled.div`
   box-sizing: border-box;
   width: 100%;
+  height: 120px;
   padding: 10px 20px;
-  border: 2px solid black;
+  border: ${(props) => (props.now ? "2px solid black" : "2px solid grey")};
   border-radius: 10px;
   cursor: pointer;
   margin: 10px 0px;
+  opacity: ${(props) => (props.now ? 1 : 0.5)};
 
   &:hover {
     background-color: #f5f5f5;
@@ -107,6 +122,8 @@ export const PlanCard = styled.div`
   &:active {
     background-color: lightgrey;
   }
+
+  transition: all 0.2s ease-in-out;
 `;
 
 export const PlanTitle = styled.p`
@@ -118,6 +135,9 @@ export const PlanPrice = styled.p`
   box-sizing: border-box;
   width: 30%;
   display: inline-block;
+  position: relative;
+  bottom: 25px;
+  left: 0px;
   font-size: 24px;
   font-weight: bold;
   padding: 0px 10px;
@@ -127,7 +147,9 @@ export const PlanDescription = styled.div`
   box-sizing: border-box;
   width: 70%;
   display: flex;
-  font-size: small;
+  position: relative;
+  bottom: 25px;
+  right: 0px;
   text-align: right;
   padding: 0px 10px;
   align-items: center;
@@ -135,13 +157,13 @@ export const PlanDescription = styled.div`
 
   p {
     display: inline-flex;
-    margin: 0 10px;
+    margin: 0 5px;
   }
 
   .icon {
     position: relative;
     right: 0px;
-    bottom: -7px;
+    bottom: -6px;
   }
 `;
 
@@ -199,14 +221,45 @@ export const SideFlex = styled.div`
 export const NoContractDiv = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 112px;
+  height: 220px;
+  padding: 86px 0px;
+  position: relative;
   background: #f8f8f8;
-  display: flex;
-  padding: 32px;
   text-align: center;
 
   div {
     color: grey;
-    margin: auto;
   }
+`;
+
+export const MorePlan = styled.p`
+  display: inline-block,
+  float: right,
+  cursor: pointer,
+`;
+
+export const ImageCell = styled.th`
+  width: 20%;
+`;
+
+export const InfoCell = styled.td`
+  width: 80%;
+`;
+
+export const InfoTr = styled.tr`
+  height: 60px;
+`;
+
+export const HeaderCell = styled.th`
+  width: 20%;
+  text-align: left;
+  background: #f5f5f5;
+  padding: 0px 30px;
+  border-bottom: 1px solid lightgrey;
+`;
+
+export const SpecCell = styled.td`
+  width: 80%;
+  padding: 0px 30px;
+  border-bottom: 1px solid lightgrey;
 `;

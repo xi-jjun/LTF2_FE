@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { SideFlex } from "../styles/detailInfoStyle";
 import DataOptSelect from "./DataOptSelect";
 import { useState } from "react";
+import { defaultValue } from "../DummyData";
+import { arrToString, phoneInfoLabel } from "../methods/transform";
 
 const style = {
   boxSizing: "border-box",
@@ -288,17 +290,24 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                       if (row.id) {
                         return (
                           <Compare.ModalPhoneDetailBox key={i}>
-                            색상 보라 퍼플, 핑크 골드, 블루, 그라파이트 용량 RAM
-                            12GB, ROM 256GB CPU Snapdragon 8+ Gen 1(4nm)
-                            디스플레이 메인 : 7.6”(192.1 mm) QXGA+, Dynamic
-                            AMOLED 2X / 커버 : 6.2“(157.3 mm) HD+, Dynamic
-                            AMOLED 2X 카메라 후면 : 12MP (F2.2) , 50MP Dual
-                            Pixel AF, OIS, F1.8 전면 : UDC 2.0 4MP F1.8 커버 :
-                            10MP Dual Pixel F2.2 배터리 4,400 mAh 메모리 RAM
-                            12GB, ROM 256GB 사이즈 접었을때 : 155.1 x 67.1 x
-                            14.2 / 15.8mm , 펼쳤을때 : 155.1 x 130.1 x 6.3mm
-                            무게 263g 방수 IPX8 부가설명 #최적의화면비
-                            #가벼워진무게 #멀티태스킹
+                            {Object.keys(defaultValue.phone.phoneInfo)
+                              .sort(
+                                (a, b) =>
+                                  phoneInfoLabel(a).id - phoneInfoLabel(b).id
+                              )
+                              .filter((row) => phoneInfoLabel(row).name)
+                              .map((row, i) => (
+                                <Compare.Spec>
+                                  <h4>{phoneInfoLabel(row).name}</h4>
+                                  <p>
+                                    {row === "colorList"
+                                      ? arrToString(
+                                          defaultValue.phone.phoneInfo[row]
+                                        )
+                                      : defaultValue.phone.phoneInfo[row]}
+                                  </p>
+                                </Compare.Spec>
+                              ))}
                           </Compare.ModalPhoneDetailBox>
                         );
                       } else

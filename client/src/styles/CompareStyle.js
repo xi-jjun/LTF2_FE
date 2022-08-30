@@ -197,3 +197,15 @@ export const ModalPhoneDetailHeader = styled.div`
     margin: 0;
   }
 `;
+
+export const Spec = styled.div`
+  h4 {
+    margin: 0px;
+    margin-top: 15px;
+  }
+
+  p {
+    margin: 0px;
+    margin-bottom: 15px;
+  }
+`;
