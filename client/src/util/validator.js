@@ -122,8 +122,8 @@ function validateCardInfo(state,errors) {
 // ******************************
 function validateCardExpiration(state,errors) {
   let result = true
-
-    if(!state.cardExpiration){
+  if(state.payType !== "신용카드") return result
+  if(!state.cardExpiration){
     errors.cardExpiration = "카드 유효기간을 입력해주세요"
     result = false
   } else {

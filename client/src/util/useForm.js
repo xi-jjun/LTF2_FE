@@ -6,15 +6,18 @@ const useForm = ({ initState, callback, validator }) => {
   const [errors, setErrors] = useState({});
   const [isSubmited, setIsSubmited] = useState(false);
 
-  // ******************************
+// ******************************
   useEffect(() => {
-    console.log(errors)
     const isValidErrors = Object.values(errors).filter(error => typeof error !== "undefined")
         .length > 0;
-    if (isSubmited && !isValidErrors) callback();
+    // Auth 버튼 누르고, errors 메시지가 없다면,
+    if (isSubmited && !isValidErrors) {
+      callback();
+      setIsSubmited(false);
+    }
   }, [errors]);
 
-  // ******************************
+// ******************************
   const handleChange = e => {
     const { name, value } = e.target;
     setState(() => ({
@@ -24,7 +27,7 @@ const useForm = ({ initState, callback, validator }) => {
     
   };
 
-  // ******************************
+// ******************************
   const handleBlur = e => {
     const { name: fieldName } = e.target;
     const faildFiels = validator(state, fieldName);
@@ -34,19 +37,18 @@ const useForm = ({ initState, callback, validator }) => {
     }));
   };
 
-  // ******************************
+// ******************************
   const handleSubmit = e => {
     e.preventDefault();
     Object.keys(state).map((k) => {
         const fieldName = k
         const faildFiels = validator(state, fieldName);
-        console.log(faildFiels)
         setErrors((prev) => ({ ...prev, [fieldName]: faildFiels[fieldName] }));
         setIsSubmited(true);
     })
   };
 
-  // ******************************
+// ******************************
   const handleNumber = e => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
     handleChange(e);

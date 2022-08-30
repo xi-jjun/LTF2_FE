@@ -32,7 +32,14 @@ function OrderForm({ showUserInfo }) {
     }));
     setOpen(true);
   };
-  const { handleChange, handleSubmit, handleBlur, state, errors } = useForm({
+  const {
+    handleChange,
+    handleNumber,
+    handleSubmit,
+    handleBlur,
+    state,
+    errors,
+  } = useForm({
     initState: userData,
     callback: submit,
     validator,
@@ -67,11 +74,6 @@ function OrderForm({ showUserInfo }) {
       default:
         break;
     }
-  };
-
-  const changeStr = (e) => {
-    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-    handleChange(e);
   };
 
   return (
@@ -118,7 +120,7 @@ function OrderForm({ showUserInfo }) {
               value={state.userId}
               error={errors.userId ? true : false}
               helperText={errors.userId}
-              onChange={changeStr}
+              onChange={handleNumber}
               onBlur={handleBlur}
             />
           </Styles.FormTd>
@@ -137,7 +139,7 @@ function OrderForm({ showUserInfo }) {
               placeholder="'-'없이 숫자만 입력"
               required
               inputProps={{ maxLength: 11 }}
-              onChange={changeStr}
+              onChange={handleNumber}
               onBlur={handleBlur}
               error={errors.userPhone ? true : false}
               helperText={errors.userPhone}
