@@ -12,7 +12,7 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
 
   return (
     <Styles.CardLayout>
-      <Styles.CardHeader onClick={() => navigate(`/detail/${phone.id}`)}>
+      <Styles.CardHeader onClick={() => navigate(`/detail/${phone.phoneId}`)}>
         <Styles.ImageLayout>
           <Styles.Image src={phone.previewImg} />
           <Styles.ColorList>
