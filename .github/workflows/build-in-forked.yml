@@ -1,4 +1,4 @@
-name: React build and push docker image to ECR
+name: React build Check
 on: 
   push:
     branches: [ dev, main ]

@@ -1,4 +1,4 @@
-name: React build and push docker image to ECR
+name: React build and push docker image to ECR and Deploy to ECS
 on: 
   pull_request_target:
     branches: [ dev ]
@@ -7,10 +7,10 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: lguplus-front
 
-  ECS_CLUSTER_NAME: front-dev-cluster
+  ECS_CLUSTER_NAME: lguplus-dev-cluster
   ECS_CONTAINER_NAME: front-dev-container
-  ECS_SERVICE_NAME: front-dev-service
-  ECS_TASK_DEFINITION: front-dev-task
+  ECS_SERVICE_NAME: lguplus-dev-service
+  ECS_TASK_DEFINITION: lguplus-dev-task
 
 jobs:
   approve:
@@ -30,10 +30,6 @@ jobs:
     - name: Install Dependencies 
       run: npm install
       working-directory: "./client"
-
-    # - name: build test
-    #   run: npm run test
-    #   working-directory: "./client"
 
     - name: npm build                  
       run: npm run build
