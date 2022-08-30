@@ -9,12 +9,12 @@ import { LGButton } from "./Button";
 export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
   useEffect(() => {
     if (
-      propsList.comparePhoneList.filter((row) => row.id).length === 0 &&
+      propsList.comparePhoneList.filter((row) => row.phoneId).length === 0 &&
       modalShow.comparePopup
     ) {
       setModalShow({ ...modalShow, comparePopup: false });
     } else if (
-      propsList.comparePhoneList.filter((row) => row.id).length !== 0 &&
+      propsList.comparePhoneList.filter((row) => row.phoneId).length !== 0 &&
       !modalShow.comparePopup
     ) {
       setModalShow({ ...modalShow, comparePopup: true });
@@ -27,11 +27,11 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
   const toggle = () => {
     switch (true) {
       case !modalShow.comparePopup &&
-        propsList.comparePhoneList.filter((row) => row.id).length !== 0: {
+        propsList.comparePhoneList.filter((row) => row.phoneId).length !== 0: {
         return "remain";
       }
       case !modalShow.comparePopup &&
-        propsList.comparePhoneList.filter((row) => row.id).length === 0: {
+        propsList.comparePhoneList.filter((row) => row.phoneId).length === 0: {
         return "none";
       }
       default:
@@ -40,7 +40,7 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
   };
 
   const openModal = () => {
-    if (propsList.comparePhoneList.filter((row) => row.id).length) {
+    if (propsList.comparePhoneList.filter((row) => row.phoneId).length) {
       setModalShow({ ...modalShow, compare: true });
     }
   };
@@ -62,7 +62,7 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
         <Compare.PopUpTitle>
           <h3>
             비교하기 (
-            {propsList.comparePhoneList.filter((row) => row.id).length})
+            {propsList.comparePhoneList.filter((row) => row.phoneId).length})
           </h3>
 
           <Compare.PopUpCloseBtn
@@ -78,7 +78,7 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
         </Compare.PopUpTitle>
         <Compare.PopUpContent show={modalShow.comparePopup}>
           {propsList.comparePhoneList.map((row, i) => {
-            if (row.id) {
+            if (row.phoneId) {
               return (
                 <Compare.PopUpPhone key={i}>
                   <Compare.PopUpPhoneImg src={row.image_link} />
@@ -102,7 +102,8 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
               children="비교하기"
               onClick={openModal}
               disabled={
-                propsList.comparePhoneList.filter((row) => row.id).length < 2
+                propsList.comparePhoneList.filter((row) => row.phoneId).length <
+                2
               }
             />
             <LGButton

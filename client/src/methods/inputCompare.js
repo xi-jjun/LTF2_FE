@@ -8,9 +8,11 @@ export function inputComparePhone(phone, propsList) {
 
   const returnPhoneArr = [...propsList.comparePhoneList];
   const returnDataArr = [...propsList.compareDataList];
-  const compareArr = propsList.comparePhoneList.filter((row) => row.id);
+  const compareArr = propsList.comparePhoneList.filter((row) => row.phoneId);
   if (
-    propsList.comparePhoneList.findIndex((row) => row.id === phone.id) === -1 &&
+    propsList.comparePhoneList.findIndex(
+      (row) => row.phoneId === phone.phoneId
+    ) === -1 &&
     compareArr.length < 3
   ) {
     returnPhoneArr[compareArr.length] = phone;
@@ -19,11 +21,15 @@ export function inputComparePhone(phone, propsList) {
     propsList.setCompareDataList(returnDataArr);
   } else {
     returnPhoneArr.splice(
-      propsList.comparePhoneList.findIndex((row) => row.id === phone.id),
+      propsList.comparePhoneList.findIndex(
+        (row) => row.phoneId === phone.phoneId
+      ),
       1
     );
     returnDataArr.splice(
-      propsList.comparePhoneList.findIndex((row) => row.id === phone.id),
+      propsList.comparePhoneList.findIndex(
+        (row) => row.phoneId === phone.phoneId
+      ),
       1
     );
     propsList.setComparePhoneList([...returnPhoneArr, {}]);
@@ -41,9 +47,11 @@ export function inputCompareData(phone, propsList) {
 
   const returnPhoneArr = [...propsList.comparePhoneList];
   const returnDataArr = [...propsList.compareDataList];
-  const compareArr = propsList.comparePhoneList.filter((row) => row.id);
+  const compareArr = propsList.comparePhoneList.filter((row) => row.phoneId);
   if (
-    propsList.comparePhoneList.findIndex((row) => row.id === phone.id) === -1 &&
+    propsList.comparePhoneList.findIndex(
+      (row) => row.phoneId === phone.phoneId
+    ) === -1 &&
     compareArr.length < 3
   ) {
     returnPhoneArr[compareArr.length] = phone;
@@ -51,11 +59,15 @@ export function inputCompareData(phone, propsList) {
     propsList.setComparePhoneList(returnPhoneArr);
   } else {
     returnPhoneArr.splice(
-      propsList.comparePhoneList.findIndex((row) => row.id === phone.id),
+      propsList.comparePhoneList.findIndex(
+        (row) => row.phoneId === phone.phoneId
+      ),
       1
     );
     returnDataArr.splice(
-      propsList.comparePhoneList.findIndex((row) => row.id === phone.id),
+      propsList.comparePhoneList.findIndex(
+        (row) => row.phoneId === phone.phoneId
+      ),
       1
     );
     propsList.setComparePhoneList([...returnPhoneArr, {}]);
