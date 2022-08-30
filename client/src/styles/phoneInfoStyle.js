@@ -3,37 +3,52 @@ import styled from "styled-components";
 export const ImgContainer = styled.div`
   width: 50%;
   min-width: 700px;
-  height: 100%;
+  height: 500px;
   position: sticky;
   top: 0;
   padding: 100px;
 `;
 
 export const ImageMain = styled.div`
-  width: 350px;
-  height: 350px;
-  border: 1px solid grey;
+  width: 500px;
+  height: 500px;
+  border: 1px solid lightgrey;
   border-radius: 10px;
-  position: sticky;
   top: 0px;
-  background-color: ${(props) => props.color.hexCode};
+  background-image: url(${(props) => props.img});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: auto;
+
+  transition: all 0.2s ease-in-out;
 `;
 
 export const ImageSub = styled.div`
   width: 60px;
   height: 60px;
-  border: 1px solid grey;
+  outline: ${(props) => (props.now ? "3px solid black" : "1px solid grey")};
   border-radius: 10px;
-  position: sticky;
   top: 0px;
-  background-color: ${(props) => props.color.hexCode};
+  background-image: url(${(props) => props.img});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: 20px 10px;
+  cursor: pointer;
+  opacity: ${(props) => (props.now ? 1 : 0.5)};
+
+  &:hover {
+    opacity: 1;
+  }
+
+  transition: all 0.1s ease-in-out;
 `;
 
 export const Container = styled.div`
-  width: 40%;
+  width: 30%;
   min-width: 500px;
+  height: 800px;
   padding: 50px 20px;
 `;
 

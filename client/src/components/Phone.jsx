@@ -1,15 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { inputComparePhone } from "../methods/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
-export default function Phone({ phone }) {
-  
+export default function Phone({ phone, modalShow, saveCart, propsList }) {
   const navigate = useNavigate();
+
+  const compareDisabled =
+    propsList.comparePhoneList.filter((row) => row.id).length === 3;
 
   return (
     <Styles.CardLayout>
-      <Styles.CardHeader onClick={()=> navigate("/detail/1")}>
+      <Styles.CardHeader onClick={() => navigate(`/detail/${phone.id}`)}>
         <Styles.ImageLayout>
           <Styles.Image src={phone.image_link} />
           <Styles.ColorList>
@@ -49,10 +52,25 @@ export default function Phone({ phone }) {
           구매 1,234명
         </Styles.OrderNumber>
         <Styles.CompareButton>
-          <LGButton variant="light" size="sm">
+          <LGButton
+            variant={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.id === phone.id
+              ) === -1
+                ? "light"
+                : "dark"
+            }
+            size="sm"
+            disabled={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.id === phone.id
+              ) === -1 && compareDisabled
+            }
+            onClick={() => inputComparePhone(phone, propsList)}
+          >
             비교하기
           </LGButton>
-          <Styles.CartButton/>
+          <Styles.CartButton />
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>

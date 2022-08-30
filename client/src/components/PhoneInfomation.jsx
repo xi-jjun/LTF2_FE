@@ -6,6 +6,8 @@ import { Rating } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MessageModal from "./MessageModal";
+import { SideFlex } from "../styles/detailInfoStyle";
+import { discountType } from "../methods/transform";
 
 export default function PhoneInfomation({
   active,
@@ -15,6 +17,7 @@ export default function PhoneInfomation({
 }) {
   const navigate = useNavigate();
 
+  const [nowImg, setNowImg] = useState(0);
   const [open, setOpen] = useState(false);
   const [modalMsg, setModalMsg] = useState({
     message: "",
@@ -58,14 +61,39 @@ export default function PhoneInfomation({
 
   const storageText = (storage) => {
     switch (storage) {
-      case "256GB":
-        return `자유롭게 쓸 수 있어요. 사진, 음악, 영화와 떨어질 수 없다면! 
+      case 64:
+        return `가장 일반적인 용량이에요. 사진촬영을 즐긴다면! 사진은 약 12,800장, 음악은 약 6,000곡을 저장할 수 있어요.`;
+      case 128:
+        return `여유롭게 쓰기 좋아요, 고화질 사진과 영화 저장까지!
+        사진은 약 25,600장, 영화는 약80편을 저장할 수 있어요.`;
+      case 256:
+        return `자유롭게 쓸 수 있어요. 사진, 음악, 영화와 떨어질 수 없다면!
           사진은 약 51,200장, 영화는 약 320편을 저장할 수 있어요.`;
-      case "512GB":
-        return `512`;
+      case 512:
+        return `사진은 102,400장, 음악은 51,200곡 이상 저장할 수 있어요.`;
       default:
         return "";
     }
+  };
+
+  const JoinBtn = () => {
+    const typeArr = ["기기변경", "번호이동", "신규가입"];
+
+    return (
+      <>
+        {typeArr.map((row) => (
+          <LGButton
+            key={row}
+            variant={active.registration === row ? "dark" : "outline-dark"}
+            size="lg"
+            rec
+            children={row}
+            style={{ margin: "0px 5px" }}
+            onClick={() => setActive({ ...active, registration: row })}
+          />
+        ))}
+      </>
+    );
   };
 
   return (
@@ -78,12 +106,16 @@ export default function PhoneInfomation({
         func={modalMsg.func}
       />
       <PhoneInfo.ImgContainer>
-        <PhoneInfo.ImageMain color={active.color} />
+        <PhoneInfo.ImageMain img={active.color.phoneImgList[nowImg]} />
         <Row justify="center">
-          <PhoneInfo.ImageSub color={active.color} />
-          <PhoneInfo.ImageSub color={active.color} />
-          <PhoneInfo.ImageSub color={active.color} />
-          <PhoneInfo.ImageSub color={active.color} />
+          {active.color.phoneImgList.map((row, i) => (
+            <PhoneInfo.ImageSub
+              key={row}
+              img={row}
+              now={nowImg === i}
+              onClick={() => setNowImg(i)}
+            />
+          ))}
         </Row>
       </PhoneInfo.ImgContainer>
       <PhoneInfo.Container>
@@ -92,15 +124,21 @@ export default function PhoneInfomation({
             <h1>{active.phone.titleName}</h1>
             <h4>{`(${active.phone.model})`}</h4>
           </PhoneInfo.Info>
-          <PhoneInfo.Info>
-            #최적의화면비, #가벼워진무게, #멀티태스킹
+          <PhoneInfo.Info style={{ marginBottom: "20px" }}>
+            <p>#최적의화면비, #가벼워진무게, #멀티태스킹</p>
+            <Rating
+              name="read-only"
+              value={5}
+              readOnly
+              size="small"
+              style={{ float: "right" }}
+            />
           </PhoneInfo.Info>
-          <Rating name="read-only" value={5} readOnly size="small" />
           <PhoneInfo.Info>
             <h4 style={{ margin: "0 10px 0 0" }}>색상</h4>
             <p>{active.color.name}</p>
           </PhoneInfo.Info>
-          <PhoneInfo.Info>
+          <PhoneInfo.Info style={{ marginBottom: "20px" }}>
             {active.phone.colorList.map((row) => (
               <ColorDot
                 key={row.hexCode}
@@ -110,22 +148,75 @@ export default function PhoneInfomation({
               />
             ))}
           </PhoneInfo.Info>
-          <PhoneInfo.Info>저장공간</PhoneInfo.Info>
-          <Row justify="left">
-            <LGButton variant="outline-dark" size="lg" rec>
-              256GB
-            </LGButton>
+          <PhoneInfo.Info children="저장공간" />
+          <Row justify="left" style={{ margin: "10px 0px" }}>
+            <LGButton
+              variant="outline-dark"
+              size="lg"
+              rec
+              children={`${active.phone.phoneInfo.memory}GB`}
+            />
           </Row>
-          <PhoneInfo.Info>{storageText("256GB")}</PhoneInfo.Info>
+          <PhoneInfo.Info
+            children={<p>{storageText(active.phone.phoneInfo.memory)}</p>}
+            style={{ marginBottom: "20px" }}
+          />
+          <PhoneInfo.Info children="가입유형" />
+          <Row justify="left" style={{ margin: "10px 0px" }}>
+            {JoinBtn()}
+          </Row>
 
           <PhoneInfo.Price>
             <h1>월 {priceInfo.total.toLocaleString()}원</h1>
             <p>
-              {active.plan.name}, {active.discount} 기준
+              {active.plan.name}, {discountType(active.discount)} 기준
             </p>
-            <p>휴대폰 {priceInfo.phone.toLocaleString()} 원</p>
-            <p>통신료 {priceInfo.plan.toLocaleString()} 원</p>
-            <p>정상가 {active.phone.price.toLocaleString()} 원</p>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                휴대폰
+              </p>
+              <p className="left" style={{ width: "80%", color: "#000000" }}>
+                {priceInfo.phone.toLocaleString()} 원
+              </p>
+            </SideFlex>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                통신료
+              </p>
+              {active.discount < 1 ? (
+                <p className="left" style={{ width: "80%", color: "#000000" }}>
+                  {priceInfo.plan.toLocaleString()} 원
+                </p>
+              ) : (
+                <p className="left" style={{ width: "80%" }}>
+                  <span style={{ color: "#000000" }}>
+                    {priceInfo.plan.toLocaleString()} 원
+                  </span>{" "}
+                  <span
+                    style={{
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    {active.plan.monthPrice.toLocaleString()} 원
+                  </span>
+                  <span
+                    style={{
+                      color: "#e6007e",
+                    }}
+                  >
+                    (25% ↓)
+                  </span>
+                </p>
+              )}
+            </SideFlex>
+            <SideFlex>
+              <p className="left" style={{ width: "20%", color: "#000000" }}>
+                정상가
+              </p>
+              <p className="left" style={{ width: "80%", color: "#000000" }}>
+                {active.phone.price.toLocaleString()} 원
+              </p>
+            </SideFlex>
           </PhoneInfo.Price>
           <PhoneInfo.Info>
             <Row justify="center">

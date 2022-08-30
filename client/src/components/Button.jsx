@@ -25,6 +25,16 @@ function btnColor(variant) {
         hover: { bg: "#ffffff", cl: "#680039", border: "1px solid #680039" },
         active: { bg: "#c4c4c4", cl: "#680039", border: "1px solid #680039" },
       };
+    case "highlight":
+      return {
+        default: {
+          bg: "#ffffff",
+          cl: "#000000",
+          border: "3px solid #000000",
+        },
+        hover: { bg: "#dddddd", cl: "#680039", border: "3px solid #680039" },
+        active: { bg: "#ffeff8", cl: "#680039", border: "3px solid #680039" },
+      };
     case "dark":
       return {
         default: { ...defaultOpt, bg: "#000000" },
@@ -102,9 +112,17 @@ export const LGButton = styled.button`
     border: ${(props) => btnColor(props.variant).active.border};
     background-color: ${(props) => btnColor(props.variant).active.bg};
   }
+  &:disabled {
+    cursor: default;
+    color: black;
+    border: black;
+    background-color: grey;
+  }
+
+  transition: all 0.2s ease-in-out;
 `;
 
-export const FormButton = styled.button.attrs(props => ({
+export const FormButton = styled.button.attrs((props) => ({
   type: "button",
 }))`
   margin-left: 8px;
@@ -115,16 +133,17 @@ export const FormButton = styled.button.attrs(props => ({
   padding: 0;
   border-radius: 6px;
   background-color: #fff;
-  box-shadow: none!important;
-  border: ${(props) => props.check ? "2px solid #000!important" : "1px solid #ddd!important" };
+  box-shadow: none !important;
+  border: ${(props) =>
+    props.check ? "2px solid #000!important" : "1px solid #ddd!important"};
   cursor: pointer;
-  font-weight : ${(props) => props.check ? "400px" : "300px" };
+  font-weight: ${(props) => (props.check ? "400px" : "300px")};
   &:hover {
-    border: 2px solid #000!important;
+    border: 2px solid #000 !important;
     font-weight: 400;
   }
   &:active {
-    border: 2px solid #000!important;
+    border: 2px solid #000 !important;
     font-weight: 400;
   }
-`
+`;
