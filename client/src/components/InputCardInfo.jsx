@@ -10,6 +10,7 @@ function InputCardInfo({
   handleNumber,
   handleBlur,
   handleAuth,
+  state,
   errors,
 }) {
   return (
@@ -45,8 +46,7 @@ function InputCardInfo({
           <LGButton
             type="button"
             size="sm"
-            variant="secondary"
-            onClick={handleAuth}
+            onClick={() => handleAuth(state)}
           >
             인증하기
           </LGButton>

@@ -23,24 +23,8 @@ function InputBankAccount({
   state,
   errors,
 }) {
-  const [open, setOpen] = useState(false);
-  const [modalMsg, setModalMsg] = useState({
-    message: "",
-    btnMessage: "",
-    func: () => {
-      setOpen(false);
-    },
-  });
-
   return (
     <>
-      <MessageModal
-        open={open}
-        setOpen={setOpen}
-        message={modalMsg.message}
-        btnMessage={modalMsg.btnMessage}
-        func={modalMsg.func}
-      />
       <Styles.FormRow>
         <Styles.FormTh>은행 계좌번호</Styles.FormTh>
         <Styles.FormTd>
@@ -78,8 +62,7 @@ function InputBankAccount({
               <LGButton
                 type="button"
                 size="sm"
-                variant="secondary"
-                onClick={handleAuth}
+                onClick={() => handleAuth(state)}
               >
                 인증하기
               </LGButton>

@@ -8,56 +8,35 @@ import InputBankAccount from "./InputBankAccount";
 import InputCardInfo from "./InputCardInfo";
 import MessageModal from "./MessageModal";
 
-function OrderUserInfoForm({
-  data,
-  setData,
-  handleChange,
-  handleNumber,
-  handleAuth,
-  handleBlur,
-  state,
-  errors,
-}) {
+function OrderUserInfoForm({setCallback, setRequires, reqired,data}) {
   const [userData, setUserData] = useState({
     ablePhone: "",
     email: "",
     address: "",
     billType: "문자 메시지",
     payType: "신용카드",
-    payInfo: {},
     cardNumber: "",
     cardExpiration: "",
     bank: "국민은행",
     account: "",
   });
-  const [open, setOpen] = useState(false);
-  const [modalMsg, setModalMsg] = useState({
-    message: "",
-    btnMessage: "",
-    func: () => {
-      setOpen(false);
-    },
+  const {
+    handleChange,
+    handleAuth,
+    handleSubmit,
+    handleBlur,
+    handleNumber,
+    state,
+    errors,
+    auth
+  } = useForm({
+    initState: userData,
+    callback: () =>{setCallback(state,`${state.payType} 인증 완료!`)},
+    validator,
   });
-
-  const submit = () => {
-    setModalMsg(() => ({
-      ...modalMsg,
-      message: `${state.payType} 인증 완료!`,
-      btnMessage: "확인",
-    }));
-    setData(state);
-    setOpen(true);
-  };
 
   return (
     <Styles.FormTable>
-      <MessageModal
-        open={open}
-        setOpen={setOpen}
-        message={modalMsg.message}
-        btnMessage={modalMsg.btnMessage}
-        func={modalMsg.func}
-      />
       <tbody>
         <Styles.FormRow>
           <Styles.FormTh>연락 가능한 전화번호</Styles.FormTh>
@@ -65,7 +44,7 @@ function OrderUserInfoForm({
             <TextField
               variant="standard"
               color="error"
-              name="ablePhone"
+              name="phoneNumber"
               placeholder="'-'없이 숫자만 입력"
               inputProps={{ maxLength: 11 }}
               error={errors.ablePhone ? true : false}
@@ -83,6 +62,7 @@ function OrderUserInfoForm({
               color="error"
               name="email"
               placeholder="xxxx@lguplus.com"
+              autocomplete="none"
               error={errors.email ? true : false}
               helperText={errors.email}
               onChange={handleChange}
@@ -98,6 +78,7 @@ function OrderUserInfoForm({
               color="error"
               name="address"
               placeholder="주소를 입력해주세요"
+              autocomplete="none"
               error={errors.address ? true : false}
               helperText={errors.address}
               onChange={handleChange}
@@ -133,7 +114,7 @@ function OrderUserInfoForm({
               name="payType"
               value="신용카드"
               check={check(state.payType, "신용카드")}
-              onClick={handleChange}
+              onClick={() => {handleChange; setRequires("infoForm",false)}}
             >
               신용 카드
             </FormButton>
@@ -141,7 +122,7 @@ function OrderUserInfoForm({
               name="payType"
               value="계좌이체"
               check={check(state.payType, "계좌이체")}
-              onClick={handleChange}
+              onClick={() => {handleChange; setRequires("infoForm",false)}}
             >
               계좌 이체
             </FormButton>
@@ -153,6 +134,7 @@ function OrderUserInfoForm({
             handleNumber={handleNumber}
             handleBlur={handleBlur}
             handleAuth={handleAuth}
+            state={state}
             errors={errors}
           />
         ) : (
@@ -165,13 +147,7 @@ function OrderUserInfoForm({
             errors={errors}
           />
         )}
-        <LGButton
-          type="button"
-          size="lg"
-          style={{ marginTop: "20px" }}
-          disabled={auth}
-          onClick={handleSubmit}
-        >
+        <LGButton type="button" size="lg" style={{ marginTop: "20px" }} disabled={!auth} onClick={()=>handleSubmit(data)}>
           주문하기
         </LGButton>
       </tbody>

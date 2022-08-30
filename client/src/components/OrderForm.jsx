@@ -7,39 +7,19 @@ import MessageModal from "./MessageModal";
 import { check, validator } from "../util/validator";
 import useForm from "../util/useForm";
 
-function OrderForm({
-  showUserInfo,
-  handleChange,
-  handleNumber,
-  handleAuth,
-  handleBlur,
-  state,
-  errors,
-}) {
-  const [checkData, setCheckData] = useState({
+function OrderForm({ showUserInfo , setCallback, setRequires}) {
+  const [userData, setUserData] = useState({
     userType: "내국인",
-    auth: "휴대폰",
+    authType: "휴대폰",
     userName: "",
     userId: "",
     userPhone: "",
   });
-  const [open, setOpen] = useState(false);
-  const [modalMsg, setModalMsg] = useState({
-    message: "",
-    btnMessage: "",
-    func: () => {
-      showUserInfo(true);
-      setOpen(false);
-    },
+  const { handleNumber, handleChange, handleAuth, handleBlur, state, errors } = useForm({
+    initState: userData,
+    callback: () => { showUserInfo; setCallback(state,`${state.authType} 인증 완료!`)},
+    validator,
   });
-  const submit = () => {
-    setModalMsg(() => ({
-      ...modalMsg,
-      message: `${state.auth} 인증 완료!`,
-      btnMessage: "확인",
-    }));
-    setOpen(true);
-  };
 
   const iterButton = (key) => {
     switch (key) {
@@ -59,9 +39,9 @@ function OrderForm({
         return orderfiled[key].map((v, i) => (
           <FormButton
             key={i}
-            name="auth"
+            name="authType"
             value={v}
-            check={check(state.auth, v)}
+            check={check(state.authType, v)}
             onClick={handleChange}
           >
             {v}
@@ -74,13 +54,6 @@ function OrderForm({
 
   return (
     <Styles.FormTable>
-      <MessageModal
-        open={open}
-        setOpen={setOpen}
-        message={modalMsg.message}
-        btnMessage={modalMsg.btnMessage}
-        func={modalMsg.func}
-      />
       <tbody>
         <Styles.FormRow>
           <Styles.FormTh>고객 유형</Styles.FormTh>
@@ -131,7 +104,7 @@ function OrderForm({
             <TextField
               variant="standard"
               color="error"
-              name="userPhone"
+              name="ablePhone"
               placeholder="'-'없이 숫자만 입력"
               required
               inputProps={{ maxLength: 11 }}
@@ -141,10 +114,9 @@ function OrderForm({
               helperText={errors.userPhone}
             />
             <LGButton
-              type="submit"
+              type="button"
               size="sm"
-              variant="secondary"
-              onClick={handleAuth(checkData)}
+              onClick={() => { handleAuth(state); setRequires("orderForm",true)}}
             >
               인증하기
             </LGButton>

@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 const useForm = ({ initState, callback, validator }) => {
   const [state, setState] = useState(initState);
   const [errors, setErrors] = useState({});
-  const [isAuth, setIsAuth] = useState(false);
-  const [auth, setAuth] = useState(true)
+  const [isClicked, setIsClicked] = useState(false);
+  const [auth, setAuth] = useState(false)
 // ******************************
   useEffect(() => {
     const isValidErrors = Object.values(errors).filter(error => typeof error !== "undefined")
         .length > 0;
-    // Auth 버튼 누르고, errors 메시지가 없다면,
-    if (isAuth && !isValidErrors) {
+    // 버튼 누르고, errors 메시지가 없다면,
+    if (isClicked && !isValidErrors) {
       callback();
-      setIsAuth(false);
+      setIsClicked(false);
     }
   }, [errors]);
 
@@ -39,20 +39,19 @@ const useForm = ({ initState, callback, validator }) => {
 
 // ******************************
   const handleAuth = (checkData) => {
+    console.log(errors)
     Object.keys(checkData).map((k) => {
         const fieldName = k
         const faildFiels = validator(state, fieldName);
         setErrors((prev) => ({ ...prev, [fieldName]: faildFiels[fieldName] }));
-        setIsAuth(true);
     })
-    setAuth((prev) =>(
-      !Object.values(errors).filter(error => typeof error !== "undefined")
-        .length === 0))
+    setIsClicked(true)
+    setAuth(Object.values(errors).filter(error => typeof error !== "undefined").length === 0)
   };
 
 // ******************************
-  const handleSubmit = e => {
-    
+  const handleSubmit = data => {
+    console.log(data)
   };
 
 // ******************************
