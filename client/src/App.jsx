@@ -9,6 +9,7 @@ import "./css/App.css";
 import NavBar from "./components/NavBar";
 import { useState } from "react";
 import { getPhoneList } from "./api/api";
+import { getPhonesAll } from "./api/PhoneAPI";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import ComparedPopup from "./components/ComparedPopup";
@@ -21,7 +22,14 @@ function App() {
   const [cart, setCart] = useState({ count: 0, data: [] });
 
   const fetchPhones = async () => {
-    const { data } = await getPhoneList();
+    const data = await getPhonesAll()
+    .then((data) => {
+      console.log(data.phoneList);
+      return data.phoneList;
+    })
+    .catch((e) => {
+        console.log(e)
+    });
     setPhones(data);
   };
 
@@ -125,7 +133,7 @@ function App() {
           <Route 
             path="/search/:keyword"
             exact
-            element={<Search phones={phones} saveCart={saveCart} />}
+            element={<Search saveCart={saveCart} />}
           />
           <Route
             path="/*"
