@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 // ******************************
-// data, submit , validator
 const useForm = ({ initState, callback, validator }) => {
   const [state, setState] = useState(initState);
   const [errors, setErrors] = useState({});
@@ -9,10 +8,10 @@ const useForm = ({ initState, callback, validator }) => {
 
   // ******************************
   useEffect(() => {
-    const isValidErrors = () =>
-      Object.values(errors).filter(error => typeof error !== "undefined")
+    console.log(errors)
+    const isValidErrors = Object.values(errors).filter(error => typeof error !== "undefined")
         .length > 0;
-    if (isSubmited && !isValidErrors()) callback();
+    if (isSubmited && !isValidErrors) callback();
   }, [errors]);
 
   // ******************************
@@ -38,18 +37,26 @@ const useForm = ({ initState, callback, validator }) => {
   // ******************************
   const handleSubmit = e => {
     e.preventDefault();
-    Object.keys(state).map((k) =>{
+    Object.keys(state).map((k) => {
         const fieldName = k
         const faildFiels = validator(state, fieldName);
+        console.log(faildFiels)
         setErrors((prev) => ({ ...prev, [fieldName]: faildFiels[fieldName] }));
         setIsSubmited(true);
     })
   };
 
+  // ******************************
+  const handleNumber = e => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+    handleChange(e);
+  }
+
   return {
     handleChange,
     handleSubmit,
     handleBlur,
+    handleNumber,
     state,
     errors,
   };
