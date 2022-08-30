@@ -151,7 +151,7 @@ export default function Cart({ cart, deleteCart }) {
           </div>
         </div>
       </div>
-      </div>}
+      }
     </PageContainer>
   );
 }
