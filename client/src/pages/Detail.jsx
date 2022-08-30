@@ -13,6 +13,7 @@ import { defaultValue } from "../DummyData";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
 import { priceCalc } from "../methods/priceCalc";
+import { clearCompareData } from "../methods/inputCompare";
 
 export default function Detail({ saveCart, propsList }) {
   const { id } = useParams();
@@ -60,6 +61,7 @@ export default function Detail({ saveCart, propsList }) {
 
   useEffect(() => {
     setLoading(true);
+    clearCompareData(propsList);
   }, []);
 
   useEffect(async () => {
@@ -78,12 +80,6 @@ export default function Detail({ saveCart, propsList }) {
       setLoading(false);
     }
   }, [loading]);
-
-  useEffect(() => {
-    if (propsList.comparePhoneList.filter((row) => row.id).length) {
-      propsList.setComparePhoneList([{}, {}, {}]);
-    }
-  }, [propsList.comparePhoneList]);
 
   return loading ? (
     <Loader />

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { defaultValue } from "../DummyData";
 import { inputComparePhone } from "../methods/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
@@ -66,7 +67,9 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
                 (row) => row.phoneId === phone.phoneId
               ) === -1 && compareDisabled
             }
-            onClick={() => inputComparePhone(phone, propsList)}
+            onClick={() =>
+              inputComparePhone(phone, defaultValue.plan, propsList)
+            }
           >
             비교하기
           </LGButton>

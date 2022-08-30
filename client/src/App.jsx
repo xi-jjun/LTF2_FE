@@ -110,10 +110,16 @@ function App() {
     setCart({ count: cart.count, data: returnArray });
     setCookie("cart", { count: cart.count, data: returnArray });
   };
+
   useEffect(() => {
     fetchPhones();
     getCartDatas();
   }, []);
+
+  useEffect(() => {
+    if (modalShow.compare) {
+    }
+  }, [modalShow.compare]);
 
   return (
     <BrowserRouter>

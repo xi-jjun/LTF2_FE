@@ -12,11 +12,13 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { LGButton } from "./Button";
 import { useNavigate } from "react-router-dom";
-import { SideFlex } from "../styles/detailInfoStyle";
 import DataOptSelect from "./DataOptSelect";
 import { useState } from "react";
-import { defaultValue } from "../DummyData";
+import { defaultValue, plan } from "../DummyData";
 import { arrToString, phoneInfoLabel } from "../methods/transform";
+import SideFlexRow from "./SideFlexRow";
+import { priceCalc } from "../methods/priceCalc";
+import { getPlanByPlanId } from "../api/PlanAPI";
 
 const style = {
   boxSizing: "border-box",
@@ -57,10 +59,15 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
 
   const handleClose = () => setModalShow({ ...modalShow, compare: false });
 
+  const getPlanData = async (id) => {
+    const value = await getPlanByPlanId(id);
+    return value.Plan;
+  };
+
   const goToDetail = (row) => {
     handleComparePhoneList();
     handleAllClose();
-    navigate(`/detail/${row.id}`);
+    navigate(`/detail/${row.phoneId}`);
   };
 
   const handleOptChange = (e, i, optKey) => {
@@ -75,18 +82,27 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
     propsList.setCompareDataList(returnArr);
   };
 
-  const installmentArr = [
-    "완납결제",
-    "3개월",
-    "6개월",
-    "9개월",
-    "10개월",
-    "12개월",
-    "24개월",
-    "30개월",
-    "36개월",
-    "48개월",
-  ];
+  const handleFetch = async (e, i, optKey) => {
+    if (optKey === "plan") {
+      const returnArr = [...propsList.compareDataList];
+      const value = await getPlanData(e.target.value);
+      returnArr[i][optKey] = value;
+      propsList.setCompareDataList(returnArr);
+    }
+  };
+
+  const priceInfo = (i) => {
+    const dataList = propsList.compareDataList[i];
+
+    const phone = propsList.comparePhoneList[i];
+    const plan = dataList.plan;
+    const supportPrice = dataList.supportPrice;
+    const discount = dataList.discount;
+    const installment = dataList.installment;
+    return priceCalc(phone, plan, supportPrice, discount, installment);
+  };
+
+  console.log(propsList);
 
   return (
     <div>
@@ -112,13 +128,17 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
             <ModalStyle.Body>
               <ModalStyle.Row>
                 {propsList.comparePhoneList.map((row, i) => {
-                  if (row.id) {
+                  if (row.phoneId) {
                     return (
                       <Compare.ModalPhoneBox key={i}>
-                        <Compare.ModalPhoneImg src={row.image_link} />
+                        <Compare.ModalPhoneImg src={row.previewImg} />
                         <Compare.ModalPhoneText>
-                          <p children={row.name} />
-                          <h2 children="월 120,000원" />
+                          <p children={row.titleName} />
+                          <h2
+                            children={`월 ${priceInfo(
+                              i
+                            ).total.toLocaleString()}원`}
+                          />
                         </Compare.ModalPhoneText>
                         <Compare.ModalPhoneFooter>
                           <LGButton
@@ -143,7 +163,6 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                           label="제조사"
                           value={opt[i].product}
                           handleChange={(e) => handleOptChange(e, i, "product")}
-                          opt={["삼성", "애플", "기타"]}
                         />
                       </Compare.ModalPhoneBox>
                     );
@@ -160,29 +179,56 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                 <AccordionDetails>
                   <ModalStyle.Row>
                     {propsList.comparePhoneList.map((row, i) => {
-                      if (row.id) {
+                      if (row.phoneId) {
                         return (
                           <div style={{ display: "block" }} key={i}>
                             <Compare.ModalPhoneDetailBox>
                               <Compare.ModalPhoneDetailHeader
                                 children={
                                   <SideFlexRow
-                                    left="휴대폰 가격"
-                                    right="월 59,900원"
+                                    left={
+                                      propsList.compareDataList[i]
+                                        .installment === 1
+                                        ? "완납 시 가격"
+                                        : "휴대폰 가격"
+                                    }
+                                    right={`${
+                                      propsList.compareDataList[i]
+                                        .installment === 1
+                                        ? ""
+                                        : "월"
+                                    } ${priceInfo(i).phone.toLocaleString()}원`}
                                     title
                                   />
                                 }
                               />
-                              <SideFlexRow left="출고가" right="1,353,000원" />
-                              <SideFlexRow left="공시지원금" right="0원" />
-                              <SideFlexRow left="15% 추가지원금" right="0원" />
+                              <SideFlexRow
+                                left="출고가"
+                                right={`${row.price.toLocaleString()}원`}
+                              />
+                              <SideFlexRow
+                                left="공시지원금"
+                                right={`${priceInfo(
+                                  i
+                                ).supportPrice.toLocaleString()}원`}
+                              />
+                              <SideFlexRow
+                                left="15% 추가지원금"
+                                right={`${priceInfo(
+                                  i
+                                ).extraSupportPrice.toLocaleString()}원`}
+                              />
                               <SideFlexRow
                                 left="할부수수료(연5.9%)"
-                                right="84,720원"
+                                right={`${priceInfo(
+                                  i
+                                ).installmentFee.toLocaleString()}원`}
                               />
                               <SideFlexRow
                                 left="실구매가"
-                                right="1,353,000원"
+                                right={`${priceInfo(
+                                  i
+                                ).actualPrice.toLocaleString()}원`}
                               />
                             </Compare.ModalPhoneDetailBox>
                             <Compare.ModalPhoneDetailBox key={i}>
@@ -190,13 +236,25 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                                 children={
                                   <SideFlexRow
                                     left="통신료"
-                                    right="월 65,000원"
+                                    right={`월 ${priceInfo(
+                                      i
+                                    ).plan.toLocaleString()}원`}
                                     title
                                   />
                                 }
                               />
-                              <SideFlexRow left="월정액" right="65,000원" />
-                              <SideFlexRow left="선택약정할인" right="0원" />
+                              <SideFlexRow
+                                left="월정액"
+                                right={`${priceInfo(
+                                  i
+                                ).originalPlan.toLocaleString()}원`}
+                              />
+                              <SideFlexRow
+                                left="선택약정할인"
+                                right={`${priceInfo(
+                                  i
+                                ).discountPlan.toLocaleString()}원`}
+                              />
                               <SideFlexRow left="7%추가요금할인" right="0원" />
                             </Compare.ModalPhoneDetailBox>
                           </div>
@@ -223,7 +281,7 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                 <AccordionDetails>
                   <ModalStyle.Row>
                     {propsList.comparePhoneList.map((row, i) => {
-                      if (row.id) {
+                      if (row.phoneId) {
                         return (
                           <Compare.ModalPhoneDetailBox key={i}>
                             <DataOptSelect
@@ -232,7 +290,6 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                               handleChange={(e) =>
                                 handleChange(e, i, "registration")
                               }
-                              opt={["기기변경", "번호이동", "신규가입"]}
                             />
                             <DataOptSelect
                               label="할부"
@@ -240,7 +297,6 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                               handleChange={(e) =>
                                 handleChange(e, i, "installment")
                               }
-                              opt={installmentArr}
                             />
                             <DataOptSelect
                               label="할인유형"
@@ -248,21 +304,14 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                               handleChange={(e) =>
                                 handleChange(e, i, "discount")
                               }
-                              opt={[
-                                "무약정",
-                                "공시지원금",
-                                "선택약정24개월",
-                                "선택약정12개월",
-                              ]}
+                              extra={propsList.compareDataList[i].plan.planType}
                             />
-                            {/* <DataOptSelect
-                              label="할인유형"
-                              value={propsList.compareDataList[i].plan}
-                              handleChange={(e) =>
-                                handleChange(e, i, "plan", "name")
-                              }
-                              opt={["무약정", "공시지원금", "선택약정24개월", "선택약정12개월"]}
-                            /> */}
+                            <DataOptSelect
+                              label="요금제"
+                              value={propsList.compareDataList[i].plan.planId}
+                              handleChange={(e) => handleFetch(e, i, "plan")}
+                              extra="5G"
+                            />
                           </Compare.ModalPhoneDetailBox>
                         );
                       } else
@@ -287,7 +336,7 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                 <AccordionDetails>
                   <ModalStyle.Row>
                     {propsList.comparePhoneList.map((row, i) => {
-                      if (row.id) {
+                      if (row.phoneId) {
                         return (
                           <Compare.ModalPhoneDetailBox key={i}>
                             {Object.keys(defaultValue.phone.phoneInfo)
@@ -331,25 +380,3 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
     </div>
   );
 }
-
-const SideFlexRow = ({ left, right, title }) => {
-  return title ? (
-    <SideFlex>
-      <h3
-        className="left"
-        style={{ width: "35%", color: "#000000" }}
-        children={left}
-      />
-      <h2
-        className="right"
-        style={{ width: "65%", color: "#000000" }}
-        children={right}
-      />
-    </SideFlex>
-  ) : (
-    <SideFlex>
-      <p className="left" style={{ color: "#000000" }} children={left} />
-      <p className="right" style={{ color: "#000000" }} children={right} />
-    </SideFlex>
-  );
-};

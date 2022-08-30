@@ -81,9 +81,9 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
             if (row.phoneId) {
               return (
                 <Compare.PopUpPhone key={i}>
-                  <Compare.PopUpPhoneImg src={row.image_link} />
+                  <Compare.PopUpPhoneImg src={row.previewImg} />
                   <Compare.PopUpPhoneInfo>
-                    <p>{row.name}</p>
+                    <p>{row.titleName}</p>
                     <h2>130,260원</h2>
                   </Compare.PopUpPhoneInfo>
                   <Compare.PopUpDeleteBtn
