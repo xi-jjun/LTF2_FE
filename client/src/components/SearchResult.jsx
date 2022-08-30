@@ -2,7 +2,7 @@ import * as Result from "../styles/searchResultStyle";
 import PhoneList from "../components/PhoneList";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-export default function SearchResult({ phones, isShowMore, setIsShowMore, saveCart }) {
+export default function SearchResult({ searchPhones, isShowMore, setIsShowMore, saveCart }) {
     const onClick = () => setIsShowMore(!isShowMore);
 
     return (
@@ -21,8 +21,8 @@ export default function SearchResult({ phones, isShowMore, setIsShowMore, saveCa
             </Result.ResultBar>
             <Result.ResultList>
                 {(isShowMore) ?
-                    <PhoneList phones={phones} saveCart={saveCart} /> :
-                    <PhoneList phones={phones} search saveCart={saveCart} />
+                    <PhoneList phones={searchPhones} saveCart={saveCart} /> :
+                    <PhoneList phones={searchPhones} search saveCart={saveCart} />
                 }
             </Result.ResultList>
         </Result.ResultBox>
