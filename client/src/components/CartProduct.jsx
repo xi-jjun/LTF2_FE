@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function CartProduct({data, deleteCart}) {
     const [over, setOver] = useState(false)
+    const navigate = useNavigate();
 
     const onDelBtnClick = () => {
       deleteCart(data.id);
+    }
+
+    const mvDetailPage = () => {
+      navigate(`/detail/${data.info.shoppingBasket.phoneId}`);
     }
 
     return (
@@ -14,49 +20,70 @@ export default function CartProduct({data, deleteCart}) {
         <Styled.CartProductContainer>
           <Styled.CartProductContainerPThumb>
             <a style={{display:"block"}} href="">
-              <Styled.CartProductContainerPThumbImg src="https://image.lguplus.com/static/pc-contents/images/prdv/20220729-094006-249-ebTNQ9k6.jpg" alt="" />
+              <Styled.CartProductContainerPThumbImg src={data.info.shoppingBasket.phoneImgList[0]} alt="" />
             </a>
           </Styled.CartProductContainerPThumb>
           <Styled.CartProductContainerPProduct>
             <div>
-              <Styled.CartProductContainerPProductData>2022년 8월 24일 (수)</Styled.CartProductContainerPProductData>
+              <Styled.CartProductContainerPProductData>{data.date}</Styled.CartProductContainerPProductData>
               <Styled.CartProductContainerPProductTit>
-                <a style={{textDecoration: "none", color: "inherit", verticalAlign: "middle"}} href="">갤럭시 A33 5G</a>
+                <a style={{textDecoration: "none", color: "inherit", verticalAlign: "middle"}} href="">{data.info.shoppingBasket.titleName}</a>
                 <span style={{marginLeft: 8}}></span>
               </Styled.CartProductContainerPProductTit>
               <Styled.CartProductContainerPProductDesc>
-                5G 심플+<span style={{fontSize: 14}}></span>
+                {data.info.shoppingBasket.planName}<span style={{fontSize: 14}}></span>
               </Styled.CartProductContainerPProductDesc>
               <div style={{margin: 0, marginBottom:6}}>
-                <Styled.OptionItemSpan>어썸블루</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
-                <Styled.OptionItemSpan>128GB</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
-                <Styled.OptionItemSpan>24개월 할부</Styled.OptionItemSpan>
+                <Styled.OptionItemSpan>{data.info.shoppingBasket.colorName}</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
+                <Styled.OptionItemSpan>{data.info.shoppingBasket.memory}GB</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
+                
+                  {
+                    data.discount > 1 ?
+                    <Styled.OptionItemSpan>{data.discount}개월 할부</Styled.OptionItemSpan>
+                    :
+                    <Styled.OptionItemSpan></Styled.OptionItemSpan>
+                  }
+                  <Styled.OptionItemLine></Styled.OptionItemLine>
+                  <Styled.OptionItemSpan>{data.ship}</Styled.OptionItemSpan>
               </div>
-              <Styled.ProductNotice>
-              온라인 주문을 하시려면 추가 정보가 필요합니다. <br />
-              상품페이지에서 요금제, 사은품 등 선택을 완료해 주세요.
-              </Styled.ProductNotice>
+
             </div>
           </Styled.CartProductContainerPProduct>
           <Styled.PDetailGroup>
-            <Styled.PDetailGroupItemInfo>
-              선택약정24개월
-            </Styled.PDetailGroupItemInfo>
+
+            {
+              data.discount > 1 ?
+              <Styled.PDetailGroupItemInfo>
+              선택약정{data.discount}개월
+              </Styled.PDetailGroupItemInfo>
+              :
+                data.discount == 1 ?
+                <Styled.PDetailGroupItemInfo>공시지원금</Styled.PDetailGroupItemInfo>
+                :
+                <Styled.PDetailGroupItemInfo>일시불</Styled.PDetailGroupItemInfo>
+            }
+
             <Styled.PDetailGroupItemInfoLine></Styled.PDetailGroupItemInfoLine>
             <Styled.PDetailGroupItemInfo>
-              기기변경
+              {data.registration}
             </Styled.PDetailGroupItemInfo>
             <Styled.PDetailGroupItemInfoLine></Styled.PDetailGroupItemInfoLine>
             <Styled.PDetailGroupItemInfoDiv>
               <p style={{margin:0}}>월 예상 납부 금액</p>
-              <Styled.PDetailProductPrice>67,860원</Styled.PDetailProductPrice>
+              {
+                data.discount > 1?
+                <Styled.PDetailProductPrice>{data.info.shoppingBasket.phonePrice / data.discount}원</Styled.PDetailProductPrice>
+                :
+                <Styled.PDetailProductPrice>{data.info.shoppingBasket.phoneMonthPrice}원</Styled.PDetailProductPrice>
+              }
+              
             </Styled.PDetailGroupItemInfoDiv>
           </Styled.PDetailGroup>
           <div>
             <div style={{position: "relative"}}
             onMouseEnter={() => {setOver(true)}}
             onMouseLeave={() => {setOver(false)}}>
-                <LGButton variant="primary" size="lg">
+                <LGButton variant="primary" size="lg" onClick={mvDetailPage}>
                     가입하기
                     <Styled.IsBlind>메뉴더보기</Styled.IsBlind>
                 </LGButton>

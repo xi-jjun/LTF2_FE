@@ -186,12 +186,6 @@ export const OptionItemLine = styled.div`
     background: #bbb;
 `
 
-export const ProductNotice = styled.p`
-    margin: 0;
-    padding: 0; 
-    font-size: 14px;
-    color: #e6007e;
-`
 export const PDetailGroup = styled.div`
     display: flex;
     align-items: center;

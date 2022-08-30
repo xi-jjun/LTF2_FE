@@ -65,8 +65,9 @@ function App() {
       registration: object.registration,
       discount: object.discount,
       phone: object.phone.phoneId,
-      plan: object.plan.name,
+      plan: object.plan.planId,
       ship: object.ship,
+      date: object.date,
     });
 
     // 장바구니 내에 같은 데이터가 존재하는 지 여부
