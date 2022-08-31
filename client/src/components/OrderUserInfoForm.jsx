@@ -13,8 +13,8 @@ function OrderUserInfoForm({ setCallback, setRequires, reqired, data }) {
     ablePhone: "",
     email: "",
     address: "",
-    billType: "문자 메시지",
-    payType: "신용카드",
+    billType: "문자 메세지",
+    payType: "신용 카드",
     cardNumber: "",
     cardExpiration: "",
     bank: "국민은행",
@@ -41,7 +41,6 @@ function OrderUserInfoForm({ setCallback, setRequires, reqired, data }) {
   }, [state]);
 
   useEffect(() => {
-    console.log(reqired);
     setDisable(Object.values(reqired).includes(false));
   }, [reqired]);
   return (
@@ -99,8 +98,8 @@ function OrderUserInfoForm({ setCallback, setRequires, reqired, data }) {
             <Styles.FormTd>
               <FormButton
                 name="billType"
-                value="문자 메시지"
-                check={check(state.billType, "문자 메시지")}
+                value="문자 메세지"
+                check={check(state.billType, "문자 메세지")}
                 onClick={handleChange}
               >
                 문자 메시지 (요약정보)
@@ -120,23 +119,23 @@ function OrderUserInfoForm({ setCallback, setRequires, reqired, data }) {
             <Styles.FormTd>
               <FormButton
                 name="payType"
-                value="신용카드"
-                check={check(state.payType, "신용카드")}
+                value="신용 카드"
+                check={check(state.payType, "신용 카드")}
                 onClick={handleChange}
               >
                 신용 카드
               </FormButton>
               <FormButton
                 name="payType"
-                value="계좌이체"
-                check={check(state.payType, "계좌이체")}
+                value="계좌 이체"
+                check={check(state.payType, "계좌 이체")}
                 onClick={handleChange}
               >
                 계좌 이체
               </FormButton>
             </Styles.FormTd>
           </Styles.FormRow>
-          {state.payType === "신용카드" ? (
+          {state.payType === "신용 카드" ? (
             <InputCardInfo
               handleChange={handleChange}
               handleNumber={handleNumber}
@@ -164,7 +163,9 @@ function OrderUserInfoForm({ setCallback, setRequires, reqired, data }) {
         size="lg"
         style={{ margin: "20px" }}
         disabled={disable}
-        onClick={() => handleSubmit(data)}
+        onClick={() => {
+          handleSubmit(data, setCallback);
+        }}
       >
         주문하기
       </LGButton>

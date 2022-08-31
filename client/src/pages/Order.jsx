@@ -12,15 +12,20 @@ import { PageContainer } from "../components/PageContainer";
 import { pink } from "@mui/material/colors";
 import * as Styles from "../styles/orderStyle";
 import OrderPhoneInfo from "../components/OrderPhoneInfo";
-import { phone } from "../DummyData";
 import OrderForm from "../components/OrderForm";
 import { useState } from "react";
 import OrderUserInfoForm from "../components/OrderUserInfoForm";
 import { LGButton } from "../components/Button";
 import MessageModal from "../components/MessageModal";
+import { useLocation } from "react-router-dom";
 
 export default function Order() {
+  const { state } = useLocation();
   const [data, setData] = useState({
+    phoneId: state.phone.phoneId,
+    planId: state.plan.planId,
+    colorId: state.color.colorId,
+    deliveryType: state.ship,
     userType: "",
     authType: "",
     userName: "",
@@ -36,7 +41,6 @@ export default function Order() {
     bank: "",
     account: "",
   });
-
   const [reqired, setReqired] = useState({
     agreement: false,
     orderForm: false,
@@ -53,11 +57,22 @@ export default function Order() {
     },
   });
   const [show, setShow] = useState(false);
-  const setCallback = (updateData, msg) => {
-    setModalMsg(() => ({
-      ...modalMsg,
-      message: msg,
-    }));
+  const setCallback = (updateData, msg, addFunc) => {
+    if (addFunc === undefined)
+      setModalMsg(() => ({
+        ...modalMsg,
+        message: msg,
+      }));
+    else
+      setModalMsg(() => ({
+        ...modalMsg,
+        message: msg,
+        func: () => {
+          setShow(true);
+          setOpen(false);
+          addFunc();
+        },
+      }));
     setOpen(true);
     Object.keys(updateData).map((k) => {
       setData((prev) => ({ ...prev, [k]: updateData[k] }));
@@ -65,15 +80,10 @@ export default function Order() {
   };
 
   const setRequires = (filed, value) => {
-    console.log(value === undefined);
     value === undefined
       ? setReqired((prev) => ({ ...prev, [filed]: !prev[filed] }))
       : setReqired((prev) => ({ ...prev, [filed]: value }));
   };
-
-  useEffect(() => {
-    console.log(reqired);
-  }, [reqired]);
 
   return (
     <PageContainer>
@@ -143,7 +153,7 @@ export default function Order() {
           )}
         </Styles.OrderInfoLayout>
         <Styles.PhoneInfoLayout>
-          <OrderPhoneInfo phone={phone[0]} />
+          <OrderPhoneInfo state={state} />
         </Styles.PhoneInfoLayout>
       </Styles.OrderLayout>
     </PageContainer>

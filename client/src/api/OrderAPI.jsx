@@ -10,7 +10,7 @@ import instance from "./index";
  */
 export const postOrder = async (body) => {
   try {
-    const { data } = await instance.post(`/phone`, body);
+    const { data } = await instance.post(`/order`, body);
     return data;
   } catch (e) {
     return { status: e.response.status, message: e.response.data.message };

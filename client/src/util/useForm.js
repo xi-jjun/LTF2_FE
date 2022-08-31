@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { postOrder } from "../api/OrderAPI";
 
 // ******************************
 const useForm = ({ initState, callback, validator }) => {
@@ -6,6 +8,7 @@ const useForm = ({ initState, callback, validator }) => {
   const [errors, setErrors] = useState({});
   const [isClicked, setIsClicked] = useState(false);
   const [auth, setAuth] = useState(false)
+  const navigate = useNavigate();
 // ******************************
   useEffect(() => {
     const isValidErrors = Object.values(errors).filter(error => typeof error !== "undefined")
@@ -50,8 +53,21 @@ const useForm = ({ initState, callback, validator }) => {
   };
 
 // ******************************
-  const handleSubmit = data => {
-    console.log(data)
+  const handleSubmit = async (data, callback) => {
+    const {phoneId, planId,colorId, deliveryType,userType, userName,userPhone, ablePhone, email, address,billType,payType} = data
+    const body = {
+      phoneId,
+      planId,
+      colorId,
+      deliveryType,
+      userType, userName,userPhone, ablePhone, email, address,billType,payType
+    }
+    await postOrder(body).then((res) =>{
+      callback({},"주문을 완료했습니다!",() => navigate("/"))
+    }).catch((e) =>{
+      callback({},"주문에 실패했습니다. 다시 시도해주세요.")
+      console.log(e)
+    })
   };
 
 // ******************************
