@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Main from "./pages/Main";
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
 import Cart from "./pages/Cart";
@@ -134,6 +135,13 @@ function App() {
         <Routes>
           <Route
             path="/"
+            exact
+            element={
+              <Main />
+            }
+          />
+          <Route
+            path="/phone"
             exact
             element={
               <Home
