@@ -10,7 +10,6 @@ export default function CartProduct({data, deleteCart}) {
 
     const onDelBtnClick = () => {
       deleteCart(data.id);
-      location.reload();
     }
 
     const mvDetailPage = () => {
