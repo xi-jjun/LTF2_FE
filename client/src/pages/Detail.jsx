@@ -12,6 +12,8 @@ import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import { defaultValue } from "../DummyData";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
+import { priceCalc } from "../methods/priceCalc";
+import { clearCompareData } from "../methods/inputCompare";
 
 export default function Detail({ saveCart, propsList }) {
   const { id } = useParams();
@@ -32,41 +34,13 @@ export default function Detail({ saveCart, propsList }) {
     error: false,
   });
 
-  const actualPrice =
-    active.phone.price - (active.discount === -1 ? active.supportPrice : 0);
-
-  const monthFee = 0.059 / 12;
-
-  let priceInfo = {
-    phone:
-      active.installment === 1
-        ? actualPrice
-        : Math.round(
-            (actualPrice *
-              monthFee *
-              Math.pow(1 + monthFee, active.installment)) /
-              (Math.pow(1 + monthFee, active.installment) - 1) /
-              10
-          ) * 10,
-    plan: active.plan.monthPrice * (active.discount > 11 ? 0.75 : 1),
-    installmentFee:
-      active.installment === 1
-        ? 0
-        : Math.round(
-            (((actualPrice *
-              monthFee *
-              Math.pow(1 + monthFee, active.installment)) /
-              (Math.pow(1 + monthFee, active.installment) - 1)) *
-              active.installment -
-              actualPrice) /
-              10
-          ) * 10,
-    total:
-      (active.installment === 1
-        ? 0
-        : Math.ceil(actualPrice / active.installment / 100) * 100) +
-      active.plan.monthPrice * (active.discount > 11 ? 0.75 : 1),
-  };
+  let priceInfo = priceCalc(
+    active.phone,
+    active.plan,
+    active.supportPrice,
+    active.discount,
+    active.installment
+  );
 
   const handleData = async () => {
     const [phoneData, planData, supportPrice] = await Promise.all([
@@ -87,6 +61,7 @@ export default function Detail({ saveCart, propsList }) {
 
   useEffect(() => {
     setLoading(true);
+    clearCompareData(propsList);
   }, []);
 
   useEffect(async () => {
@@ -105,12 +80,6 @@ export default function Detail({ saveCart, propsList }) {
       setLoading(false);
     }
   }, [loading]);
-
-  useEffect(() => {
-    if (propsList.comparePhoneList.filter((row) => row.id).length) {
-      propsList.setComparePhoneList([{}, {}, {}]);
-    }
-  }, [propsList.comparePhoneList]);
 
   return loading ? (
     <Loader />
