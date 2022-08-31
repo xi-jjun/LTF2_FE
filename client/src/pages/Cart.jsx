@@ -10,7 +10,6 @@ import { getCartInfo } from "../api/CartAPI";
 
 export default function Cart({ cart, deleteCart }) {
   const [loading, setLoading] = useState(true);
-
   const [active, setActive] = useState({
     nav: "통신상품",
     item: "전체",
@@ -61,6 +60,11 @@ export default function Cart({ cart, deleteCart }) {
       item: "전체",
     });
   }, []);
+
+  useEffect( async() => {
+    const prr = await handleData();
+    setCartArr(prr);
+  }, [cart]);
 
   useEffect(async () => {
     if (loading) {
