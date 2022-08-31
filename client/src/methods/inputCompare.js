@@ -1,4 +1,3 @@
-import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
 export async function inputComparePhone(phone, plan, propsList) {
@@ -47,7 +46,18 @@ export async function inputComparePhone(phone, plan, propsList) {
   }
 }
 
-export function clearCompareData(propsList) {
+export function deleteAll(propsList) {
   propsList.setComparePhoneList([{}, {}, {}]);
   propsList.setCompareDataList([{}, {}, {}]);
+}
+
+export function deleteOne(idx, propsList) {
+  const returnPhoneArray = [...propsList.comparePhoneList];
+  const returnDataArray = [...propsList.compareDataList];
+  returnPhoneArray.splice(idx, 1);
+  returnDataArray.splice(idx, 1);
+  returnPhoneArray.push({});
+  returnDataArray.push({});
+  propsList.setComparePhoneList(returnPhoneArray);
+  propsList.setCompareDataList(returnDataArray);
 }

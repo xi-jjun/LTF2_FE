@@ -29,8 +29,14 @@ export default function DetailInfomation({ active, setActive }) {
     const price = await getPublicSupportByPhoneIdAndPlanId({
       phone_id: active.phone.phoneId,
       plan_id: plan.planId,
+    }).then((d) => {
+      if (d.status === 404) {
+        return 0;
+      } else {
+        return d.PublicSupportPrice;
+      }
     });
-    return price.PublicSupportPrice;
+    return price;
   };
 
   const changePlan = async (row) => {

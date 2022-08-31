@@ -19,7 +19,6 @@ import NotFound from "./components/NotFound";
 
 function App() {
   const [phones, setPhones] = useState([]);
-  const [active, setActive] = useState("모바일 기기");
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
   const [comparePhoneList, setComparePhoneList] = useState([{}, {}, {}]);
@@ -39,7 +38,6 @@ function App() {
   const fetchPhones = async () => {
     const data = await getPhonesAll()
       .then((data) => {
-        console.log(data.phoneList);
         return data.phoneList;
       })
       .catch((e) => {
@@ -128,8 +126,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Header setActive={setActive} />
-        <NavBar active={active} setActive={setActive} />
+        <Header />
+        <NavBar />
         <ComparedPopup
           modalShow={modalShow}
           setModalShow={setModalShow}
@@ -141,13 +139,7 @@ function App() {
           propsList={propsList}
         />
         <Routes>
-          <Route
-            path="/"
-            exact
-            element={
-              <Main />
-            }
-          />
+          <Route path="/" exact element={<Main />} />
           <Route
             path="/phone"
             exact

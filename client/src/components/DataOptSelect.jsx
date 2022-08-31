@@ -3,6 +3,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useEffect } from "react";
+import { getPhonesByTelecomTech } from "../api/PhoneAPI";
 import { getPlansByTelecomTech } from "../api/PlanAPI";
 
 export default function DataOptSelect({ label, value, handleChange, extra }) {
@@ -15,8 +16,17 @@ export default function DataOptSelect({ label, value, handleChange, extra }) {
   const [list, setList] = useState([]);
 
   const getPlanData = async () => {
-    const values = await getPlansByTelecomTech(extra);
-    return values.PlanList;
+    const values = await getPlansByTelecomTech(extra)
+      .then((d) => (d.status === 400 ? [] : d.PlanList))
+      .catch((e) => console.log(e.message));
+    return values;
+  };
+
+  const getPhoneData = async () => {
+    const values = await getPhonesByTelecomTech(extra[0])
+      .then((d) => (d.status === 400 ? [] : d.phoneList))
+      .catch((e) => console.log(e.message));
+    return values;
   };
 
   const arr = () => {
@@ -41,14 +51,18 @@ export default function DataOptSelect({ label, value, handleChange, extra }) {
           { value: 48, label: "48개월" },
         ];
       case "할인유형":
+        return extra === "다이렉트"
+          ? [{ value: 0, label: "무약정" }]
+          : [
+              { value: -1, label: "공시지원금" },
+              { value: 24, label: "선택약정24개월" },
+              { value: 12, label: "선택약정12개월" },
+            ];
+      case "통신":
         return [
-          { value: 0, label: "무약정" },
-          { value: -1, label: "공시지원금" },
-          { value: 24, label: "선택약정24개월" },
-          { value: 12, label: "선택약정12개월" },
+          { value: "5G", label: "5G" },
+          { value: "LTE", label: "LTE" },
         ];
-      case "요금제":
-        return list;
       case "제조사":
         return [
           { value: "전체", label: "전체" },
@@ -56,26 +70,34 @@ export default function DataOptSelect({ label, value, handleChange, extra }) {
           { value: "애플", label: "애플" },
           { value: "기타", label: "기타" },
         ];
+      case "기기명":
+        return list
+          .filter((row) =>
+            extra[1] !== "전체"
+              ? row.manufacturingCompany === (extra[1] || "")
+              : true
+          )
+          .map((row) => ({
+            label: row.titleName,
+            value: row.phoneId,
+          }));
       default:
-        return [];
+        return list;
     }
   };
 
   useEffect(async () => {
     if (label === "요금제") {
       const values = await getPlanData();
-      console.log(
-        values.map((row) => ({
-          label: row.name,
-          value: row.planId,
-        }))
-      );
       setList(
         values.map((row) => ({
           label: row.name,
           value: row.planId,
         }))
       );
+    } else if (label === "기기명") {
+      const values = await getPhoneData();
+      setList(values);
     }
   }, []);
 

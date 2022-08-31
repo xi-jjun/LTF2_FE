@@ -7,10 +7,14 @@ import { LGButton } from "./Button";
 export default function NotFound() {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const timeoutGoHome = () =>
     setTimeout(() => {
       navigate("/");
     }, 3000);
+
+  useEffect(() => {
+    timeoutGoHome();
+    return () => clearTimeout(timeoutGoHome);
   }, []);
 
   const goBack = () => navigate(-1);
