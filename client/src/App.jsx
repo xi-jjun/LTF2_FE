@@ -9,7 +9,6 @@ import Header from "./components/Header";
 import "./css/App.css";
 import NavBar from "./components/NavBar";
 import { useState } from "react";
-import { getPhoneList } from "./api/api";
 import { getPhonesAll } from "./api/PhoneAPI";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -39,13 +38,13 @@ function App() {
 
   const fetchPhones = async () => {
     const data = await getPhonesAll()
-    .then((data) => {
-      console.log(data.phoneList);
-      return data.phoneList;
-    })
-    .catch((e) => {
-        console.log(e)
-    });
+      .then((data) => {
+        console.log(data.phoneList);
+        return data.phoneList;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     setPhones(data);
   };
 
@@ -112,10 +111,16 @@ function App() {
     setCart({ count: cart.count, data: returnArray });
     setCookie("cart", { count: cart.count, data: returnArray });
   };
+
   useEffect(() => {
     fetchPhones();
     getCartDatas();
   }, []);
+
+  useEffect(() => {
+    if (modalShow.compare) {
+    }
+  }, [modalShow.compare]);
 
   return (
     <BrowserRouter>

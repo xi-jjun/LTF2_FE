@@ -35,7 +35,7 @@ export default function DetailInfomation({ active, setActive }) {
 
   const changePlan = async (row) => {
     const value = await getSupportPrice(row);
-    const discount = row.planType === "다이렉트" ? "무약정" : "공시지원금";
+    const discount = row.planType === "다이렉트" ? 0 : -1;
     setActive({ ...active, plan: row, discount, supportPrice: value || 0 });
   };
 
@@ -139,7 +139,12 @@ export default function DetailInfomation({ active, setActive }) {
                       }`}</p>
                     </div>
                     <div className="icon">
-                      <AddCircleOutlineIcon />
+                      <AddCircleOutlineIcon
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          alert("클릭");
+                        }}
+                      />
                     </div>
                   </DetailInfo.PlanDescription>
                 </DetailInfo.PlanCard>
