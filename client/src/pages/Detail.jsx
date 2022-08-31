@@ -13,7 +13,7 @@ import { defaultValue } from "../DummyData";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
 import { priceCalc } from "../methods/priceCalc";
-import { clearCompareData } from "../methods/inputCompare";
+import { deleteAll } from "../methods/inputCompare";
 
 export default function Detail({ saveCart, propsList }) {
   const { id } = useParams();
@@ -43,25 +43,43 @@ export default function Detail({ saveCart, propsList }) {
   );
 
   const handleData = async () => {
-    const [phoneData, planData, supportPrice] = await Promise.all([
-      getPhoneByPhoneId(id),
-      getPlanByPlanId(1),
-      getPublicSupportByPhoneIdAndPlanId({ phone_id: id, plan_id: 1 }),
-    ]);
-    if (phoneData.status === 404) {
+    const [phoneData, planData, supportPrice] = await getPhoneByPhoneId(
+      id
+    ).then(async (d) => {
+      if (d.status === 404) {
+        return ["error", "error", "error"];
+      } else {
+        const searchPlanId = d.phoneDetail.telecomTech === "5G" ? 1 : 17;
+        return await Promise.all([
+          d,
+          getPlanByPlanId(searchPlanId),
+          getPublicSupportByPhoneIdAndPlanId({
+            phone_id: id,
+            plan_id: searchPlanId,
+          }).then((d) => {
+            if (d.status === 404) {
+              return 0;
+            } else {
+              return d.PublicSupportPrice;
+            }
+          }),
+        ]);
+      }
+    });
+    if (phoneData === "error") {
       return "error";
     } else
       return {
         phone: phoneData.phoneDetail,
         color: phoneData.phoneDetail.colorList[0],
         plan: planData.Plan,
-        supportPrice: supportPrice.PublicSupportPrice,
+        supportPrice: supportPrice,
       };
   };
 
   useEffect(() => {
     setLoading(true);
-    clearCompareData(propsList);
+    deleteAll(propsList);
   }, []);
 
   useEffect(async () => {

@@ -5,6 +5,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
 import { LGButton } from "./Button";
+import { deleteAll, deleteOne } from "../methods/inputCompare";
 
 export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
   useEffect(() => {
@@ -44,18 +45,6 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
       setModalShow({ ...modalShow, compare: true });
     }
   };
-
-  const deleteOne = (idx) => {
-    const returnArray = [...propsList.comparePhoneList];
-    returnArray.splice(idx, 1);
-    returnArray.push({});
-    propsList.setComparePhoneList(returnArray);
-  };
-
-  const deleteAll = () => {
-    propsList.setComparePhoneList([{}, {}, {}]);
-  };
-
   return (
     <div>
       <Compare.PopUp show={toggle()} active={!modalShow.comparePopup}>
@@ -81,14 +70,16 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
             if (row.phoneId) {
               return (
                 <Compare.PopUpPhone key={i}>
-                  <Compare.PopUpPhoneImg src={row.previewImg} />
+                  <Compare.PopUpPhoneImg
+                    src={row.previewImg || row.colorList[0].phoneImgList[0]}
+                  />
                   <Compare.PopUpPhoneInfo>
                     <p>{row.titleName}</p>
                     <h2>130,260원</h2>
                   </Compare.PopUpPhoneInfo>
                   <Compare.PopUpDeleteBtn
                     children={<CloseIcon />}
-                    onClick={() => deleteOne(i)}
+                    onClick={() => deleteOne(i, propsList)}
                   />
                 </Compare.PopUpPhone>
               );
@@ -109,7 +100,7 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
             <LGButton
               variant="outline-dark"
               children="전체삭제"
-              onClick={deleteAll}
+              onClick={() => deleteAll(propsList)}
             />
           </Compare.PopUpBtnGroup>
         </Compare.PopUpContent>
