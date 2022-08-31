@@ -11,7 +11,7 @@ export const FilterTitle = styles.h3`
 `
 
 export const OptionTitle = styles.p`
-    padding: 16px 16px 8px 16px;
+    padding: 0px;
     position: relative;
     font-weight: 400;
     font-size: 16px;
