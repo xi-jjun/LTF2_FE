@@ -1,5 +1,5 @@
 import { Button, FormControl, Input, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styles from "../styles/orderForm";
 import orderfiled from "../assets/orderfiled";
 import { FormButton, LGButton } from "./Button";
@@ -7,7 +7,7 @@ import MessageModal from "./MessageModal";
 import { check, validator } from "../util/validator";
 import useForm from "../util/useForm";
 
-function OrderForm({ showUserInfo , setCallback, setRequires}) {
+function OrderForm({ showUserInfo, setCallback, setRequires }) {
   const [userData, setUserData] = useState({
     userType: "내국인",
     authType: "휴대폰",
@@ -15,11 +15,15 @@ function OrderForm({ showUserInfo , setCallback, setRequires}) {
     userId: "",
     userPhone: "",
   });
-  const { handleNumber, handleChange, handleAuth, handleBlur, state, errors } = useForm({
-    initState: userData,
-    callback: () => { showUserInfo; setCallback(state,`${state.authType} 인증 완료!`)},
-    validator,
-  });
+  const { handleNumber, handleChange, handleAuth, handleBlur, state, errors } =
+    useForm({
+      initState: userData,
+      callback: () => {
+        showUserInfo();
+        setCallback(state, `${state.authType} 인증 완료!`);
+      },
+      validator,
+    });
 
   const iterButton = (key) => {
     switch (key) {
@@ -51,6 +55,10 @@ function OrderForm({ showUserInfo , setCallback, setRequires}) {
         break;
     }
   };
+
+  useEffect(() => {
+    setRequires("orderForm", false);
+  }, [state]);
 
   return (
     <Styles.FormTable>
@@ -104,7 +112,7 @@ function OrderForm({ showUserInfo , setCallback, setRequires}) {
             <TextField
               variant="standard"
               color="error"
-              name="ablePhone"
+              name="userPhone"
               placeholder="'-'없이 숫자만 입력"
               required
               inputProps={{ maxLength: 11 }}
@@ -116,7 +124,11 @@ function OrderForm({ showUserInfo , setCallback, setRequires}) {
             <LGButton
               type="button"
               size="sm"
-              onClick={() => { handleAuth(state); setRequires("orderForm",true)}}
+              onClick={() => {
+                handleAuth(state, () => {
+                  setRequires("orderForm", true);
+                });
+              }}
             >
               인증하기
             </LGButton>

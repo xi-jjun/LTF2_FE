@@ -20,6 +20,7 @@ function InputBankAccount({
   handleNumber,
   handleBlur,
   handleAuth,
+  setRequires,
   state,
   errors,
 }) {
@@ -62,7 +63,11 @@ function InputBankAccount({
               <LGButton
                 type="button"
                 size="sm"
-                onClick={() => handleAuth(state)}
+                onClick={() => {
+                  handleAuth(state, () => {
+                    setRequires("infoForm", true);
+                  });
+                }}
               >
                 인증하기
               </LGButton>

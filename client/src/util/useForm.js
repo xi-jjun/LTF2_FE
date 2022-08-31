@@ -24,7 +24,6 @@ const useForm = ({ initState, callback, validator }) => {
       ...state,
       [name]: value
     }));
-    
   };
 
 // ******************************
@@ -38,15 +37,16 @@ const useForm = ({ initState, callback, validator }) => {
   };
 
 // ******************************
-  const handleAuth = (checkData) => {
-    console.log(errors)
+  const handleAuth = (checkData , callback) => {
     Object.keys(checkData).map((k) => {
         const fieldName = k
         const faildFiels = validator(state, fieldName);
         setErrors((prev) => ({ ...prev, [fieldName]: faildFiels[fieldName] }));
     })
     setIsClicked(true)
-    setAuth(Object.values(errors).filter(error => typeof error !== "undefined").length === 0)
+    const chk = Object.values(errors).filter(error => typeof error !== "undefined").length === 0
+    if (chk)
+      callback()
   };
 
 // ******************************

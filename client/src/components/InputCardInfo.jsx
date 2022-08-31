@@ -10,6 +10,7 @@ function InputCardInfo({
   handleNumber,
   handleBlur,
   handleAuth,
+  setRequires,
   state,
   errors,
 }) {
@@ -46,7 +47,11 @@ function InputCardInfo({
           <LGButton
             type="button"
             size="sm"
-            onClick={() => handleAuth(state)}
+            onClick={() => {
+              handleAuth(state, () => {
+                setRequires("infoForm", true);
+              });
+            }}
           >
             인증하기
           </LGButton>
