@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import { priceCalc } from "../methods/priceCalc";
 
 export default function CartProduct({data, deleteCart}) {
     const [over, setOver] = useState(false)
@@ -9,39 +10,51 @@ export default function CartProduct({data, deleteCart}) {
 
     const onDelBtnClick = () => {
       deleteCart(data.id);
+      location.reload();
     }
 
     const mvDetailPage = () => {
       navigate(`/detail/${data.info.shoppingBasket.phoneId}`);
     }
 
+    const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
+    const actualPrice = data.info.shoppingBasket.phonePrice - (data.discount === -1 ? data.info.shoppingBasket.supportPrice : 0);
+    const monthFee = 0.059 / 12;
+    const monthPhonePrice = data.installment === 1 ? actualPrice : Math.round((actualPrice * monthFee * Math.pow(1 + monthFee, data.installment)) /
+                              (Math.pow(1 + monthFee, data.installment) - 1) /
+                              100) * 100;
+    const pricePerMonth = (data.installment === 1 ? 0 : monthPhonePrice) + data.info.shoppingBasket.planMonthPrice * (data.discount > 11 ? 0.75 : 1);
+
     return (
         <li style={{borderTop : "1px solid #ddd"}}>
         <Styled.CartProductContainer>
           <Styled.CartProductContainerPThumb>
-            <a style={{display:"block"}} href="">
+            <a style={{display:"block", cursor:"pointer"}} onClick={mvDetailPage}>
               <Styled.CartProductContainerPThumbImg src={data.info.shoppingBasket.phoneImgList[0]} alt="" />
             </a>
           </Styled.CartProductContainerPThumb>
           <Styled.CartProductContainerPProduct>
             <div>
-              <Styled.CartProductContainerPProductData>{data.date}</Styled.CartProductContainerPProductData>
+              <Styled.CartProductContainerPProductData>
+                {new Date(data.date).toLocaleDateString() + new Date(data.date).toLocaleTimeString() + " (" + WEEKDAY[new Date(data.date).getDay()] + ")"}
+              </Styled.CartProductContainerPProductData>
               <Styled.CartProductContainerPProductTit>
-                <a style={{textDecoration: "none", color: "inherit", verticalAlign: "middle"}} href="">{data.info.shoppingBasket.titleName}</a>
+                <a style={{textDecoration: "none", color: "inherit", verticalAlign: "middle", cursor:"pointer"}} onClick={mvDetailPage}>{data.info.shoppingBasket.titleName}</a>
                 <span style={{marginLeft: 8}}></span>
               </Styled.CartProductContainerPProductTit>
               <Styled.CartProductContainerPProductDesc>
                 {data.info.shoppingBasket.planName}<span style={{fontSize: 14}}></span>
               </Styled.CartProductContainerPProductDesc>
               <div style={{margin: 0, marginBottom:6}}>
-                <Styled.OptionItemSpan>{data.info.shoppingBasket.colorName}</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
-                <Styled.OptionItemSpan>{data.info.shoppingBasket.memory}GB</Styled.OptionItemSpan><Styled.OptionItemLine></Styled.OptionItemLine>
+                <Styled.OptionItemSpan>{data.info.shoppingBasket.colorName}</Styled.OptionItemSpan><Styled.OptionItemLine/>
+                <Styled.OptionItemSpan>{data.info.shoppingBasket.memory}GB</Styled.OptionItemSpan><Styled.OptionItemLine/>
                 
                   {
-                    data.discount > 1 ?
-                    <Styled.OptionItemSpan>{data.discount}개월 할부</Styled.OptionItemSpan>
+                    data.installment > 0 ?
+                    <Styled.OptionItemSpan>{data.installment}개월 할부</Styled.OptionItemSpan>
                     :
-                    <Styled.OptionItemSpan></Styled.OptionItemSpan>
+                    <Styled.OptionItemSpan>일시불</Styled.OptionItemSpan>
                   }
                   <Styled.OptionItemLine></Styled.OptionItemLine>
                   <Styled.OptionItemSpan>{data.ship}</Styled.OptionItemSpan>
@@ -52,29 +65,29 @@ export default function CartProduct({data, deleteCart}) {
           <Styled.PDetailGroup>
 
             {
-              data.discount > 1 ?
+              data.discount > 0 ?
               <Styled.PDetailGroupItemInfo>
-              선택약정{data.discount}개월
+              선택약정 {data.discount}개월
               </Styled.PDetailGroupItemInfo>
               :
-                data.discount == 1 ?
+                data.discount == -1 ?
                 <Styled.PDetailGroupItemInfo>공시지원금</Styled.PDetailGroupItemInfo>
                 :
-                <Styled.PDetailGroupItemInfo>일시불</Styled.PDetailGroupItemInfo>
+                <Styled.PDetailGroupItemInfo>무약정</Styled.PDetailGroupItemInfo>
             }
 
-            <Styled.PDetailGroupItemInfoLine></Styled.PDetailGroupItemInfoLine>
+            <Styled.PDetailGroupItemInfoLine/>
             <Styled.PDetailGroupItemInfo>
               {data.registration}
             </Styled.PDetailGroupItemInfo>
-            <Styled.PDetailGroupItemInfoLine></Styled.PDetailGroupItemInfoLine>
+            <Styled.PDetailGroupItemInfoLine/>
             <Styled.PDetailGroupItemInfoDiv>
               <p style={{margin:0}}>월 예상 납부 금액</p>
               {
                 data.discount > 1?
-                <Styled.PDetailProductPrice>{data.info.shoppingBasket.phonePrice / data.discount}원</Styled.PDetailProductPrice>
+                <Styled.PDetailProductPrice>{pricePerMonth.toLocaleString()}원</Styled.PDetailProductPrice>
                 :
-                <Styled.PDetailProductPrice>{data.info.shoppingBasket.phoneMonthPrice}원</Styled.PDetailProductPrice>
+                <Styled.PDetailProductPrice>{data.info.shoppingBasket.planMonthPrice.toLocaleString()}원</Styled.PDetailProductPrice>
               }
               
             </Styled.PDetailGroupItemInfoDiv>
@@ -98,7 +111,7 @@ export default function CartProduct({data, deleteCart}) {
               비교하기
             </LGButton>
           </div>
-          <Styled.ProductContainerBtnDel onClick={()=>onDelBtnClick()}>
+          <Styled.ProductContainerBtnDel onClick={onDelBtnClick}>
             <Styled.IsBlind>상품삭제</Styled.IsBlind>
           </Styled.ProductContainerBtnDel>
         </Styled.CartProductContainer>

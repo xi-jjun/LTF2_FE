@@ -63,6 +63,7 @@ function App() {
     const cookieUploadObject = () => ({
       color: object.color.colorId,
       registration: object.registration,
+      installment: object.installment,
       discount: object.discount,
       phone: object.phone.phoneId,
       plan: object.plan.planId,
@@ -96,7 +97,9 @@ function App() {
           count: cart.count + 1,
           data: [...cart.data, { id: cart.count, ...cookieUploadObject() }],
         };
-        setCookie("cart", newCart);
+        const expiredDate = new Date();
+        expiredDate.setDate(expiredDate.getDate() + 90)
+        setCookie("cart", newCart, {path: "/", expires: expiredDate});
         setCart(newCart);
         return "success";
       } else return "alreadyExist";
