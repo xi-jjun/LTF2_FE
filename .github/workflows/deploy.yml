@@ -5,12 +5,12 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: lguplus-front
+  ECR_REPOSITORY: lguplus-front-dev
 
-  ECS_CLUSTER_NAME: lguplus-dev-cluster
-  ECS_CONTAINER_NAME: front-dev-container
-  ECS_SERVICE_NAME: lguplus-dev-service
-  ECS_TASK_DEFINITION: lguplus-dev-task
+  ECS_CLUSTER_NAME: lg-develop-cluster
+  ECS_CONTAINER_NAME: test-front-container
+  ECS_SERVICE_NAME: test-service
+  ECS_TASK_DEFINITION: test-task
 
 jobs:
   approve:
@@ -41,7 +41,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - run: echo "${{ secrets.AWS_ACCESS_KEY_ID }}"
         
     - name: Login to Amazon ECR
       id: login-ecr
