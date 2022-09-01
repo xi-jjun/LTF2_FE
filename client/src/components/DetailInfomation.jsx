@@ -91,6 +91,17 @@ export default function DetailInfomation({ active, setActive }) {
     ? [1, 3, 6, 9, 10, 12, 24, 30, 36, 48]
     : [1, 12, 24, 36];
 
+  const returnStr = (obj, str) => {
+    switch (obj) {
+      case "colorList":
+        return arrToString(str);
+      case "storage":
+        return `${str.toLocaleString()} mAh`;
+      default:
+        return str;
+    }
+  };
+
   useEffect(async () => {
     const value = await getPlanList();
     setPlanList(
@@ -284,11 +295,10 @@ export default function DetailInfomation({ active, setActive }) {
                             children={phoneInfoLabel(row).name}
                           />
                           <DetailInfo.SpecCell
-                            children={
-                              row === "colorList"
-                                ? arrToString(active.phone.phoneInfo[row])
-                                : active.phone.phoneInfo[row]
-                            }
+                            children={returnStr(
+                              row,
+                              active.phone.phoneInfo[row]
+                            )}
                           />
                         </DetailInfo.InfoTr>
                       ))}

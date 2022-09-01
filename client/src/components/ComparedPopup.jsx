@@ -52,7 +52,6 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
       setModalShow({ ...modalShow, comparePopup: true });
     }
   }, [propsList.comparePhoneList]);
-
   return (
     <div>
       <Compare.PopUp show={toggle()} active={!modalShow.comparePopup}>
