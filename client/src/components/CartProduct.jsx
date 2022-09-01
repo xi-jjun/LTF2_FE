@@ -12,11 +12,15 @@ export default function CartProduct({ data, deleteCart }) {
   };
 
     const mvDetailPage = () => {
-      const idList = {
+      const cartInfo = {
         "planId": data.info.shoppingBasket.planId,
-        "colorId": data.info.shoppingBasket.colorId
+        "colorId": data.info.shoppingBasket.colorId,
+        "registration": data.registration,
+        "ship": data.ship,
+        "discount": data.discount
       }
-      navigate(`/detail/${data.info.shoppingBasket.phoneId}`, {state: idList});
+
+      navigate(`/detail/${data.info.shoppingBasket.phoneId}`, {state: cartInfo});
 
     }
 
