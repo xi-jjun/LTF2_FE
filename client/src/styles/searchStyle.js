@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TotalLayout = styled.div`
-    width: 100%;
+    width: 90%;
     overflow:hidden;
     display: flex;
     flex-direction: column;
