@@ -8,7 +8,7 @@ export const Header = styled.header`
   left: 0px;
   height: 60px;
   width: 100%;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 10px 10px 0px 0px;
   border-bottom: 1px solid grey;
   padding: 18px 24px 17px;
@@ -50,7 +50,7 @@ export const Body = styled.div`
   position: absolute;
   top: 60px;
   left: 0px;
-  background: #fff;
+  background: #f5f5f5;
   overflow: auto;
   width: 100%;
   height: 660px;

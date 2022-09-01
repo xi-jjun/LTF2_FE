@@ -1,6 +1,6 @@
 import * as ModalStyle from "../styles/modalStyle";
 import * as Compare from "../styles/compareStyle";
-import { priceCalc } from "../methods/priceCalc";
+import { priceCalc } from "../util/priceCalc";
 import { LGButton } from "./Button";
 import DataOptSelect from "./DataOptSelect";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPhoneByPhoneId } from "../api/PhoneAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import CloseIcon from "@mui/icons-material/Close";
-import { deleteOne } from "../methods/inputCompare";
+import { deleteOne } from "../util/inputCompare";
 
 export function ComparedModalPhoneBox({
   opt,

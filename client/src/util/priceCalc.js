@@ -25,8 +25,8 @@ export function priceCalc(phone, plan, supportPrice, discount, installment) {
       : Math.round(
           (actualPrice * monthFee * Math.pow(1 + monthFee, month)) /
             (Math.pow(1 + monthFee, month) - 1) /
-            10
-        ) * 10;
+            100
+        ) * 100;
 
   // 정액제
   const originalPlan = plan.monthPrice || 0;
@@ -48,7 +48,7 @@ export function priceCalc(phone, plan, supportPrice, discount, installment) {
         ) * 10;
   // 월 지불해야 할 총 금액
   const monthTotalPrice =
-    (month === 1 ? 0 : Math.ceil(actualPrice / month / 100) * 100) +
+    (month === 1 ? 0 : monthPhonePrice) +
     originalPlan * (discount > 11 ? 0.75 : 1);
 
   return {

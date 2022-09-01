@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { defaultValue } from "../DummyData";
-import { inputComparePhone } from "../methods/inputCompare";
+import { inputComparePhone } from "../util/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
