@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 // ******************************
-const useFilter = ({ initState, initList , filterModule }) => {
+const useFilter = ({ initState, filterModule }) => {
   const [state, setState] = useState(initState);
-  const [list, setList] = useState(initList);
+  const [list, setList] = useState([]);
 
   // ******************************
 
@@ -14,8 +14,9 @@ const useFilter = ({ initState, initList , filterModule }) => {
   
   // ******************************
   
-  const handleChange = e => {
+  const handleChange = (e, phones) => {
     const { name, value } = e.target;
+    setList(phones)
     setState(() => ({
       ...state,
       [name]: value

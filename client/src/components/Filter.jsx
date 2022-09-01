@@ -3,7 +3,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography,
   FormControl,
   RadioGroup,
   FormControlLabel,
@@ -13,29 +12,17 @@ import { ExpandMore } from "@mui/icons-material";
 import * as Styles from "../styles/filterStyle";
 import * as OptionData from "../assets/filterOptions";
 
-export default function Filter({ handleChange }) {
+export default function Filter({ phones, handleChange }) {
   const data = OptionData["default"]["5G"];
-  const Label = ({ text }) => {
-    return <Styles.OptionText>{text}</Styles.OptionText>;
-  };
 
   const Options = (rows) => {
     return rows.map((row, idx) => {
-      if (idx === 0)
-        return (
-          <FormControlLabel
-            key={idx}
-            value={idx}
-            control={<Radio />}
-            label={<Label text={row} />}
-          />
-        );
       return (
         <FormControlLabel
           key={idx}
-          value={idx}
+          value={idx === 0 ? "전체" : row}
           control={<Radio />}
-          label={<Label text={row} />}
+          label={<Styles.OptionText>{row}</Styles.OptionText>}
         />
       );
     });
@@ -43,24 +30,23 @@ export default function Filter({ handleChange }) {
 
   return (
     <>
-      {Object.keys(data).map((key, i) => {
+      {Object.keys(data).map((k, i) => {
+        /*
+            k = 요금제, 할인유형, 제조사...
+        */
         return (
           <Accordion key={i}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Styles.OptionTitle>{key}</Styles.OptionTitle>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Styles.OptionTitle>{k}</Styles.OptionTitle>
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
                 <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="0"
-                  name="radio-buttons-group"
+                  defaultValue={"전체"}
+                  name={data[k].name}
+                  onChange={(e) => handleChange(e, phones)}
                 >
-                  {Options(data[key])}
+                  {Options(data[k].values)}
                 </RadioGroup>
               </FormControl>
             </AccordionDetails>

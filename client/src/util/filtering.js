@@ -2,35 +2,31 @@ export const filtering = (state, list) => {
     let filteredList = []
     
     list.map((item) => {
-      // 1. filter에 걸러지는지 flg
-      let isFilter = false
-      // 2. filter에 걸러지는지 체크
+      // 1. filter에 걸러지는지(false) flg
+      let isContained = true
+      // 2. filter에 걸러지는지(false) 체크
       Object.keys(state).forEach((k) =>{
-        // if(isFilter) return false;
+        if (!isContained) return false
         switch (k) {
-          case "plan":
-            // validateUserID(state.userType, state.userId, errors);
-            break;
           case "disCountType":
             // validateName(state.userName,errors);
             break;
           case "manufacturingCompany":
-            filterCompany(state.k, item.k)
+            isContained = filterCompany(state[k], item[k])
             break;
           case "storage":
-            filterStorage(state.k, item.phoneInfo.k)
+            isContained = filterStorage(state[k],item.phoneInfo[k])
             break;
           case "memory":
-            filterMemory(state.k, item.phoneInfo.k)
+            isContained = filterMemory(state[k], item.phoneInfo[k])
             break;
           default:
         }
       })
       // 3. 걸러지지 않는다면 filteredList에 넣기.
-      if(!isFilter)
+      if(isContained)
         filteredList.push(item)
     })
-    
     return filteredList;
   };
 
@@ -42,16 +38,9 @@ function filterCompany(condition,data) {
     return condition === data;
   }
 // ******************************
-/* 
-  전체
-  4000mAh이상
-  2500mAh~3000mAh
-  3000mAh~4000mAh
-*/
 function filterStorage(condition,data) {
   let result = true;
-  if(!data.contain("mAh")) return false
-  data = Number(data.replace("mAh",""))
+
   switch (condition) {
     case "4000mAh이상":
       return 4000 <= data
@@ -70,7 +59,7 @@ function filterMemory(condition,data) {
   let result = true;
   switch (condition) {
     case "1TB":
-      return 1000 === data
+      return 1024 === data
     case "512GB 이상":
       return 512 <= data 
     case "256GB":
