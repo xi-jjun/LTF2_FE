@@ -1,3 +1,4 @@
+import { Tooltip, tooltipClasses } from "@mui/material";
 import styled from "styled-components";
 
 export const PopUp = styled.div`
@@ -232,3 +233,18 @@ export const Spec = styled.div`
     margin-bottom: 15px;
   }
 `;
+
+export const NopeToolTip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#f5f5f5",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: "16px",
+    border: "1px solid #dadde9",
+    fontFamily: "Noto Sans KR",
+    textAlign: "center",
+    padding: "0px 20px",
+  },
+}));

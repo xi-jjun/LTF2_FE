@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { PageContainer } from "../components/PageContainer";
 import TitleSection from "../components/TitleSection";
@@ -61,7 +62,7 @@ export default function Cart({ cart, deleteCart }) {
     });
   }, []);
 
-  useEffect( async() => {
+  useEffect(async () => {
     const prr = await handleData();
     setCartArr(prr);
   }, [cart]);
@@ -154,13 +155,13 @@ export default function Cart({ cart, deleteCart }) {
                         <ul
                           style={{ listStyle: "none", margin: 0, padding: 0 }}
                         >
-                          {cartArr.map((c) => 
+                          {cartArr.map((c) => (
                             <CartProduct
-                            key={c.id}
-                            data={c}
-                            deleteCart={deleteCart}
-                          />
-                          )}
+                              key={c.id}
+                              data={c}
+                              deleteCart={deleteCart}
+                            />
+                          ))}
                         </ul>
                       </Styled.CartProductTbl>
                     </div>

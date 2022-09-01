@@ -9,6 +9,7 @@ export default function PhoneList({
   saveCart,
   propsList,
   filterOpt,
+  planList,
   search,
 }) {
   const phonesArray = search ? [...phones].slice(0, 4) : [...phones];
@@ -28,13 +29,14 @@ export default function PhoneList({
       </Styles.InfoArea>
       <Grid container justify="center" spacing={2}>
         {phonesArray.map((phone) => (
-          <Grid key={phone.id} item xs={12} sm={6} md={4} lg={3}>
+          <Grid key={phone.phoneId} item xs={12} sm={6} md={4} lg={3}>
             <Phone
               phone={phone}
               modalShow={modalShow}
               saveCart={saveCart}
               propsList={propsList}
               filterOpt={filterOpt}
+              planList={planList}
             />
           </Grid>
         ))}

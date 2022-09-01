@@ -101,6 +101,7 @@ function App() {
     };
     // 장바구니가 쿠키에 존재하고
     if (cart) {
+
       // 장바구니에 겹치는 데이터가 없다면
       if (!existSameValueInCart()) {
         // 원래의 장바구니 데이터에 추가로 데이터를 저장

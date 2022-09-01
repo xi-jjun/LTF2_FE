@@ -82,7 +82,7 @@ export const NavMap = styled.div`
   background: #fff;
   display: ${(props) => (props.nowHover ? "flex" : "none")};
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-  top: 103px;
+  top: 102px;
   left: 0px;
   right: 0px;
   width: 100%;

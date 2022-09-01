@@ -1,16 +1,24 @@
+import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
-export async function inputComparePhone(phone, plan, propsList) {
+export async function inputComparePhone(phone, planId, propsList) {
   const defaultOpt = async () => {
-    const supportPrice = await getPublicSupportByPhoneIdAndPlanId({
-      phone_id: phone.phoneId,
-      plan_id: plan.planId,
-    }).then((data) => data);
+    const [plan, supportPrice] = await Promise.all([
+      getPlanByPlanId(planId).then((data) => data.Plan),
+      getPublicSupportByPhoneIdAndPlanId({
+        phone_id: phone.phoneId,
+        plan_id: planId,
+      }).then((data) => {
+        if (data.status === 404) {
+          return 0;
+        } else return data.PublicSupportPrice;
+      }),
+    ]);
     return {
       registration: "기기변경",
       installment: 24,
       discount: -1,
-      supportPrice: supportPrice.PublicSupportPrice,
+      supportPrice: supportPrice,
       plan: plan,
     };
   };
