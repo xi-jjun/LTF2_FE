@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { priceCalc } from "../methods/priceCalc";
 
 export default function CartProduct({data, deleteCart}) {
     const [over, setOver] = useState(false)
@@ -13,7 +12,14 @@ export default function CartProduct({data, deleteCart}) {
     }
 
     const mvDetailPage = () => {
-      navigate(`/detail/${data.info.shoppingBasket.phoneId}`);
+      const idList = {
+        "planId": data.info.shoppingBasket.planId,
+        "colorId": data.info.shoppingBasket.colorId
+      }
+      console.log(idList);
+      navigate(`/detail/${data.info.shoppingBasket.phoneId}`, {state: idList});
+
+
     }
 
     const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -100,10 +106,10 @@ export default function CartProduct({data, deleteCart}) {
                     <Styled.IsBlind>메뉴더보기</Styled.IsBlind>
                 </LGButton>
               <Styled.COverflowMenu over={over}>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="">온라인 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="">전화 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="">채팅 상담</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="">매장 방문 예약</Styled.COverflowMenua></Styled.COverflowMenuLi>
+                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!" onClick={mvDetailPage}>온라인 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
+                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">전화 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
+                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">채팅 상담</Styled.COverflowMenua></Styled.COverflowMenuLi>
+                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">매장 방문 예약</Styled.COverflowMenua></Styled.COverflowMenuLi>
               </Styled.COverflowMenu>
             </div>
             <LGButton style={{marginTop:10}} variant="light" size="lg">

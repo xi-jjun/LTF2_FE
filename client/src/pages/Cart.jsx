@@ -80,7 +80,7 @@ export default function Cart({ cart, deleteCart }) {
         <div>로딩중입니다~</div>
       ) : (
         <div style={{ margin: 0, padding: 0 }}>
-          <TitleSection></TitleSection>
+          <TitleSection/>
           <div style={{ textAlign: "center" }}>
             <CartBar active={active} setActive={setActive} />
 
