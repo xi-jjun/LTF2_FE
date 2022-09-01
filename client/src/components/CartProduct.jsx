@@ -98,31 +98,38 @@ export default function CartProduct({ data, deleteCart }) {
               ) : (
                 <Styled.OptionItemSpan>일시불</Styled.OptionItemSpan>
               )}
-              <Styled.OptionItemLine></Styled.OptionItemLine>
+              <Styled.OptionItemLine/>
               <Styled.OptionItemSpan>{data.ship}</Styled.OptionItemSpan>
             </div>
           </div>
         </Styled.CartProductContainerPProduct>
         <Styled.PDetailGroup>
-          {data.discount > 0 ? (
+          {
+            data.discount > 0 ?
             <Styled.PDetailGroupItemInfo>
               선택약정 {data.discount}개월
             </Styled.PDetailGroupItemInfo>
-          ) : data.discount === -1 ? (
+            :
+              data.discount === -1 ?  
+              <Styled.PDetailGroupItemInfo>공시지원금</Styled.PDetailGroupItemInfo>
+              :
+              <Styled.PDetailGroupItemInfo>무약정</Styled.PDetailGroupItemInfo>
+          }
+            <Styled.PDetailGroupItemInfoLine/>
             <Styled.PDetailGroupItemInfo>
-              공시지원금
+              {data.registration}
             </Styled.PDetailGroupItemInfo>
             <Styled.PDetailGroupItemInfoLine/>
             <Styled.PDetailGroupItemInfoDiv>
               <p style={{margin:0}}>월 예상 납부 금액</p>
               {
-                data.discount > 1?
+                data.discount > 1 ?
                 <Styled.PDetailProductPrice>{pricePerMonth.toLocaleString()}원</Styled.PDetailProductPrice>
                 :
                 <Styled.PDetailProductPrice>{data.info.shoppingBasket.planMonthPrice.toLocaleString()}원</Styled.PDetailProductPrice>
               }
-              
             </Styled.PDetailGroupItemInfoDiv>
+          
           </Styled.PDetailGroup>
           <div>
             <div style={{position: "relative"}}
@@ -142,29 +149,7 @@ export default function CartProduct({ data, deleteCart }) {
             <LGButton style={{marginTop:10}} variant="light" size="lg">
               비교하기
             </LGButton>
-            <Styled.COverflowMenu over={over}>
-              <Styled.COverflowMenuLi>
-                <Styled.COverflowMenua href="">
-                  온라인 주문
-                </Styled.COverflowMenua>
-              </Styled.COverflowMenuLi>
-              <Styled.COverflowMenuLi>
-                <Styled.COverflowMenua href="">전화 주문</Styled.COverflowMenua>
-              </Styled.COverflowMenuLi>
-              <Styled.COverflowMenuLi>
-                <Styled.COverflowMenua href="">채팅 상담</Styled.COverflowMenua>
-              </Styled.COverflowMenuLi>
-              <Styled.COverflowMenuLi>
-                <Styled.COverflowMenua href="">
-                  매장 방문 예약
-                </Styled.COverflowMenua>
-              </Styled.COverflowMenuLi>
-            </Styled.COverflowMenu>
           </div>
-          <LGButton style={{ marginTop: 10 }} variant="light" size="lg">
-            비교하기
-          </LGButton>
-        </div>
         <Styled.ProductContainerBtnDel onClick={onDelBtnClick}>
           <Styled.IsBlind>상품삭제</Styled.IsBlind>
         </Styled.ProductContainerBtnDel>
