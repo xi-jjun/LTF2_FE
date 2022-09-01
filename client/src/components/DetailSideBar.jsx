@@ -71,33 +71,31 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       </detailInfo.SideFlex>
       <detailInfo.SideFlex>
         <p className="left">정상가</p>
-        <p className="right">{active.phone.price.toLocaleString()} 원</p>
+        <p className="right">{priceInfo.originalPhone.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
       {active.discount === -1 && (
         <div>
           <detailInfo.SideFlex>
             <p className="left" style={{ color: "#e6007e" }}>
-              공시지원금 (sample)
+              공시지원금
             </p>
             <p className="right" style={{ color: "#e6007e" }}>
-              -{(active.supportPrice / 1.15).toLocaleString()} 원
+              -{priceInfo.supportPrice.toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
           <detailInfo.SideFlex>
             <p className="left" style={{ color: "#e6007e" }}>
-              추가지원금 (sample)
+              추가지원금
             </p>
             <p className="right" style={{ color: "#e6007e" }}>
-              -{((active.supportPrice / 1.15) * 0.15).toLocaleString()} 원
+              -{priceInfo.extraSupportPrice.toLocaleString()} 원
             </p>
           </detailInfo.SideFlex>
         </div>
       )}
       <detailInfo.SideFlex>
         <p className="left">실구매가</p>
-        <p className="right">
-          {(active.phone.price - active.supportPrice).toLocaleString()} 원
-        </p>
+        <p className="right">{priceInfo.actualPrice.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
       {active.installment !== 1 && (
         <div>
@@ -120,7 +118,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       </detailInfo.SideFlex>
       <detailInfo.SideFlex>
         <p className="left">{active.plan.name}</p>
-        <p className="right">{active.plan.monthPrice.toLocaleString()} 원</p>
+        <p className="right">{priceInfo.originalPlan.toLocaleString()} 원</p>
       </detailInfo.SideFlex>
       {active.discount > 11 && (
         <detailInfo.SideFlex>
@@ -128,7 +126,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
             선택 약정 할인
           </p>
           <p className="right" style={{ color: "#e6007e" }}>
-            -{(active.plan.monthPrice * 0.25).toLocaleString()} 원
+            -{priceInfo.discountPlan.toLocaleString()} 원
           </p>
         </detailInfo.SideFlex>
       )}

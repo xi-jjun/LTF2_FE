@@ -5,7 +5,13 @@ import { inputComparePhone } from "../methods/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
-export default function Phone({ phone, modalShow, saveCart, propsList }) {
+export default function Phone({
+  phone,
+  modalShow,
+  saveCart,
+  propsList,
+  filterOpt,
+}) {
   const navigate = useNavigate();
 
   const compareDisabled =
@@ -68,7 +74,7 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
               ) === -1 && compareDisabled
             }
             onClick={() =>
-              inputComparePhone(phone, defaultValue.plan, propsList)
+              inputComparePhone(phone, filterOpt.planId, propsList)
             }
           >
             비교하기

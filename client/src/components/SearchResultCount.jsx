@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import * as ResultCount from "../styles/searchResultCountStyle";
 import { LGButton } from "./Button";
 
-export default function SearchResultCount({searchPhones, keyword}) {
+export default function SearchResultCount({ searchPhones, keyword, fixKeyword, setFixKeyword }) {
     const navigate = useNavigate();
 
     const goHome = () => navigate("/");
@@ -29,7 +29,12 @@ export default function SearchResultCount({searchPhones, keyword}) {
                     </div>
                 </>
             }
-            
+            {(fixKeyword.length > 0) ?
+                <div className="fixKeyword">
+                    혹시 &nbsp;<span>{fixKeyword}</span>를 검색하셨나요?
+                </div> :
+                <></>
+            }
         </ResultCount.CountBox>
     );
 }

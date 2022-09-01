@@ -2,17 +2,17 @@ import React, { useRef, useState } from "react";
 import * as Bar from "../styles/barStyle";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NavMap from "./NavMap";
 
-export default function NavBar({ active, setActive }) {
+export default function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [show, setShow] = useState(false);
   const [nowHover, setNowHover] = useState("");
 
   const navArray = [
-    { label: "모바일 기기", link: "/" },
+    { label: "모바일 기기", link: "/phone/5G" },
     { label: "모바일 요금제", link: "/" },
     { label: "인터넷/IPTV", link: "/" },
     { label: "마이페이지", link: "/" },
@@ -22,9 +22,18 @@ export default function NavBar({ active, setActive }) {
     { label: "유독", link: "/" },
   ];
 
-  const nowActive = (row) => {
-    setActive(row.label);
-    navigate(row.link);
+  const nowLocation = () => {
+    const includeUrl = (arr) =>
+      arr.map((row) => location.pathname.indexOf(row)).includes(1);
+    if (includeUrl(["phone", "detail", "cart", "search", "order"]))
+      return "모바일 기기";
+    else return "";
+  };
+
+  const goLink = (row) => {
+    if (row.link !== "/") {
+      navigate(row.link);
+    }
   };
 
   const goToCart = () => {
@@ -44,7 +53,7 @@ export default function NavBar({ active, setActive }) {
   };
 
   const onKeyPress = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       onClickSearch();
     }
   };
@@ -70,8 +79,8 @@ export default function NavBar({ active, setActive }) {
             key={row.label}
             children={row.label}
             navId={row.label}
-            active={active}
-            onClick={() => nowActive(row)}
+            active={nowLocation()}
+            onClick={() => goLink(row)}
             nowHover={nowHover}
             onMouseEnter={() => {
               if (row.label === "유플일상" || row.label === "유독") {
