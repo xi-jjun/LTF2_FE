@@ -16,9 +16,11 @@ import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
 import ComparedModal from "./components/ComparedModal";
 import NotFound from "./components/NotFound";
+import { getPlansAll } from "./api/PlanAPI";
 
 function App() {
   const [phones, setPhones] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
   const [comparePhoneList, setComparePhoneList] = useState([{}, {}, {}]);
@@ -44,6 +46,17 @@ function App() {
         console.log(e);
       });
     setPhones(data);
+  };
+
+  const fetchPlans = async () => {
+    const data = await getPlansAll()
+      .then((data) => {
+        return data.PlanList;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    setPlans(data);
   };
 
   // 장바구니 데이터 쿠키에서 가져오기
@@ -119,6 +132,7 @@ function App() {
 
   useEffect(() => {
     fetchPhones();
+    fetchPlans();
     getCartDatas();
   }, []);
 
@@ -145,12 +159,28 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Main />} />
           <Route
-            path="/phone"
+            path="/phone/:tech/:company"
             exact
             element={
               <Home
                 phones={phones}
+                plans={plans}
                 modalShow={modalShow}
+                setModalShow={setModalShow}
+                saveCart={saveCart}
+                propsList={propsList}
+              />
+            }
+          />
+          <Route
+            path="/phone/:tech"
+            exact
+            element={
+              <Home
+                phones={phones}
+                plans={plans}
+                modalShow={modalShow}
+                setModalShow={setModalShow}
                 saveCart={saveCart}
                 propsList={propsList}
               />

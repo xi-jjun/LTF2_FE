@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const MainBox = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    overflow: hidden;
+    height: 1400px;
 
-  .goButton {
-    position: absolute;
-    top: 500px;
-    left: 160px;
-  }
+    .goButton {
+        position: absolute;
+        top: 500px;
+        left: 160px;
+    }
 `;
 
 export const MainBlack = styled.div`
@@ -44,15 +45,15 @@ export const MainDes = styled.div`
   font-weight: 450;
 `;
 
-export const goFive = styled.div`
-  font-size: 20px;
-  margin-top: 20px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  color: white;
+export const GoFive = styled.div`
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: white;
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+        cursor: pointer;
+    }
 `;

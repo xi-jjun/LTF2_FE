@@ -12,10 +12,10 @@ export default function NavMap({ nowHover }) {
       { name: "애플", link: "/phone/5G/애플" },
     ],
     [
-      { name: "4G 휴대폰", link: "/phone/4G" },
-      { name: "전체", link: "/phone/4G" },
-      { name: "삼성", link: "/phone/4G/삼성" },
-      { name: "애플", link: "/phone/4G/애플" },
+      { name: "4G 휴대폰", link: "/phone/LTE" },
+      { name: "전체", link: "/phone/LTE" },
+      { name: "삼성", link: "/phone/LTE/삼성" },
+      { name: "애플", link: "/phone/LTE/애플" },
     ],
     [
       { name: "유심", link: "" },

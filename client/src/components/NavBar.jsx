@@ -12,7 +12,7 @@ export default function NavBar() {
   const [nowHover, setNowHover] = useState("");
 
   const navArray = [
-    { label: "모바일 기기", link: "/phone" },
+    { label: "모바일 기기", link: "/phone/5G" },
     { label: "모바일 요금제", link: "/" },
     { label: "인터넷/IPTV", link: "/" },
     { label: "마이페이지", link: "/" },
@@ -30,8 +30,10 @@ export default function NavBar() {
     else return "";
   };
 
-  const nowActive = (row) => {
-    navigate(row.link);
+  const goLink = (row) => {
+    if (row.link !== "/") {
+      navigate(row.link);
+    }
   };
 
   const goToCart = () => {
@@ -51,7 +53,7 @@ export default function NavBar() {
   };
 
   const onKeyPress = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       onClickSearch();
     }
   };
@@ -78,7 +80,7 @@ export default function NavBar() {
             children={row.label}
             navId={row.label}
             active={nowLocation()}
-            onClick={() => nowActive(row)}
+            onClick={() => goLink(row)}
             nowHover={nowHover}
             onMouseEnter={() => {
               if (row.label === "유플일상" || row.label === "유독") {

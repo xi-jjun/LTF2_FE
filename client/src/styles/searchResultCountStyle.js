@@ -14,4 +14,12 @@ export const CountBox = styled.div`
         display: flex;
         justify-content: center;
     }
+
+    .fixKeyword {
+        margin-top: 5px;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `
