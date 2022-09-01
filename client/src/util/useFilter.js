@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // ******************************
-const useFilter = ({ initState, filterModule }) => {
+const useFilter = ({ initState, callback ,filterModule }) => {
   const [state, setState] = useState(initState);
   const [list, setList] = useState([]);
 
@@ -15,12 +15,20 @@ const useFilter = ({ initState, filterModule }) => {
   // ******************************
   
   const handleChange = (e, phones) => {
-    const { name, value } = e.target;
+    const { name, value , id } = e.target;
     setList(phones)
     setState(() => ({
       ...state,
       [name]: value
     }));
+    
+    switch (name) {
+      case "plan":
+        callback("plan",e.target)
+        break;
+      default:
+        break;
+    }
   };
 
 

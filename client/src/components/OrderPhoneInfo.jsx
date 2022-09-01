@@ -2,7 +2,6 @@ import * as detailInfo from "../styles/detailInfoStyle";
 import { LGButton } from "./Button";
 import * as Styles from "../styles/orderStyle";
 export default function OrderPhoneInfo({ state }) {
-  console.log(state);
   return (
     <detailInfo.SideBarContainer>
       <Styles.PhoneImg src={state.color.phoneImgList[0]} />

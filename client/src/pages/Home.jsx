@@ -25,7 +25,7 @@ export default function Home({
   const { tech, company } = useParams();
 
   const [filterOpt, setFilterOpt] = useState({ planId: 1 });
-
+  const [defaultValue, setDefaultValue] = useState("전체");
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
 
@@ -48,6 +48,7 @@ export default function Home({
       goToNotFound();
     }
   }, []);
+  ///////////////////////////////////////////
 
   const [filter, setFilter] = useState({
     plan: "전체",
@@ -57,8 +58,20 @@ export default function Home({
     memory: "전체",
   });
 
+  const callback = (key, data) => {
+    switch (key) {
+      case "plan":
+        const { id, value } = data;
+        setFilterOpt({ planId: id });
+        setDefaultValue(value);
+        break;
+      default:
+        break;
+    }
+  };
   const { handleChange, state, list } = useFilter({
     initState: filter,
+    callback: callback,
     filterModule: filtering,
   });
 
@@ -76,13 +89,19 @@ export default function Home({
         setModalShow={setModalShow}
         nowPlanId={filterOpt.planId}
         handleFilterOpt={handleFilterOpt}
+        setDefaultValue={setDefaultValue}
         plans={planList}
       />
       <Styles.TotalLayout>
         <Styles.FilterTitle>{tech} 휴대폰</Styles.FilterTitle>
         <Grid container spacing={2}>
           <Grid item md={2}>
-            <Filter phones={phones} handleChange={handleChange} />
+            <Filter
+              phones={phones}
+              defaultValue={defaultValue}
+              tech={tech}
+              handleChange={handleChange}
+            />
           </Grid>
           <Grid item md={9}>
             <PhoneList
