@@ -55,7 +55,7 @@ export default function CartProduct({data, deleteCart}) {
                     :
                     <Styled.OptionItemSpan>일시불</Styled.OptionItemSpan>
                   }
-                  <Styled.OptionItemLine></Styled.OptionItemLine>
+                  <Styled.OptionItemLine/>
                   <Styled.OptionItemSpan>{data.ship}</Styled.OptionItemSpan>
               </div>
 
