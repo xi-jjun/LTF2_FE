@@ -1,7 +1,7 @@
 import SideFlexRow from "./SideFlexRow";
 import * as ModalStyle from "../styles/modalStyle";
 import * as Compare from "../styles/compareStyle";
-import { priceCalc } from "../methods/priceCalc";
+import { priceCalc } from "../util/priceCalc";
 
 export default function ComparedModalDetailBox({ propsList }) {
   const priceInfo = (i) => {

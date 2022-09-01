@@ -12,8 +12,8 @@ import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import { defaultValue } from "../DummyData";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
-import { priceCalc } from "../methods/priceCalc";
-import { deleteAll } from "../methods/inputCompare";
+import { priceCalc } from "../util/priceCalc";
+import { deleteAll } from "../util/inputCompare";
 
 export default function Detail({ saveCart, propsList }) {
   const { id } = useParams();

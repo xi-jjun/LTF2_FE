@@ -1,6 +1,6 @@
 import * as ModalStyle from "../styles/modalStyle";
 import * as Compare from "../styles/compareStyle";
-import { arrToString, phoneInfoLabel } from "../methods/transform";
+import { arrToString, phoneInfoLabel } from "../util/transform";
 import { defaultValue } from "../DummyData";
 
 export default function ComparedModalSpecBox({ propsList }) {

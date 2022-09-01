@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { getPlansAll } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
-import { arrToString, phoneInfoLabel } from "../methods/transform";
+import { arrToString, phoneInfoLabel } from "../util/transform";
 
 export default function DetailInfomation({ active, setActive }) {
   // active 요소 변경 함수

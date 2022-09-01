@@ -114,9 +114,9 @@ export const LGButton = styled.button`
   }
   &:disabled {
     cursor: default;
-    color: black;
-    border: black;
-    background-color: grey;
+    color: grey;
+    border: grey;
+    background-color: lightgrey;
   }
 
   transition: all 0.2s ease-in-out;
