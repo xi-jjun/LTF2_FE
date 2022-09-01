@@ -6,6 +6,7 @@ export const MainBox = styled.div`
     flex-flow: column;
     align-items: center;
     overflow: hidden;
+    height: 1400px;
 
     .goButton {
         position: absolute;
@@ -44,7 +45,7 @@ export const MainDes = styled.div`
     font-weight: 450;
 `;
 
-export const goFive = styled.div`
+export const GoFive = styled.div`
     font-size: 20px;
     margin-top: 20px;
     font-weight: bold;

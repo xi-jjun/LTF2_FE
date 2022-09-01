@@ -4,11 +4,17 @@ import { inputComparePhone } from "../methods/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
 
-export default function Phone({ phone, modalShow, saveCart, propsList }) {
+export default function Phone({
+  phone,
+  modalShow,
+  saveCart,
+  propsList,
+  filterOpt,
+}) {
   const navigate = useNavigate();
 
   const compareDisabled =
-    propsList.comparePhoneList.filter((row) => row.id).length === 3;
+    propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
 
   return (
     <Styles.CardLayout>
@@ -42,8 +48,7 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
             통신료 월65,000원
           </Styles.PlanMoney>
           <Styles.TotalMoney>
-            {/* 월 총 납부 금액 */}
-            월 130,260원
+            {/* 월 총 납부 금액 */}월 130,260원
           </Styles.TotalMoney>
         </Styles.PlanLayout>
       </Styles.CardBody>
@@ -56,7 +61,7 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
           <LGButton
             variant={
               propsList.comparePhoneList.findIndex(
-                (row) => row.id === phone.id
+                (row) => row.phoneId === phone.phoneId
               ) === -1
                 ? "light"
                 : "dark"
@@ -64,10 +69,12 @@ export default function Phone({ phone, modalShow, saveCart, propsList }) {
             size="sm"
             disabled={
               propsList.comparePhoneList.findIndex(
-                (row) => row.id === phone.id
+                (row) => row.phoneId === phone.phoneId
               ) === -1 && compareDisabled
             }
-            onClick={() => inputComparePhone(phone, propsList)}
+            onClick={() =>
+              inputComparePhone(phone, filterOpt.planId, propsList)
+            }
           >
             비교하기
           </LGButton>

@@ -8,6 +8,7 @@ export default function PhoneList({
   modalShow,
   saveCart,
   propsList,
+  filterOpt,
   search,
 }) {
   const phonesArray = search ? [...phones].slice(0, 4) : [...phones];
@@ -33,6 +34,7 @@ export default function PhoneList({
               modalShow={modalShow}
               saveCart={saveCart}
               propsList={propsList}
+              filterOpt={filterOpt}
             />
           </Grid>
         ))}

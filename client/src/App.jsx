@@ -9,7 +9,6 @@ import Header from "./components/Header";
 import "./css/App.css";
 import NavBar from "./components/NavBar";
 import { useState } from "react";
-import { getPhoneList } from "./api/api";
 import { getPhonesAll } from "./api/PhoneAPI";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -17,10 +16,11 @@ import ComparedPopup from "./components/ComparedPopup";
 import Order from "./pages/Order";
 import ComparedModal from "./components/ComparedModal";
 import NotFound from "./components/NotFound";
+import { getPlansAll } from "./api/PlanAPI";
 
 function App() {
   const [phones, setPhones] = useState([]);
-  const [active, setActive] = useState("모바일 기기");
+  const [plans, setPlans] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies();
   const [cart, setCart] = useState({ count: 0, data: [] });
   const [comparePhoneList, setComparePhoneList] = useState([{}, {}, {}]);
@@ -39,14 +39,24 @@ function App() {
 
   const fetchPhones = async () => {
     const data = await getPhonesAll()
-    .then((data) => {
-      console.log(data.phoneList);
-      return data.phoneList;
-    })
-    .catch((e) => {
-        console.log(e)
-    });
+      .then((data) => {
+        return data.phoneList;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     setPhones(data);
+  };
+
+  const fetchPlans = async () => {
+    const data = await getPlansAll()
+      .then((data) => {
+        return data.PlanList;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    setPlans(data);
   };
 
   // 장바구니 데이터 쿠키에서 가져오기
@@ -112,16 +122,23 @@ function App() {
     setCart({ count: cart.count, data: returnArray });
     setCookie("cart", { count: cart.count, data: returnArray });
   };
+
   useEffect(() => {
     fetchPhones();
+    fetchPlans();
     getCartDatas();
   }, []);
+
+  useEffect(() => {
+    if (modalShow.compare) {
+    }
+  }, [modalShow.compare]);
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Header setActive={setActive} />
-        <NavBar active={active} setActive={setActive} />
+        <Header />
+        <NavBar />
         <ComparedPopup
           modalShow={modalShow}
           setModalShow={setModalShow}
@@ -133,20 +150,30 @@ function App() {
           propsList={propsList}
         />
         <Routes>
+          <Route path="/" exact element={<Main />} />
           <Route
-            path="/"
-            exact
-            element={
-              <Main />
-            }
-          />
-          <Route
-            path="/phone"
+            path="/phone/:tech/:company"
             exact
             element={
               <Home
                 phones={phones}
+                plans={plans}
                 modalShow={modalShow}
+                setModalShow={setModalShow}
+                saveCart={saveCart}
+                propsList={propsList}
+              />
+            }
+          />
+          <Route
+            path="/phone/:tech"
+            exact
+            element={
+              <Home
+                phones={phones}
+                plans={plans}
+                modalShow={modalShow}
+                setModalShow={setModalShow}
                 saveCart={saveCart}
                 propsList={propsList}
               />

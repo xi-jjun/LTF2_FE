@@ -10,7 +10,7 @@ export default function Main({}) {
 
     const goFlip = () => navigate("/detail/1")
 
-    const goPhone = () => navigate("/phone");
+    const goPhone = () => navigate("/phone/5G");
 
     return (
         <Styles.MainBox>
@@ -22,10 +22,10 @@ export default function Main({}) {
               갤럭시 워치5와 버즈2까지
             </Styles.MainDes>
             <LGButton onClick={goFlip} className="goButton">바로 알아보기</LGButton>
-            <Styles.goFive onClick={goPhone}>
+            <Styles.GoFive onClick={goPhone}>
                 5G 휴대폰 전체보기
                 <KeyboardArrowRightIcon></KeyboardArrowRightIcon>
-            </Styles.goFive>
+            </Styles.GoFive>
         </Styles.MainBox>
     );
 }
