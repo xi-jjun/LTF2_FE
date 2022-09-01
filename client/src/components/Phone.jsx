@@ -23,7 +23,8 @@ export default function Phone({
   });
 
   useEffect(() => {
-    priceCalc1(phone.phoneId, filterOpt.planId, -1, 24, setPriceInfo);
+    priceCalc1(phone.phoneId, filterOpt.planId, filterOpt.disCountType, filterOpt.disCountType, setPriceInfo);
+    console.log(filterOpt)
   }, [filterOpt]);
 
   const compareDisabled =

@@ -11,8 +11,9 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import * as Styles from "../styles/filterStyle";
 import * as OptionData from "../assets/filterOptions";
+import { LGButton } from './Button';
 
-export default function Filter({ phones, tech, defaultValue, handleChange }) {
+export default function Filter({ phones, tech, defaultValue, handleChange, handleModal }) {
   const data = OptionData["default"][tech];
   const Options = (values) => {
     const keys = Object.keys(values);
@@ -42,7 +43,7 @@ export default function Filter({ phones, tech, defaultValue, handleChange }) {
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
-                {k === "요금제" ? (
+                {k === "요금제" ? (<>
                   <RadioGroup
                     value={defaultValue}
                     name={data[k].name}
@@ -52,10 +53,19 @@ export default function Filter({ phones, tech, defaultValue, handleChange }) {
                   >
                     {Options(data[k].values)}
                   </RadioGroup>
+                  <LGButton
+                    onClick={handleModal}
+                    children={"요금제 더보기+"}
+                    rec
+                    size="sm"
+                    variant="light"
+                  />
+                  </>
                 ) : (
                   <RadioGroup
                     defaultValue={"전체"}
-                    name={data[k].name}
+                      name={data[k].name}
+                      handleModal= {handleModal}
                     onChange={(e) => {
                       handleChange(e, phones);
                     }}

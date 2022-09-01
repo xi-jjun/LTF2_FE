@@ -15,7 +15,7 @@ const useFilter = ({ initState, callback ,filterModule }) => {
   // ******************************
   
   const handleChange = (e, phones) => {
-    const { name, value , id } = e.target;
+    const { name, value } = e.target;
     setList(phones)
     setState(() => ({
       ...state,
@@ -26,6 +26,8 @@ const useFilter = ({ initState, callback ,filterModule }) => {
       case "plan":
         callback("plan",e.target)
         break;
+      case "disCountType":
+        callback("disCountType",e.target)
       default:
         break;
     }

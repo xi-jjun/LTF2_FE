@@ -24,7 +24,7 @@ export default function Home({
 
   const { tech, company } = useParams();
 
-  const [filterOpt, setFilterOpt] = useState({ planId: 1 });
+  const [filterOpt, setFilterOpt] = useState({ planId: 1 , disCountType: -1});
   const [defaultValue, setDefaultValue] = useState("전체");
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
@@ -59,11 +59,14 @@ export default function Home({
   });
 
   const callback = (key, data) => {
+    const { id, value } = data;
     switch (key) {
       case "plan":
-        const { id, value } = data;
-        setFilterOpt({ planId: id });
+        setFilterOpt(() => ({ ...filterOpt, planId: id }));
         setDefaultValue(value);
+        break;
+      case "disCountType":
+        setFilterOpt(() => ({ ...filterOpt, disCountType: id }));
         break;
       default:
         break;
@@ -77,13 +80,6 @@ export default function Home({
 
   return (
     <PageContainer>
-      <LGButton
-        onClick={handleModal}
-        children={"요금제 모달 열기 (임시)"}
-        rec
-        size="sm"
-        variant="light"
-      />
       <PlanModal
         modalShow={modalShow}
         setModalShow={setModalShow}
@@ -97,6 +93,7 @@ export default function Home({
         <Grid container spacing={2}>
           <Grid item md={2}>
             <Filter
+              handleModal={handleModal}
               phones={phones}
               defaultValue={defaultValue}
               tech={tech}
