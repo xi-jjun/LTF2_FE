@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
 import * as Styles from "../styles/homeStyle";
 import PhoneList from "../components/PhoneList";
 import Filter from "../components/Filter";
 import { PageContainer } from "../components/PageContainer";
 import PlanModal from "../components/PlanModal";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
 import { LGButton } from "../components/Button";
+import { filtering } from "../util/filtering";
+import useFilter from "../util/useFilter";
 
 export default function Home({
   phones,
@@ -48,6 +48,19 @@ export default function Home({
     }
   }, []);
 
+  const [filter, setFilter] = useState({
+    plan: "전체",
+    disCountType: "전체",
+    manufacturingCompany: "전체",
+    storage: "전체",
+    memory: "전체",
+  });
+
+  const { handleChange, state, list } = useFilter({
+    initState: filter,
+    filterModule: filtering,
+  });
+
   return (
     <PageContainer>
       <LGButton
@@ -68,11 +81,11 @@ export default function Home({
         <Styles.FilterTitle>5G 휴대폰</Styles.FilterTitle>
         <Grid container spacing={2}>
           <Grid item md={2}>
-            <Filter />
+            <Filter phones={phones} handleChange={handleChange} />
           </Grid>
           <Grid item md={9}>
             <PhoneList
-              phones={phones}
+              phones={list.length === 0 ? phones : list}
               modalShow={modalShow}
               saveCart={saveCart}
               propsList={propsList}

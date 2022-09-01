@@ -8,10 +8,10 @@ export const validator = (state, fieldName) => {
         validateName(state.userName,errors);
         break;
       case "userPhone" :
-      case"phoneNumber":
+      case"ablePhone":
         let phone = state.userPhone
         if(phone === undefined)
-          phone = state.phoneNumber
+          phone = state.ablePhone
         validatePhoneNumber(fieldName,phone,errors)
         break;
       case "email":
@@ -122,8 +122,8 @@ function validateCardInfo(state,errors) {
 // ******************************
 function validateCardExpiration(state,errors) {
   let result = true
-
-    if(!state.cardExpiration){
+  if(state.payType !== "신용카드") return result
+  if(!state.cardExpiration){
     errors.cardExpiration = "카드 유효기간을 입력해주세요"
     result = false
   } else {
