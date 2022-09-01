@@ -42,12 +42,10 @@ export default function Search({ saveCart, propsList }) {
     }, [keyword]);
 
     return (
-        <PageContainer>
-            <SearchStyle.TotalLayout>
-                <SearchBar keyword={keyword} isShowMore={isShowMore} setIsShowMore={setIsShowMore} />
-                <SearchResultCount  searchPhones={searchPhones} keyword={keyword} fixKeyword={fixKeyword} setFixKeyword={setFixKeyword} />
-                {(searchPhones.length > 0) && <SearchResult searchPhones={searchPhones} isShowMore={isShowMore} setIsShowMore={setIsShowMore} saveCart={saveCart} propsList={propsList}/>}
-            </SearchStyle.TotalLayout>
-        </PageContainer>
+        <SearchStyle.TotalLayout>
+            <SearchBar keyword={keyword} isShowMore={isShowMore} setIsShowMore={setIsShowMore} />
+            <SearchResultCount  searchPhones={searchPhones} keyword={keyword} fixKeyword={fixKeyword} setFixKeyword={setFixKeyword} />
+            {(searchPhones.length > 0) && <SearchResult searchPhones={searchPhones} isShowMore={isShowMore} setIsShowMore={setIsShowMore} saveCart={saveCart} propsList={propsList}/>}
+        </SearchStyle.TotalLayout>
     );
 }

@@ -1,9 +1,12 @@
 import * as Result from "../styles/searchResultStyle";
 import PhoneList from "../components/PhoneList";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useState } from "react";
 
 export default function SearchResult({ searchPhones, isShowMore, setIsShowMore, saveCart, propsList }) {
     const onClick = () => setIsShowMore(!isShowMore);
+
+    const [filterOpt, setFilterOpt] = useState({ planId: 1 });
 
     return (
         <Result.ResultBox>
@@ -21,8 +24,8 @@ export default function SearchResult({ searchPhones, isShowMore, setIsShowMore, 
             </Result.ResultBar>
             <Result.ResultList>
                 {(isShowMore) ?
-                    <PhoneList phones={searchPhones} saveCart={saveCart} propsList={propsList} /> :
-                    <PhoneList phones={searchPhones} search saveCart={saveCart} propsList={propsList}/>
+                    <PhoneList phones={searchPhones} saveCart={saveCart} propsList={propsList} filterOpt={filterOpt}/> :
+                    <PhoneList phones={searchPhones} search saveCart={saveCart} propsList={propsList} filterOpt={filterOpt}/>
                 }
             </Result.ResultList>
         </Result.ResultBox>
