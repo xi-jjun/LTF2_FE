@@ -10,7 +10,6 @@ import { getCartInfo } from "../api/CartAPI";
 
 export default function Cart({ cart, deleteCart }) {
   const [loading, setLoading] = useState(true);
-
   const [active, setActive] = useState({
     nav: "통신상품",
     item: "전체",
@@ -21,18 +20,20 @@ export default function Cart({ cart, deleteCart }) {
   const handleData = async () => {
     const pr = await Promise.all(
       cart.data.map(
-        async (d) =>
+        async (d, index) =>
           await getCartInfo({
             phone_id: d.phone,
-            plan_id: /**d.plan*/ 1,
-            color_id: /**d.color_id*/ 15,
+            plan_id: d.plan,
+            color_id: d.color,
           })
             .then((data) => {
               const tempArr = {
-                date: /**d.date*/ "2022년 8월 24일 (수)",
-                discount: /**d.discount*/ 24,
+                id: d.id,
+                date: d.date.toString(),
+                discount: d.discount,
                 info: data,
-                registration: /**registration*/ "기기변경",
+                registration: d.registration,
+                installment: d.installment,
                 ship: d.ship,
               };
               return tempArr;
@@ -42,9 +43,7 @@ export default function Cart({ cart, deleteCart }) {
             })
       )
     );
-    console.log(pr);
-    setCartArr(pr);
-    setLoading(false);
+    return pr;
   };
 
   const onClickTab = (value) => {
@@ -62,9 +61,16 @@ export default function Cart({ cart, deleteCart }) {
     });
   }, []);
 
+  useEffect( async() => {
+    const prr = await handleData();
+    setCartArr(prr);
+  }, [cart]);
+
   useEffect(async () => {
     if (loading) {
-      await handleData();
+      const prr = await handleData();
+      setCartArr(prr);
+      setLoading(false);
     }
   }, [loading]);
 
@@ -148,13 +154,13 @@ export default function Cart({ cart, deleteCart }) {
                         <ul
                           style={{ listStyle: "none", margin: 0, padding: 0 }}
                         >
-                          {cartArr.map((c) => (
+                          {cartArr.map((c) => 
                             <CartProduct
-                              key={c.id}
-                              data={c}
-                              deleteCart={deleteCart}
-                            ></CartProduct>
-                          ))}
+                            key={c.id}
+                            data={c}
+                            deleteCart={deleteCart}
+                          />
+                          )}
                         </ul>
                       </Styled.CartProductTbl>
                     </div>

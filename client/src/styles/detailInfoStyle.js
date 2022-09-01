@@ -164,6 +164,10 @@ export const PlanDescription = styled.div`
     position: relative;
     right: 0px;
     bottom: -6px;
+
+    &:hover {
+      color: #e6007e;
+    }
   }
 `;
 

@@ -74,6 +74,7 @@ function App() {
     const cookieUploadObject = () => ({
       color: object.color.colorId,
       registration: object.registration,
+      installment: object.installment,
       discount: object.discount,
       phone: object.phone.phoneId,
       plan: object.plan.planId,
@@ -100,6 +101,7 @@ function App() {
     };
     // 장바구니가 쿠키에 존재하고
     if (cart) {
+      console.log("in!!22")
       // 장바구니에 겹치는 데이터가 없다면
       if (!existSameValueInCart()) {
         // 원래의 장바구니 데이터에 추가로 데이터를 저장
@@ -107,8 +109,13 @@ function App() {
           count: cart.count + 1,
           data: [...cart.data, { id: cart.count, ...cookieUploadObject() }],
         };
-        setCookie("cart", newCart);
-        setCart(newCart);
+        const expiredDate = new Date();
+        expiredDate.setDate(expiredDate.getDate() + 90)
+        setCookie("cart", newCart, {path: "/", expires: expiredDate});
+        setCart((prev) => (newCart));
+        console.log("in!!")
+        console.log(cart)
+        console.log(newCart)
         return "success";
       } else return "alreadyExist";
     } else return "error";

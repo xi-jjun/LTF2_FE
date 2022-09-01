@@ -136,6 +136,17 @@ export const ModalPhoneBox = styled.div`
   flex-direction: column;
 `;
 
+export const ModalDeleteBtn = styled.div`
+  position: relative;
+  cursor: pointer;
+  right: -145px;
+  top: 0px;
+
+  &:hover {
+    color: grey;
+  }
+`;
+
 export const ModalPhoneImg = styled.img`
   width: 150px;
   height: 150px;
@@ -144,9 +155,9 @@ export const ModalPhoneImg = styled.img`
 export const ModalPhoneText = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 130px;
+  height: 95px;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
 
   p {
     font-size: larger;
@@ -156,6 +167,18 @@ export const ModalPhoneText = styled.div`
   h2 {
     margin: 5px;
   }
+`;
+
+export const ModalPhoneSelect = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 280px;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const ModalPhoneFooter = styled.div`

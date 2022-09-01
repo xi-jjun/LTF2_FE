@@ -12,6 +12,8 @@ import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import { defaultValue } from "../DummyData";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
+import { priceCalc } from "../methods/priceCalc";
+import { deleteAll } from "../methods/inputCompare";
 
 export default function Detail({ saveCart, propsList }) {
   const { id } = useParams();
@@ -32,61 +34,52 @@ export default function Detail({ saveCart, propsList }) {
     error: false,
   });
 
-  const actualPrice =
-    active.phone.price - (active.discount === -1 ? active.supportPrice : 0);
-
-  const monthFee = 0.059 / 12;
-
-  let priceInfo = {
-    phone:
-      active.installment === 1
-        ? actualPrice
-        : Math.round(
-            (actualPrice *
-              monthFee *
-              Math.pow(1 + monthFee, active.installment)) /
-              (Math.pow(1 + monthFee, active.installment) - 1) /
-              10
-          ) * 10,
-    plan: active.plan.monthPrice * (active.discount > 11 ? 0.75 : 1),
-    installmentFee:
-      active.installment === 1
-        ? 0
-        : Math.round(
-            (((actualPrice *
-              monthFee *
-              Math.pow(1 + monthFee, active.installment)) /
-              (Math.pow(1 + monthFee, active.installment) - 1)) *
-              active.installment -
-              actualPrice) /
-              10
-          ) * 10,
-    total:
-      (active.installment === 1
-        ? 0
-        : Math.ceil(actualPrice / active.installment / 100) * 100) +
-      active.plan.monthPrice * (active.discount > 11 ? 0.75 : 1),
-  };
+  let priceInfo = priceCalc(
+    active.phone,
+    active.plan,
+    active.supportPrice,
+    active.discount,
+    active.installment
+  );
 
   const handleData = async () => {
-    const [phoneData, planData, supportPrice] = await Promise.all([
-      getPhoneByPhoneId(id),
-      getPlanByPlanId(1),
-      getPublicSupportByPhoneIdAndPlanId({ phone_id: id, plan_id: 1 }),
-    ]);
-    if (phoneData.status === 404) {
+    const [phoneData, planData, supportPrice] = await getPhoneByPhoneId(
+      id
+    ).then(async (d) => {
+      if (d.status === 404) {
+        return ["error", "error", "error"];
+      } else {
+        const searchPlanId = d.phoneDetail.telecomTech === "5G" ? 1 : 17;
+        return await Promise.all([
+          d,
+          getPlanByPlanId(searchPlanId),
+          getPublicSupportByPhoneIdAndPlanId({
+            phone_id: id,
+            plan_id: searchPlanId,
+          }).then((d) => {
+            if (d.status === 404) {
+              return 0;
+            } else {
+              return d.PublicSupportPrice;
+            }
+          }),
+        ]);
+      }
+    });
+    if (phoneData === "error") {
       return "error";
     } else
       return {
         phone: phoneData.phoneDetail,
         color: phoneData.phoneDetail.colorList[0],
         plan: planData.Plan,
-        supportPrice: supportPrice.PublicSupportPrice,
+        supportPrice: supportPrice,
       };
   };
 
   useEffect(() => {
     setLoading(true);
+    deleteAll(propsList);
   }, []);
 
   useEffect(async () => {
@@ -105,12 +98,6 @@ export default function Detail({ saveCart, propsList }) {
       setLoading(false);
     }
   }, [loading]);
-
-  useEffect(() => {
-    if (propsList.comparePhoneList.filter((row) => row.id).length) {
-      propsList.setComparePhoneList([{}, {}, {}]);
-    }
-  }, [propsList.comparePhoneList]);
 
   return loading ? (
     <Loader />
