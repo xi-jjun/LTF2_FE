@@ -39,6 +39,7 @@ export default function Home({
   const handleModal = () =>
     setModalShow((prev) => ({ ...prev, plan: !prev.plan }));
 
+  const phoneList = phones.filter((row) => row.telecomTech === tech);
   const planList = plans.filter((row) => row.telecomTech === tech);
 
   useEffect(() => {
@@ -78,18 +79,19 @@ export default function Home({
         plans={planList}
       />
       <Styles.TotalLayout>
-        <Styles.FilterTitle>5G 휴대폰</Styles.FilterTitle>
+        <Styles.FilterTitle>{tech} 휴대폰</Styles.FilterTitle>
         <Grid container spacing={2}>
           <Grid item md={2}>
             <Filter phones={phones} handleChange={handleChange} />
           </Grid>
           <Grid item md={9}>
             <PhoneList
-              phones={list.length === 0 ? phones : list}
+              phones={list.length === 0 ? phoneList : list}
               modalShow={modalShow}
               saveCart={saveCart}
               propsList={propsList}
               filterOpt={filterOpt}
+              planList={planList}
             />
           </Grid>
         </Grid>

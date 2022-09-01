@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { inputComparePhone } from "../util/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
+import { priceCalc1 } from "../util/priceCalc";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Phone({
   phone,
@@ -12,6 +15,16 @@ export default function Phone({
   filterOpt,
 }) {
   const navigate = useNavigate();
+
+  const [priceInfo, setPriceInfo] = useState({
+    phone: 0,
+    plan: 0,
+    total: 0,
+  });
+
+  useEffect(() => {
+    priceCalc1(phone.phoneId, filterOpt.planId, -1, 24, setPriceInfo);
+  }, [filterOpt]);
 
   const compareDisabled =
     propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
@@ -34,21 +47,22 @@ export default function Phone({
         <Styles.Title>{phone.titleName}</Styles.Title>
         <Styles.SubTitle>
           {/* 대표 요금제 이름 */}
-          5G 다이렉트 65
+          {priceInfo.planName}
         </Styles.SubTitle>
       </Styles.CardHeader>
       <Styles.CardBody>
         <Styles.PlanLayout>
           <Styles.PhoneMoney>
             {/* 월 핸드폰 납부 금액 */}
-            휴대폰 월65,260원
+            {`휴대폰 월 ${priceInfo.phone.toLocaleString()}원`}
           </Styles.PhoneMoney>
           <Styles.PlanMoney>
             {/* 월 요금 납부 금액 */}
-            통신료 월65,000원
+            {`통신료 월 ${priceInfo.plan.toLocaleString()}원`}
           </Styles.PlanMoney>
           <Styles.TotalMoney>
-            {/* 월 총 납부 금액 */}월 130,260원
+            {/* 월 총 납부 금액 */}
+            {`월 ${priceInfo.total.toLocaleString()}원`}
           </Styles.TotalMoney>
         </Styles.PlanLayout>
       </Styles.CardBody>

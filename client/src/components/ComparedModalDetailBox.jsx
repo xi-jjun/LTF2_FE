@@ -84,7 +84,11 @@ export default function ComparedModalDetailBox({ propsList }) {
           );
         } else
           return (
-            <Compare.ModalPhoneDetailBox key={i} children={"기기 미선택"} />
+            <Compare.ModalPhoneDetailBox
+              style={{ textAlign: "center" }}
+              key={"price" + i}
+              children={<p>기기 미선택</p>}
+            />
           );
       })}
     </ModalStyle.Row>
