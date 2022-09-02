@@ -17,6 +17,7 @@ import Order from "./pages/Order";
 import ComparedModal from "./components/ComparedModal";
 import NotFound from "./components/NotFound";
 import { getPlansAll } from "./api/PlanAPI";
+import Size from "./pages/Size";
 
 function App() {
   const [phones, setPhones] = useState([]);
@@ -204,6 +205,7 @@ function App() {
             element={<Search saveCart={saveCart} propsList={propsList} />}
           />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/size" exact element={<Size />} />
         </Routes>
       </div>
     </BrowserRouter>
