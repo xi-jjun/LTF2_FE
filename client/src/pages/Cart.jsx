@@ -8,8 +8,9 @@ import CartProduct from "../components/CartProduct";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { LGButton } from "../components/Button";
 import { getCartInfo } from "../api/CartAPI";
+import { useNavigate } from "react-router-dom";
 
-export default function Cart({ cart, deleteCart }) {
+export default function Cart({ cart, deleteCart, modalShow, setModalShow, propsList, phones}) {
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState({
     nav: "통신상품",
@@ -17,6 +18,7 @@ export default function Cart({ cart, deleteCart }) {
   });
 
   const [cartArr, setCartArr] = useState([]);
+  const navigate = useNavigate();
 
   const handleData = async () => {
     const pr = await Promise.all(
@@ -32,7 +34,7 @@ export default function Cart({ cart, deleteCart }) {
                 id: d.id,
                 date: d.date.toString(),
                 discount: d.discount,
-                info: data,
+                info: data.shoppingBasket,
                 registration: d.registration,
                 installment: d.installment,
                 ship: d.ship,
@@ -40,7 +42,6 @@ export default function Cart({ cart, deleteCart }) {
               return tempArr;
             })
             .catch((e) => {
-              console.log(e);
             })
       )
     );
@@ -52,6 +53,10 @@ export default function Cart({ cart, deleteCart }) {
       ...active,
       item: value,
     });
+  };
+
+  const onMainBtnClick = () => {
+    navigate(`/phone/5G`);
   };
 
   useEffect(() => {
@@ -160,6 +165,10 @@ export default function Cart({ cart, deleteCart }) {
                               key={c.id}
                               data={c}
                               deleteCart={deleteCart}
+                              modalShow={modalShow}
+                              setModalShow={setModalShow}
+                              propsList={propsList}
+                              phones={phones}
                             />
                           ))}
                         </ul>
@@ -185,6 +194,7 @@ export default function Cart({ cart, deleteCart }) {
                       size="lg"
                       variant="outline-dark"
                       children="메인 페이지로 이동"
+                      onClick={onMainBtnClick}
                     />
                   </Styled.MvMainBtnLayout>
                 </div>
