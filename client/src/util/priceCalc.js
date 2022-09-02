@@ -70,7 +70,7 @@ export function priceCalc(phone, plan, supportPrice, discount, installment) {
     total: monthTotalPrice, // 월 지불해야 할 총 금액
   };
 }
-
+// 휴대폰id, 요금제id, 할인 유형id, 할부 개월, setState
 export async function priceCalc1(
   phoneId,
   planId,

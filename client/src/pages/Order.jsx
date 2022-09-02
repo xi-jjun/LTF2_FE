@@ -119,9 +119,10 @@ export default function Order() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
+                    전체동의는 필수 및 선택 동의가 포함되어 있으며, 개별 동의를
+                    원하실 경우 펼쳐보기로 선택해 주세요 <br />
+                    (필수 : LG U+ 서비스 이용 및 개인 정보 수집 및 처리. 선택 :
+                    고객 혜택/광고 정보 제공 및 가입절차 설명/권유를 위한 동의)
                   </Typography>
                 </AccordionDetails>
               </Accordion>

@@ -23,12 +23,19 @@ export default function Phone({
   });
 
   useEffect(() => {
-    priceCalc1(phone.phoneId, filterOpt.planId, -1, 24, setPriceInfo);
+    let month = 24;
+    if (filterOpt.disCountType !== -1) month = filterOpt.disCountType;
+    priceCalc1(
+      phone.phoneId,
+      filterOpt.planId,
+      filterOpt.disCountType,
+      month,
+      setPriceInfo
+    );
   }, [filterOpt]);
 
   const compareDisabled =
     propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
-
   return (
     <Styles.CardLayout>
       <Styles.CardHeader onClick={() => navigate(`/detail/${phone.phoneId}`)}>

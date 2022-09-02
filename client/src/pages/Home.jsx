@@ -24,8 +24,8 @@ export default function Home({
 
   const { tech, company } = useParams();
 
-  const [filterOpt, setFilterOpt] = useState({ planId: 1 });
-
+  const [filterOpt, setFilterOpt] = useState({ planId: 1, disCountType: -1 });
+  const [defaultValue, setDefaultValue] = useState("전체");
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
 
@@ -48,6 +48,7 @@ export default function Home({
       goToNotFound();
     }
   }, []);
+  ///////////////////////////////////////////
 
   const [filter, setFilter] = useState({
     plan: "전체",
@@ -57,32 +58,47 @@ export default function Home({
     memory: "전체",
   });
 
+  const callback = (key, data) => {
+    const { id, value } = data;
+    switch (key) {
+      case "plan":
+        setFilterOpt(() => ({ ...filterOpt, planId: id }));
+        setDefaultValue(value);
+        break;
+      case "disCountType":
+        setFilterOpt(() => ({ ...filterOpt, disCountType: Number(id) }));
+        break;
+      default:
+        break;
+    }
+  };
   const { handleChange, state, list } = useFilter({
     initState: filter,
+    callback: callback,
     filterModule: filtering,
   });
 
   return (
     <PageContainer>
-      <LGButton
-        onClick={handleModal}
-        children={"요금제 모달 열기 (임시)"}
-        rec
-        size="sm"
-        variant="light"
-      />
       <PlanModal
         modalShow={modalShow}
         setModalShow={setModalShow}
         nowPlanId={filterOpt.planId}
         handleFilterOpt={handleFilterOpt}
+        setDefaultValue={setDefaultValue}
         plans={planList}
       />
       <Styles.TotalLayout>
         <Styles.FilterTitle>{tech} 휴대폰</Styles.FilterTitle>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item md={2}>
-            <Filter phones={phones} handleChange={handleChange} />
+            <Filter
+              handleModal={handleModal}
+              phones={phones}
+              defaultValue={defaultValue}
+              tech={tech}
+              handleChange={handleChange}
+            />
           </Grid>
           <Grid item md={9}>
             <PhoneList

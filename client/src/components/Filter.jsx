@@ -11,18 +11,26 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import * as Styles from "../styles/filterStyle";
 import * as OptionData from "../assets/filterOptions";
+import { LGButton } from "./Button";
 
-export default function Filter({ phones, handleChange }) {
-  const data = OptionData["default"]["5G"];
-
-  const Options = (rows) => {
-    return rows.map((row, idx) => {
+export default function Filter({
+  phones,
+  tech,
+  defaultValue,
+  handleChange,
+  handleModal,
+}) {
+  const data = OptionData["default"][tech];
+  const Options = (values) => {
+    const keys = Object.keys(values);
+    return keys.map((name, idx) => {
+      const id = values[name];
       return (
         <FormControlLabel
           key={idx}
-          value={idx === 0 ? "전체" : row}
-          control={<Radio />}
-          label={<Styles.OptionText>{row}</Styles.OptionText>}
+          value={idx === 0 ? "전체" : name}
+          control={<Radio id={id} color="error" />}
+          label={<Styles.OptionText>{name}</Styles.OptionText>}
         />
       );
     });
@@ -41,13 +49,37 @@ export default function Filter({ phones, handleChange }) {
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
-                <RadioGroup
-                  defaultValue={"전체"}
-                  name={data[k].name}
-                  onChange={(e) => handleChange(e, phones)}
-                >
-                  {Options(data[k].values)}
-                </RadioGroup>
+                {k === "요금제" ? (
+                  <>
+                    <RadioGroup
+                      value={defaultValue}
+                      name={data[k].name}
+                      onChange={(e) => {
+                        handleChange(e, phones);
+                      }}
+                    >
+                      {Options(data[k].values)}
+                    </RadioGroup>
+                    <LGButton
+                      onClick={handleModal}
+                      children={"요금제 더보기+"}
+                      rec
+                      size="sm"
+                      variant="light"
+                    />
+                  </>
+                ) : (
+                  <RadioGroup
+                    defaultValue={"전체"}
+                    name={data[k].name}
+                    handleModal={handleModal}
+                    onChange={(e) => {
+                      handleChange(e, phones);
+                    }}
+                  >
+                    {Options(data[k].values)}
+                  </RadioGroup>
+                )}
               </FormControl>
             </AccordionDetails>
           </Accordion>

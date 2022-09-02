@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import * as ModalStyle from "../styles/modalStyle";
 import * as PlanStyle from "../styles/planStyle";
+import * as OptionData from "../assets/filterOptions";
 import CloseIcon from "@mui/icons-material/Close";
 import { LGButton } from "./Button";
 import { useEffect, useState } from "react";
@@ -36,6 +37,7 @@ export default function PlanModal({
   setModalShow,
   nowPlanId,
   handleFilterOpt,
+  setDefaultValue,
   plans,
 }) {
   const [active, setActive] = useState(-1);
@@ -47,6 +49,9 @@ export default function PlanModal({
   };
 
   const handleChange = (key, value) => {
+    const { name } = plans.filter((p) => p.planId === value)[0];
+    OptionData.default["5G"].요금제.values[name] = value;
+    setDefaultValue(name);
     handleFilterOpt(key, value);
     setModalShow({ ...modalShow, plan: false });
   };
@@ -140,9 +145,14 @@ export default function PlanModal({
               </PlanStyle.BoxContainer>
             </PlanStyle.Container>
             <ModalStyle.Footer>
-              <LGButton style={{marginRight:5}} onClick={handleClose} variant="light" children="취소" />
               <LGButton
-                style={{marginLeft:5}}
+                style={{ marginRight: 5 }}
+                onClick={handleClose}
+                variant="light"
+                children="취소"
+              />
+              <LGButton
+                style={{ marginLeft: 5 }}
                 onClick={() => handleChange("planId", active)}
                 children="적용"
                 disabled={nowPlanId === -1}

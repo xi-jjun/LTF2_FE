@@ -42,9 +42,7 @@ function App() {
       .then((data) => {
         return data.phoneList;
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
     setPhones(data);
   };
 
@@ -53,9 +51,7 @@ function App() {
       .then((data) => {
         return data.PlanList;
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
     setPlans(data);
   };
 
@@ -101,7 +97,6 @@ function App() {
     };
     // 장바구니가 쿠키에 존재하고
     if (cart) {
-
       // 장바구니에 겹치는 데이터가 없다면
       if (!existSameValueInCart()) {
         // 원래의 장바구니 데이터에 추가로 데이터를 저장
@@ -110,9 +105,9 @@ function App() {
           data: [...cart.data, { id: cart.count, ...cookieUploadObject() }],
         };
         const expiredDate = new Date();
-        expiredDate.setDate(expiredDate.getDate() + 90)
-        setCookie("cart", newCart, {path: "/", expires: expiredDate});
-        setCart((prev) => (newCart));
+        expiredDate.setDate(expiredDate.getDate() + 90);
+        setCookie("cart", newCart, { path: "/", expires: expiredDate });
+        setCart((prev) => newCart);
         return "success";
       } else return "alreadyExist";
     } else return "error";
@@ -140,7 +135,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="App" style={{ width: "1840px" }}>
         <Header />
         <NavBar />
         <ComparedPopup
