@@ -21,6 +21,7 @@ export default function Filter({
   handleModal,
 }) {
   const data = OptionData["default"][tech];
+
   const Options = (values) => {
     const keys = Object.keys(values);
     return keys.map((name, idx) => {
@@ -72,7 +73,6 @@ export default function Filter({
                   <RadioGroup
                     defaultValue={"전체"}
                     name={data[k].name}
-                    handleModal={handleModal}
                     onChange={(e) => {
                       handleChange(e, phones);
                     }}

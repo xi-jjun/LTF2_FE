@@ -20,6 +20,7 @@ export default function NavBar() {
     { label: "고객지원", link: "/" },
     { label: "유플일상", link: "/" },
     { label: "유독", link: "/" },
+    { label: "크기", link: "/size" },
   ];
 
   const nowLocation = () => {
