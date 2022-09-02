@@ -107,7 +107,7 @@ function validateAddress(address, errors) {
 // ******************************
 function validateCardInfo(state, errors) {
   let result = true;
-  if (state.payType !== "신용카드") return result;
+  if (state.payType !== "신용 카드") return result;
   if (!state.cardNumber) {
     errors.cardNumber = "카드 번호를 입력해주세요";
     result = false;
@@ -123,7 +123,7 @@ function validateCardInfo(state, errors) {
 // ******************************
 function validateCardExpiration(state, errors) {
   let result = true;
-  if (state.payType !== "신용카드") return result;
+  if (state.payType !== "신용 카드") return result;
   if (!state.cardExpiration) {
     errors.cardExpiration = "카드 유효기간을 입력해주세요";
     result = false;
