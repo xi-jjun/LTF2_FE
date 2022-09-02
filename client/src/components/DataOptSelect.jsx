@@ -101,6 +101,13 @@ export default function DataOptSelect({ label, value, handleChange, extra }) {
     }
   }, []);
 
+  useEffect(async () => {
+    if (label === "기기명") {
+      const values = await getPhoneData();
+      setList(values);
+    }
+  }, [extra]);
+
   return (
     <Box sx={style}>
       <FormControl fullWidth>

@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
 import { getPhoneByPhoneId } from "../api/PhoneAPI";
 import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
@@ -70,8 +69,8 @@ export function priceCalc(phone, plan, supportPrice, discount, installment) {
     total: monthTotalPrice, // 월 지불해야 할 총 금액
   };
 }
-// 휴대폰id, 요금제id, 할인 유형id, 할부 개월, setState
-export async function priceCalc1(
+
+export async function priceCalcbyId(
   phoneId,
   planId,
   discount,

@@ -1,7 +1,13 @@
 import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
-export async function inputComparePhone(phone, planId, propsList) {
+export async function inputComparePhone(
+  phone,
+  planId,
+  propsList,
+  discount,
+  installment
+) {
   const defaultOpt = async () => {
     const [plan, supportPrice] = await Promise.all([
       getPlanByPlanId(planId).then((data) => data.Plan),
@@ -16,8 +22,8 @@ export async function inputComparePhone(phone, planId, propsList) {
     ]);
     return {
       registration: "기기변경",
-      installment: 24,
-      discount: -1,
+      installment: installment || 24,
+      discount: discount || -1,
       supportPrice: supportPrice,
       plan: plan,
     };

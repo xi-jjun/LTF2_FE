@@ -55,7 +55,7 @@ export const PlanBarItem = styled.div`
 
 export const BoxContainer = styled.div`
   width: 100%;
-  height: 610px;
+  height: 530px;
   background: #f5f5f5;
   overflow: auto;
 `;

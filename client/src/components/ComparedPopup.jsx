@@ -81,15 +81,15 @@ export default function ComparedPopup({ modalShow, setModalShow, propsList }) {
                     src={row.previewImg || row.colorList[0].phoneImgList[0]}
                   />
                   <Compare.PopUpPhoneInfo>
-                    <p>{row.titleName}</p>
-                    <span style={{ fontSize: "14px" }}>
+                    <strong>{row.titleName}</strong>
+                    <strong style={{ fontSize: "12px" }}>
                       {propsList.compareDataList[i].plan.name} /{" "}
                       {discountType(propsList.compareDataList[i].discount)} /{" "}
                       {propsList.compareDataList[i].installment === 1
                         ? "일시불"
                         : propsList.compareDataList[i].installment +
                           "개월 할부"}
-                    </span>
+                    </strong>
                     <h2>월 {priceInfo(i).total.toLocaleString()}원</h2>
                   </Compare.PopUpPhoneInfo>
                   <Compare.PopUpDeleteBtn

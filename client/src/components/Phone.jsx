@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { inputComparePhone } from "../util/inputCompare";
 import * as Styles from "../styles/phoneStyle";
 import { LGButton } from "./Button";
-import { priceCalc1 } from "../util/priceCalc";
+import { priceCalcbyId } from "../util/priceCalc";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -13,6 +14,7 @@ export default function Phone({
   saveCart,
   propsList,
   filterOpt,
+  search,
 }) {
   const navigate = useNavigate();
 
@@ -22,16 +24,27 @@ export default function Phone({
     total: 0,
   });
 
+  const tech = phone.telecomTech === "5G" ? 1 : 17;
+
+  const comparePlanId = search ? tech : filterOpt.planId;
+
   useEffect(() => {
-    let month = 24;
-    if (filterOpt.disCountType !== -1) month = filterOpt.disCountType;
-    priceCalc1(
-      phone.phoneId,
-      filterOpt.planId,
-      filterOpt.disCountType,
-      month,
-      setPriceInfo
-    );
+    const tech = phone.telecomTech === "5G" ? 1 : 17;
+    search && priceCalcbyId(phone.phoneId, tech, -1, 24, setPriceInfo);
+  }, []);
+
+  useEffect(() => {
+    if (!search) {
+      let month = 24;
+      if (filterOpt.disCountType !== -1) month = filterOpt.disCountType;
+      priceCalcbyId(
+        phone.phoneId,
+        filterOpt.planId,
+        filterOpt.disCountType,
+        month,
+        setPriceInfo
+      );
+    }
   }, [filterOpt]);
 
   const compareDisabled =
@@ -93,9 +106,7 @@ export default function Phone({
                 (row) => row.phoneId === phone.phoneId
               ) === -1 && compareDisabled
             }
-            onClick={() =>
-              inputComparePhone(phone, filterOpt.planId, propsList)
-            }
+            onClick={() => inputComparePhone(phone, comparePlanId, propsList)}
           >
             비교하기
           </LGButton>

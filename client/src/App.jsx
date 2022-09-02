@@ -181,7 +181,14 @@ function App() {
           <Route
             path="/detail/:id"
             exact
-            element={<Detail saveCart={saveCart} propsList={propsList} />}
+            element={
+              <Detail
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                saveCart={saveCart}
+                propsList={propsList}
+              />
+            }
           />
           <Route
             path="/cart"

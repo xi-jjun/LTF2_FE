@@ -25,8 +25,7 @@ export default function NavBar() {
   const nowLocation = () => {
     const includeUrl = (arr) =>
       arr.map((row) => location.pathname.indexOf(row)).includes(1);
-    if (includeUrl(["phone", "detail", "cart", "search", "order"]))
-      return "모바일 기기";
+    if (includeUrl(["phone", "detail", "cart", "search"])) return "모바일 기기";
     else return "";
   };
 
