@@ -24,7 +24,7 @@ export default function Home({
 
   const { tech, company } = useParams();
 
-  const [filterOpt, setFilterOpt] = useState({ planId: 1 , disCountType: -1});
+  const [filterOpt, setFilterOpt] = useState({ planId: 1, disCountType: -1 });
   const [defaultValue, setDefaultValue] = useState("전체");
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
