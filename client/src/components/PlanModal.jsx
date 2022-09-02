@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import sortPlanList from "../util/sortPlanList";
 import RangeSlider from "./RangeSlider";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import PlanBox from "./PlanBox";
 
 const style = {
   boxSizing: "border-box",
@@ -200,39 +201,12 @@ export default function PlanModal({
               </PlanStyle.PlanBar>
               <PlanStyle.BoxContainer>
                 {filterArr(planList).map((row) => (
-                  <PlanStyle.PlanBox key={row.planId}>
-                    <PlanStyle.PlanCol>
-                      <PlanStyle.PlanRadio
-                        now={active === row.planId}
-                        onClick={() => setRadio(row.planId)}
-                      />
-                      <PlanStyle.Title children={row.name + " >"} />
-                      <PlanStyle.Price
-                        children={
-                          "월 " + row.monthPrice.toLocaleString() + "원"
-                        }
-                      />
-                    </PlanStyle.PlanCol>
-                    <PlanStyle.PlanCol>
-                      <PlanStyle.SpecRow>
-                        <PlanStyle.SpecCol
-                          children={<h2 children={row.data} />}
-                        />
-                        <PlanStyle.SpecCol
-                          children={
-                            <h2 children={row.shareData || "사용가능"} />
-                          }
-                        />
-                        <PlanStyle.SpecCol
-                          children={<h2 children={row.voice} />}
-                        />
-                        <PlanStyle.SpecCol
-                          children={<h1 children={row.message} />}
-                        />
-                      </PlanStyle.SpecRow>
-                      <PlanStyle.SpecRow></PlanStyle.SpecRow>
-                    </PlanStyle.PlanCol>
-                  </PlanStyle.PlanBox>
+                  <PlanBox
+                    key={row.planId}
+                    row={row}
+                    active={active}
+                    setRadio={setRadio}
+                  />
                 ))}
               </PlanStyle.BoxContainer>
             </PlanStyle.Container>

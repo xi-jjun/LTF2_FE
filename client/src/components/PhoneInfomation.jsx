@@ -123,6 +123,7 @@ export default function PhoneInfomation({
         </Row>
         {active.phone.phoneId === 18 && (
           <LGButton
+            style={{ width: "100%" }}
             onClick={() => navigate("/size")}
             children="실제 크기 측정하기"
           />
