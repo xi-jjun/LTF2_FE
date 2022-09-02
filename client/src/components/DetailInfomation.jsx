@@ -9,40 +9,22 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { getPlansAll } from "../api/PlanAPI";
-import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
+import { useState } from "react";
 import { arrToString, phoneInfoLabel } from "../util/transform";
 
-export default function DetailInfomation({ active, setActive }) {
+export default function DetailInfomation({
+  active,
+  setActive,
+  planList,
+  handleModal,
+  handleFilterOpt,
+}) {
   // active 요소 변경 함수
   const nowActive = (key, value) => setActive({ ...active, [key]: value });
   const [more, setMore] = useState(false);
-  const [planList, setPlanList] = useState([]);
-
-  const getPlanList = async () => {
-    const returnArr = await getPlansAll();
-    return returnArr.PlanList;
-  };
-
-  const getSupportPrice = async (plan) => {
-    const price = await getPublicSupportByPhoneIdAndPlanId({
-      phone_id: active.phone.phoneId,
-      plan_id: plan.planId,
-    }).then((d) => {
-      if (d.status === 404) {
-        return 0;
-      } else {
-        return d.PublicSupportPrice;
-      }
-    });
-    return price;
-  };
 
   const changePlan = async (row) => {
-    const value = await getSupportPrice(row);
-    const discount = row.planType === "다이렉트" ? 0 : -1;
-    setActive({ ...active, plan: row, discount, supportPrice: value || 0 });
+    handleFilterOpt("planId", row.planId);
   };
 
   // 현재 선택된 할부인지
@@ -102,12 +84,13 @@ export default function DetailInfomation({ active, setActive }) {
     }
   };
 
-  useEffect(async () => {
-    const value = await getPlanList();
-    setPlanList(
-      value.filter((row) => row.telecomTech === active.phone.telecomTech)
-    );
-  }, []);
+  const threePlans =
+    planList
+      .slice(0, 3)
+      .map((row) => row.planId)
+      .indexOf(active.plan.planId) !== -1
+      ? planList.slice(0, 3)
+      : [active.plan, ...planList.slice(0, 2)];
 
   if (active.nav === "예상 납부금액") {
     return (
@@ -133,6 +116,7 @@ export default function DetailInfomation({ active, setActive }) {
             <div className="content">
               <p style={{ float: "left" }}>추천 요금제</p>
               <p
+                onClick={handleModal}
                 style={{
                   float: "right",
                   fontWeight: "bold",
@@ -141,7 +125,7 @@ export default function DetailInfomation({ active, setActive }) {
               >
                 다른 요금제 선택 {">"}
               </p>
-              {planList.slice(0, 3).map((row) => (
+              {threePlans.slice(0, 3).map((row) => (
                 <DetailInfo.PlanCard
                   key={row.planId}
                   now={active.plan.planId === row.planId}
@@ -152,7 +136,9 @@ export default function DetailInfomation({ active, setActive }) {
                   <DetailInfo.PlanDescription>
                     <div>
                       <p>{`데이터 ${row.data}, 음성 ${row.voice}${
-                        row.shareData ? ", 나눠쓰기 사용가능" : ""
+                        row.shareData === ""
+                          ? ", 나눠쓰기 사용가능"
+                          : `, 나눠쓰기 ${row.shareData}`
                       }`}</p>
                     </div>
                     <div className="icon">

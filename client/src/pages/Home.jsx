@@ -10,6 +10,7 @@ import PlanModal from "../components/PlanModal";
 import { LGButton } from "../components/Button";
 import { filtering } from "../util/filtering";
 import useFilter from "../util/useFilter";
+import sortPhoneList from "../util/sortPhoneList";
 
 export default function Home({
   phones,
@@ -25,6 +26,9 @@ export default function Home({
   const { tech, company } = useParams();
 
   const [filterOpt, setFilterOpt] = useState({ planId: 1, disCountType: -1 });
+  const [sortId, setSortId] = useState([]);
+  const [sortBy, setSortBy] = useState("");
+  const [phoneArr, setPhoneArr] = useState([]);
   const [defaultValue, setDefaultValue] = useState("전체");
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
@@ -43,12 +47,13 @@ export default function Home({
   const planList = plans.filter((row) => row.telecomTech === tech);
 
   useEffect(() => {
-    handleFilterOpt("planId", tech === "5G" ? 1 : 17);
     if (notFoundCondition) {
       goToNotFound();
+    } else {
+      handleFilterOpt("planId", tech === "5G" ? 1 : 17);
+      setPhoneArr(phoneList);
     }
-  }, []);
-  ///////////////////////////////////////////
+  }, [phones]);
 
   const [filter, setFilter] = useState({
     plan: "전체",
@@ -78,6 +83,22 @@ export default function Home({
     filterModule: filtering,
   });
 
+  useEffect(() => {
+    sortPhoneList(sortBy, phoneList, 1, -1, 24, setSortId);
+  }, [tech, sortBy]);
+
+  useEffect(() => {
+    const sortArr = () => {
+      let returnArr = [];
+      sortId.forEach((row) =>
+        returnArr.push(phoneList.find((obj) => obj.phoneId === row))
+      );
+      return returnArr;
+    };
+
+    setPhoneArr(sortArr());
+  }, [sortId]);
+
   return (
     <PageContainer>
       <PlanModal
@@ -102,12 +123,14 @@ export default function Home({
           </Grid>
           <Grid item md={9}>
             <PhoneList
-              phones={list.length === 0 ? phoneList : list}
+              phones={list.length === 0 ? phoneArr : list}
               modalShow={modalShow}
               saveCart={saveCart}
               propsList={propsList}
               filterOpt={filterOpt}
               planList={planList}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
             />
           </Grid>
         </Grid>

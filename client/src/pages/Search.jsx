@@ -9,43 +9,60 @@ import { useParams } from "react-router-dom";
 import { getList } from "../api/SearchAPI";
 
 export default function Search({ saveCart, propsList }) {
-    const { keyword } = useParams();
+  const { keyword } = useParams();
 
-    const [searchPhones, setSearchPhones] = useState([]);
+  const [searchPhones, setSearchPhones] = useState([]);
 
-    const [fixKeyword, setFixKeyword] = useState([]);
+  const [fixKeyword, setFixKeyword] = useState([]);
 
-    const [isShowMore, setIsShowMore] = useState(false);
+  const [isShowMore, setIsShowMore] = useState(false);
 
-    const fetchSearchPhones = async () => {
-        const searchResult = await getList(keyword)
-        .then((data) => {
-            if (data.keyWord) {
-                setFixKeyword(data.keyWord);
-            } else {
-                setFixKeyword("");
-            }
-            
-            if (data.message) {
-                return [];
-            } else return data.SearchList;
-        })
-        .catch((e) => {
-            console.log(e)
-        });
-        return searchResult;
-      };
+  const fetchSearchPhones = async () => {
+    const searchResult = await getList(keyword)
+      .then((data) => {
+        if (data.keyWord) {
+          setFixKeyword(data.keyWord);
+        } else {
+          setFixKeyword("");
+        }
 
-    useEffect(async () => {
-        const result = await fetchSearchPhones();
-        setSearchPhones(result);
-    }, [keyword]);
+        if (data.message) {
+          return [];
+        } else return data.SearchList;
+      })
+      .catch((e) => {});
+    return searchResult;
+  };
 
-    return (
-        <SearchStyle.TotalLayout>
-            <SearchBar keyword={keyword} isShowMore={isShowMore} setIsShowMore={setIsShowMore} />
-            <SearchResultCount  searchPhones={searchPhones} keyword={keyword} fixKeyword={fixKeyword} setFixKeyword={setFixKeyword} />
-            {(searchPhones.length > 0) && <SearchResult searchPhones={searchPhones} isShowMore={isShowMore} setIsShowMore={setIsShowMore} saveCart={saveCart} propsList={propsList}/>}
-        </SearchStyle.TotalLayout>
-    );
+  useEffect(async () => {
+    const result = await fetchSearchPhones();
+    setSearchPhones(result);
+  }, [keyword]);
+
+  return (
+    <PageContainer>
+      <SearchStyle.TotalLayout>
+        <SearchBar
+          keyword={keyword}
+          isShowMore={isShowMore}
+          setIsShowMore={setIsShowMore}
+        />
+        <SearchResultCount
+          searchPhones={searchPhones}
+          keyword={keyword}
+          fixKeyword={fixKeyword}
+          setFixKeyword={setFixKeyword}
+        />
+        {searchPhones.length > 0 && (
+          <SearchResult
+            searchPhones={searchPhones}
+            isShowMore={isShowMore}
+            setIsShowMore={setIsShowMore}
+            saveCart={saveCart}
+            propsList={propsList}
+          />
+        )}
+      </SearchStyle.TotalLayout>
+    </PageContainer>
+  );
 }

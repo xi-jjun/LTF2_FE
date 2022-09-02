@@ -9,6 +9,9 @@ import * as OptionData from "../assets/filterOptions";
 import CloseIcon from "@mui/icons-material/Close";
 import { LGButton } from "./Button";
 import { useEffect, useState } from "react";
+import sortPlanList from "../util/sortPlanList";
+import RangeSlider from "./RangeSlider";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const style = {
   boxSizing: "border-box",
@@ -42,6 +45,14 @@ export default function PlanModal({
 }) {
   const [active, setActive] = useState(-1);
 
+  const [planList, setPlanList] = useState([]);
+  const [filter, setFilter] = useState({
+    data: [0, 200],
+    monthPrice: [0, 150000],
+  });
+
+  const [sortBy, setSortBy] = useState("");
+
   const setRadio = (id) => setActive(id);
 
   const handleClose = () => {
@@ -55,6 +66,26 @@ export default function PlanModal({
     handleFilterOpt(key, value);
     setModalShow({ ...modalShow, plan: false });
   };
+
+  const filterArr = (arr) => {
+    return arr.filter(
+      (row) =>
+        ((row.data === "무제한" && filter.data[1] === 200) ||
+          (row.data !== "무제한" &&
+            Number(row.data.replace(/[^0-9.]/g, "")) >= filter.data[0] &&
+            Number(row.data.replace(/[^0-9.]/g, "")) <= filter.data[1])) &&
+        row.monthPrice >= filter.monthPrice[0] &&
+        row.monthPrice <= filter.monthPrice[1]
+    );
+  };
+
+  useEffect(() => {
+    sortPlanList("", plans, setPlanList);
+  }, [plans]);
+
+  useEffect(() => {
+    sortPlanList(sortBy, plans, setPlanList);
+  }, [sortBy]);
 
   useEffect(() => {
     if (modalShow.plan) {
@@ -84,6 +115,67 @@ export default function PlanModal({
               />
             </ModalStyle.Header>
             <PlanStyle.Container>
+              <PlanStyle.PlanBar style={{ height: "30px", border: "none" }}>
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={<p children="요금제 정렬" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={<p children="데이터" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={<p children="가격" />}
+                />
+              </PlanStyle.PlanBar>
+              <PlanStyle.PlanBar style={{ height: "50px" }}>
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={
+                    <FormControl
+                      variant="standard"
+                      sx={{ minWidth: 350, height: 50 }}
+                    >
+                      <InputLabel id="demo-simple-select-standard-label">
+                        정렬
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        label="정렬"
+                      >
+                        <MenuItem value="dataAsc">데이터양 낮은 순</MenuItem>
+                        <MenuItem value="dataDesc">데이터양 높은 순</MenuItem>
+                        <MenuItem value="priceAsc">요금 낮은 순</MenuItem>
+                        <MenuItem value="priceDesc">요금 높은 순</MenuItem>
+                      </Select>
+                    </FormControl>
+                  }
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={
+                    <RangeSlider
+                      state={filter}
+                      setState={setFilter}
+                      optKey="data"
+                    />
+                  }
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "350px" }}
+                  children={
+                    <RangeSlider
+                      state={filter}
+                      setState={setFilter}
+                      optKey="monthPrice"
+                    />
+                  }
+                />
+              </PlanStyle.PlanBar>
               <PlanStyle.PlanBar>
                 <PlanStyle.PlanBarItem
                   style={{ width: "525px" }}
@@ -102,12 +194,12 @@ export default function PlanModal({
                   children={<p children="음성통화" />}
                 />
                 <PlanStyle.PlanBarItem
-                  style={{ width: "135px" }}
+                  style={{ width: "150px" }}
                   children={<p children="메세지" />}
                 />
               </PlanStyle.PlanBar>
               <PlanStyle.BoxContainer>
-                {plans.map((row) => (
+                {filterArr(planList).map((row) => (
                   <PlanStyle.PlanBox key={row.planId}>
                     <PlanStyle.PlanCol>
                       <PlanStyle.PlanRadio

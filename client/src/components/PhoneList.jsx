@@ -10,6 +10,8 @@ export default function PhoneList({
   propsList,
   filterOpt,
   planList,
+  sortBy,
+  setSortBy,
   search,
 }) {
   const phonesArray = search ? [...phones].slice(0, 4) : [...phones];
@@ -18,12 +20,13 @@ export default function PhoneList({
       <Styles.InfoArea>
         <Styles.Total>전체 {phones.length} 개</Styles.Total>
         <Styles.InfoBox>
-          <Styles.Select>
-            <Styles.Option>주간 판매량 많은 순</Styles.Option>
-            <Styles.Option>누적 판매량 많은 순</Styles.Option>
-            <Styles.Option>실 구매가 낮은 순</Styles.Option>
-            <Styles.Option>정상가 낮은 순</Styles.Option>
-            <Styles.Option>정상가 높은 순</Styles.Option>
+          <Styles.Select onChange={(e) => setSortBy(e.target.value)}>
+            <Styles.Option value="" children="주간 판매량 많은 순" />
+            <Styles.Option value="orderDesc" children="누적 판매량 많은 순" />
+            <Styles.Option value="actualAsc" children="실 구매가 낮은 순" />
+            <Styles.Option value="actualDesc" children="실 구매가 높은 순" />
+            <Styles.Option value="priceAsc" children="정상가 낮은 순" />
+            <Styles.Option value="priceDesc" children="정상가 높은 순" />
           </Styles.Select>
         </Styles.InfoBox>
       </Styles.InfoArea>
@@ -37,6 +40,7 @@ export default function PhoneList({
               propsList={propsList}
               filterOpt={filterOpt}
               planList={planList}
+              search
             />
           </Grid>
         ))}
