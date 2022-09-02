@@ -7,7 +7,6 @@ import PhoneList from "../components/PhoneList";
 import Filter from "../components/Filter";
 import { PageContainer } from "../components/PageContainer";
 import PlanModal from "../components/PlanModal";
-import { LGButton } from "../components/Button";
 import { filtering } from "../util/filtering";
 import useFilter from "../util/useFilter";
 import sortPhoneList from "../util/sortPhoneList";
@@ -51,10 +50,10 @@ export default function Home({
       goToNotFound();
     } else {
       handleFilterOpt("planId", tech === "5G" ? 1 : 17);
-      setPhoneArr(phoneList);
+      setPhoneArr(techArr);
     }
   }, [phones]);
-
+  ////////////////////////////////////////////////
   const [filter, setFilter] = useState({
     plan: "전체",
     disCountType: "전체",
@@ -115,7 +114,7 @@ export default function Home({
           <Grid item md={2}>
             <Filter
               handleModal={handleModal}
-              phones={phones}
+              phones={phoneArr}
               defaultValue={defaultValue}
               tech={tech}
               handleChange={handleChange}

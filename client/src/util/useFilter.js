@@ -28,6 +28,7 @@ const useFilter = ({ initState, callback ,filterModule }) => {
         break;
       case "disCountType":
         callback("disCountType",e.target)
+        break;
       default:
         break;
     }

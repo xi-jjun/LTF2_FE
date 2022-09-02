@@ -40,7 +40,7 @@ export default function PhoneList({
               propsList={propsList}
               filterOpt={filterOpt}
               planList={planList}
-              search
+              search={search}
             />
           </Grid>
         ))}

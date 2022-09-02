@@ -3,8 +3,8 @@ import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
 export default async function sortPhoneList(
-  type,
-  arr, // phoneList
+  type, 
+  arr, 
   planId,
   discount,
   installment,
