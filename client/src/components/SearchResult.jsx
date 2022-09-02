@@ -29,6 +29,7 @@ export default function SearchResult({
           <PhoneList
             phones={searchPhones}
             search
+            isShowMore
             saveCart={saveCart}
             propsList={propsList}
             isShowMore
