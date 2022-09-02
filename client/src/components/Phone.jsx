@@ -7,6 +7,7 @@ import { LGButton } from "./Button";
 import { priceCalcbyId } from "../util/priceCalc";
 import { useState } from "react";
 import { useEffect } from "react";
+import MessageModal from "./MessageModal";
 
 export default function Phone({
   phone,
@@ -18,6 +19,8 @@ export default function Phone({
 }) {
   const navigate = useNavigate();
 
+  const [open, setOpen] = useState(false);
+
   const [priceInfo, setPriceInfo] = useState({
     phone: 0,
     plan: 0,
@@ -27,6 +30,54 @@ export default function Phone({
   const tech = phone.telecomTech === "5G" ? 1 : 17;
 
   const comparePlanId = search ? tech : filterOpt.planId;
+
+  const [modalMsg, setModalMsg] = useState({
+    message: "",
+    btnMessage: "",
+    func: "",
+  });
+  const changeModalMsg = (type, message, btnMessage, func) =>
+    setModalMsg({ type, message, btnMessage, func });
+
+  const goToCart = () => {
+    const active = {
+      phone,
+      plan: { planId: comparePlanId },
+      ship: "우체국 택배",
+      date: new Date(),
+      color: phone.colorList[0],
+      registration: "신규가입",
+      installment: 24,
+      discount: 24,
+    };
+    switch (saveCart(active)) {
+      case "success": {
+        changeModalMsg(
+          "YN",
+          "장바구니에 주문이 저장되었습니다.",
+          "장바구니로 이동",
+          () => navigate("/cart")
+        );
+        setOpen(true);
+        break;
+      }
+      case "alreadyExist": {
+        changeModalMsg("", "이미 존재하는 주문 정보입니다!", "", "");
+        setOpen(true);
+        break;
+      }
+      default: {
+        changeModalMsg(
+          "",
+          "알 수 없는 오류가 발생했습니다. \n불편을 드려 죄송합니다.",
+          "",
+          ""
+        );
+        setOpen(true);
+        break;
+      }
+    }
+  };
 
   useEffect(() => {
     const tech = phone.telecomTech === "5G" ? 1 : 17;
@@ -51,6 +102,13 @@ export default function Phone({
     propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
   return (
     <Styles.CardLayout>
+      <MessageModal
+        open={open}
+        setOpen={setOpen}
+        message={modalMsg.message}
+        btnMessage={modalMsg.btnMessage}
+        func={modalMsg.func}
+      />
       <Styles.CardHeader onClick={() => navigate(`/detail/${phone.phoneId}`)}>
         <Styles.ImageLayout>
           <Styles.Image src={phone.previewImg} />
@@ -110,7 +168,7 @@ export default function Phone({
           >
             비교하기
           </LGButton>
-          <Styles.CartButton />
+          <Styles.CartButton onClick={goToCart} />
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>

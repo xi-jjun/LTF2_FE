@@ -57,7 +57,16 @@ export default function DetailInfomation({
   const OptAgreeRadio = ({ month }) => (
     <FormControlLabel
       value={month}
-      control={<Radio />}
+      control={
+        <Radio
+          sx={{
+            color: "#e6007e",
+            "&.Mui-checked": {
+              color: "#e6007e",
+            },
+          }}
+        />
+      }
       label={`${month}개월 할인`}
     />
   );

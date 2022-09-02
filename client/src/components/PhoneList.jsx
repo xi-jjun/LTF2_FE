@@ -13,8 +13,11 @@ export default function PhoneList({
   sortBy,
   setSortBy,
   search,
+  isShowMore,
 }) {
-  const phonesArray = search ? [...phones].slice(0, 4) : [...phones];
+  const phonesArray =
+    search && !isShowMore ? [...phones].slice(0, 4) : [...phones];
+
   return (
     <>
       <Styles.InfoArea>

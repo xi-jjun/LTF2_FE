@@ -13,13 +13,14 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
     btnMessage: "",
     func: "",
   });
-  const changeModalMsg = (message, btnMessage, func) =>
-    setModalMsg({ message, btnMessage, func });
+  const changeModalMsg = (type, message, btnMessage, func) =>
+    setModalMsg({ type, message, btnMessage, func });
 
   const goToCart = () => {
     switch (saveCart(active)) {
       case "success": {
         changeModalMsg(
+          "YN",
           "장바구니에 주문이 저장되었습니다.",
           "장바구니로 이동",
           () => navigate("/cart")
@@ -28,12 +29,13 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
         break;
       }
       case "alreadyExist": {
-        changeModalMsg("이미 존재하는 주문 정보입니다!", "", "");
+        changeModalMsg("", "이미 존재하는 주문 정보입니다!", "", "");
         setOpen(true);
         break;
       }
       default: {
         changeModalMsg(
+          "",
           "알 수 없는 오류가 발생했습니다. \n불편을 드려 죄송합니다.",
           "",
           ""
@@ -43,7 +45,6 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       }
     }
   };
-
   const goToOrder = () => {
     navigate("/order", { state: active });
   };

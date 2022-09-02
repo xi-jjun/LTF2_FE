@@ -62,7 +62,7 @@ export default function PlanModal({
   const handleChange = (key, value) => {
     const { name } = plans.filter((p) => p.planId === value)[0];
     OptionData.default["5G"].요금제.values[name] = value;
-    setDefaultValue(name);
+    setDefaultValue !== undefined && setDefaultValue(name);
     handleFilterOpt(key, value);
     setModalShow({ ...modalShow, plan: false });
   };

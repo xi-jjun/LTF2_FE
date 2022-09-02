@@ -9,7 +9,10 @@ export default function OrderBar({ active, setActive }) {
     { label: "가입안내 및 유의사항", link: "" },
   ];
 
-  const nowActive = (row) => setActive({ ...active, nav: row.label });
+  const nowActive = (row) => {
+    (row.label === "예상 납부금액" || row.label === "상품정보") &&
+      setActive({ ...active, nav: row.label });
+  };
 
   return (
     <Bar.OrderContainer>

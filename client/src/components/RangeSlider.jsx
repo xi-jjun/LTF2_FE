@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 
@@ -45,6 +44,9 @@ export default function RangeSlider({ state, setState, optKey }) {
   return (
     <Box sx={{ width: 300 }}>
       <Slider
+        sx={{
+          color: "#e6007e",
+        }}
         getAriaLabel={() => "Temperature range"}
         value={state[optKey]}
         onChange={handleChange}

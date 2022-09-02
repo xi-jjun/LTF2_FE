@@ -121,6 +121,12 @@ export default function PhoneInfomation({
             />
           ))}
         </Row>
+        {active.phone.phoneId === 18 && (
+          <LGButton
+            onClick={() => navigate("/size")}
+            children="실제 크기 측정하기"
+          />
+        )}
       </PhoneInfo.ImgContainer>
       <PhoneInfo.Container>
         <div className="phone-info">
@@ -129,7 +135,7 @@ export default function PhoneInfomation({
             <h4>{`(${active.phone.model})`}</h4>
           </PhoneInfo.Info>
           <PhoneInfo.Info style={{ marginBottom: "20px" }}>
-            <p>#최적의화면비, #가벼워진무게, #멀티태스킹</p>
+            <p>{active.phone.titleSub}</p>
             <Rating
               name="read-only"
               value={5}

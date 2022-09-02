@@ -28,8 +28,10 @@ export default function SearchResult({
         {isShowMore ? (
           <PhoneList
             phones={searchPhones}
+            search
             saveCart={saveCart}
             propsList={propsList}
+            isShowMore
           />
         ) : (
           <PhoneList

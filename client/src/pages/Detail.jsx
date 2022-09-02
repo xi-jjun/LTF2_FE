@@ -119,7 +119,7 @@ export default function Detail({
         )
       );
     }
-  }, [active.phone]);
+  }, [active]);
 
   useEffect(async () => {
     if (loading) {

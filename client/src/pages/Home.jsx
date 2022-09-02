@@ -10,6 +10,7 @@ import PlanModal from "../components/PlanModal";
 import { filtering } from "../util/filtering";
 import useFilter from "../util/useFilter";
 import sortPhoneList from "../util/sortPhoneList";
+import NoResult from "../components/NoResult";
 
 export default function Home({
   phones,
@@ -50,7 +51,7 @@ export default function Home({
       goToNotFound();
     } else {
       handleFilterOpt("planId", tech === "5G" ? 1 : 17);
-      setPhoneArr(techArr);
+      setPhoneArr(phoneList);
     }
   }, [phones]);
   ////////////////////////////////////////////////
@@ -121,16 +122,20 @@ export default function Home({
             />
           </Grid>
           <Grid item md={9}>
-            <PhoneList
-              phones={list.length === 0 ? phoneArr : list}
-              modalShow={modalShow}
-              saveCart={saveCart}
-              propsList={propsList}
-              filterOpt={filterOpt}
-              planList={planList}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-            />
+            {phoneArr.length ? (
+              <PhoneList
+                phones={list.length === 0 ? phoneArr : list}
+                modalShow={modalShow}
+                saveCart={saveCart}
+                propsList={propsList}
+                filterOpt={filterOpt}
+                planList={planList}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+              />
+            ) : (
+              <NoResult />
+            )}
           </Grid>
         </Grid>
       </Styles.TotalLayout>

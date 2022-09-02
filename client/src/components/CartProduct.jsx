@@ -4,7 +4,14 @@ import { LGButton } from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { inputComparePhone } from "../util/inputCompare";
 
-export default function CartProduct({ data, deleteCart, modalShow, setModalShow, propsList, phones }) {
+export default function CartProduct({
+  data,
+  deleteCart,
+  modalShow,
+  setModalShow,
+  propsList,
+  phones,
+}) {
   const [over, setOver] = useState(false);
   const navigate = useNavigate();
 
@@ -12,24 +19,22 @@ export default function CartProduct({ data, deleteCart, modalShow, setModalShow,
     deleteCart(data.id);
   };
 
-    const mvDetailPage = () => {
-      const cartInfo = {
-        "planId": data.info.planId,
-        "colorId": data.info.colorId,
-        "registration": data.registration,
-        "ship": data.ship,
-        "discount": data.discount
-      }
+  const mvDetailPage = () => {
+    const cartInfo = {
+      planId: data.info.planId,
+      colorId: data.info.colorId,
+      registration: data.registration,
+      ship: data.ship,
+      discount: data.discount,
+    };
 
-      navigate(`/detail/${data.info.phoneId}`, {state: cartInfo});
-
-    }
+    navigate(`/detail/${data.info.phoneId}`, { state: cartInfo });
+  };
 
   const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
 
   const actualPrice =
-    data.info.phonePrice -
-    (data.discount === -1 ? data.info.supportPrice : 0);
+    data.info.phonePrice - (data.discount === -1 ? data.info.supportPrice : 0);
   const monthFee = 0.059 / 12;
   const monthPhonePrice =
     data.installment === 1
@@ -44,9 +49,9 @@ export default function CartProduct({ data, deleteCart, modalShow, setModalShow,
     data.info.planMonthPrice * (data.discount > 11 ? 0.75 : 1);
 
   const compareDisabled =
-  propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
+    propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
 
-  const phone = phones.find(row => row.phoneId === data.info.phoneId)
+  const phone = phones.find((row) => row.phoneId === data.info.phoneId);
 
   return (
     <li style={{ borderTop: "1px solid #ddd" }}>
@@ -108,55 +113,74 @@ export default function CartProduct({ data, deleteCart, modalShow, setModalShow,
               ) : (
                 <Styled.OptionItemSpan>일시불</Styled.OptionItemSpan>
               )}
-              <Styled.OptionItemLine/>
+              <Styled.OptionItemLine />
               <Styled.OptionItemSpan>{data.ship}</Styled.OptionItemSpan>
             </div>
           </div>
         </Styled.CartProductContainerPProduct>
         <Styled.PDetailGroup>
-          {
-            data.discount > 0 ?
+          {data.discount > 0 ? (
             <Styled.PDetailGroupItemInfo>
               선택약정 {data.discount}개월
             </Styled.PDetailGroupItemInfo>
-            :
-              data.discount === -1 ?  
-              <Styled.PDetailGroupItemInfo>공시지원금</Styled.PDetailGroupItemInfo>
-              :
-              <Styled.PDetailGroupItemInfo>무약정</Styled.PDetailGroupItemInfo>
-          }
-            <Styled.PDetailGroupItemInfoLine/>
+          ) : data.discount === -1 ? (
             <Styled.PDetailGroupItemInfo>
-              {data.registration}
+              공시지원금
             </Styled.PDetailGroupItemInfo>
-            <Styled.PDetailGroupItemInfoLine/>
-            <Styled.PDetailGroupItemInfoDiv>
-              <p style={{margin:0}}>월 예상 납부 금액</p>
-              {
-                data.discount > 1 ?
-                <Styled.PDetailProductPrice>{pricePerMonth.toLocaleString()}원</Styled.PDetailProductPrice>
-                :
-                <Styled.PDetailProductPrice>{data.info.planMonthPrice.toLocaleString()}원</Styled.PDetailProductPrice>
-              }
-            </Styled.PDetailGroupItemInfoDiv>
-          
-          </Styled.PDetailGroup>
-          <div>
-            <div style={{position: "relative"}}
-            onMouseEnter={() => {setOver(true)}}
-            onMouseLeave={() => {setOver(false)}}>
-                <LGButton variant="primary" size="lg" onClick={mvDetailPage}>
-                    가입하기
-                    <Styled.IsBlind>메뉴더보기</Styled.IsBlind>
-                </LGButton>
-              <Styled.COverflowMenu over={over}>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!" onClick={mvDetailPage}>온라인 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">전화 주문</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">채팅 상담</Styled.COverflowMenua></Styled.COverflowMenuLi>
-                <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">매장 방문 예약</Styled.COverflowMenua></Styled.COverflowMenuLi>
-              </Styled.COverflowMenu>
-            </div>
-            <LGButton style={{marginTop:10}}
+          ) : (
+            <Styled.PDetailGroupItemInfo>무약정</Styled.PDetailGroupItemInfo>
+          )}
+          <Styled.PDetailGroupItemInfoLine />
+          <Styled.PDetailGroupItemInfo>
+            {data.registration}
+          </Styled.PDetailGroupItemInfo>
+          <Styled.PDetailGroupItemInfoLine />
+          <Styled.PDetailGroupItemInfoDiv>
+            <p style={{ margin: 0 }}>월 예상 납부 금액</p>
+            <Styled.PDetailProductPrice>
+              {pricePerMonth.toLocaleString()}원
+            </Styled.PDetailProductPrice>
+          </Styled.PDetailGroupItemInfoDiv>
+        </Styled.PDetailGroup>
+        <div>
+          <div
+            style={{ position: "relative" }}
+            onMouseEnter={() => {
+              setOver(true);
+            }}
+            onMouseLeave={() => {
+              setOver(false);
+            }}
+          >
+            <LGButton variant="primary" size="lg" onClick={mvDetailPage}>
+              가입하기
+              <Styled.IsBlind>메뉴더보기</Styled.IsBlind>
+            </LGButton>
+            <Styled.COverflowMenu over={over}>
+              <Styled.COverflowMenuLi>
+                <Styled.COverflowMenua href="#!" onClick={mvDetailPage}>
+                  온라인 주문
+                </Styled.COverflowMenua>
+              </Styled.COverflowMenuLi>
+              <Styled.COverflowMenuLi>
+                <Styled.COverflowMenua href="#!">
+                  전화 주문
+                </Styled.COverflowMenua>
+              </Styled.COverflowMenuLi>
+              <Styled.COverflowMenuLi>
+                <Styled.COverflowMenua href="#!">
+                  채팅 상담
+                </Styled.COverflowMenua>
+              </Styled.COverflowMenuLi>
+              <Styled.COverflowMenuLi>
+                <Styled.COverflowMenua href="#!">
+                  매장 방문 예약
+                </Styled.COverflowMenua>
+              </Styled.COverflowMenuLi>
+            </Styled.COverflowMenu>
+          </div>
+          <LGButton
+            style={{ marginTop: 10 }}
             variant={
               propsList.comparePhoneList.findIndex(
                 (row) => row.phoneId === data.info.phoneId
@@ -172,10 +196,11 @@ export default function CartProduct({ data, deleteCart, modalShow, setModalShow,
             }
             onClick={() =>
               inputComparePhone(phone, data.info.planId, propsList)
-            }>
-              비교하기
-            </LGButton>
-          </div>
+            }
+          >
+            비교하기
+          </LGButton>
+        </div>
         <Styled.ProductContainerBtnDel onClick={onDelBtnClick}>
           <Styled.IsBlind>상품삭제</Styled.IsBlind>
         </Styled.ProductContainerBtnDel>
