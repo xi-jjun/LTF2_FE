@@ -15,7 +15,10 @@ export const ImgBox = styled.div`
     align-items: center;
 `
 export const Img = styled.img`
-    
+    height : ${(props) => props.height}mm;
+    width : ${(props) => props.width}mm;
+    zoom : ${(props) => props.zoom};
+
 `
 
 export const SizeBox = styled.div`
