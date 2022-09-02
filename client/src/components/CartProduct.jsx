@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import { inputComparePhone } from "../util/inputCompare";
 
-export default function CartProduct({ data, deleteCart }) {
+export default function CartProduct({ data, deleteCart, modalShow, setModalShow, propsList, phones }) {
   const [over, setOver] = useState(false);
   const navigate = useNavigate();
 
@@ -13,22 +14,22 @@ export default function CartProduct({ data, deleteCart }) {
 
     const mvDetailPage = () => {
       const cartInfo = {
-        "planId": data.info.shoppingBasket.planId,
-        "colorId": data.info.shoppingBasket.colorId,
+        "planId": data.info.planId,
+        "colorId": data.info.colorId,
         "registration": data.registration,
         "ship": data.ship,
         "discount": data.discount
       }
 
-      navigate(`/detail/${data.info.shoppingBasket.phoneId}`, {state: cartInfo});
+      navigate(`/detail/${data.info.phoneId}`, {state: cartInfo});
 
     }
 
   const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
 
   const actualPrice =
-    data.info.shoppingBasket.phonePrice -
-    (data.discount === -1 ? data.info.shoppingBasket.supportPrice : 0);
+    data.info.phonePrice -
+    (data.discount === -1 ? data.info.supportPrice : 0);
   const monthFee = 0.059 / 12;
   const monthPhonePrice =
     data.installment === 1
@@ -40,7 +41,12 @@ export default function CartProduct({ data, deleteCart }) {
         ) * 100;
   const pricePerMonth =
     (data.installment === 1 ? 0 : monthPhonePrice) +
-    data.info.shoppingBasket.planMonthPrice * (data.discount > 11 ? 0.75 : 1);
+    data.info.planMonthPrice * (data.discount > 11 ? 0.75 : 1);
+
+  const compareDisabled =
+  propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
+
+  const phone = phones.find(row => row.phoneId === data.info.phoneId)
 
   return (
     <li style={{ borderTop: "1px solid #ddd" }}>
@@ -52,7 +58,7 @@ export default function CartProduct({ data, deleteCart }) {
             onClick={mvDetailPage}
           >
             <Styled.CartProductContainerPThumbImg
-              src={data.info.shoppingBasket.phoneImgList[0]}
+              src={data.info.phoneImgList[0]}
               alt=""
             />
           </a>
@@ -77,21 +83,21 @@ export default function CartProduct({ data, deleteCart }) {
                 }}
                 onClick={mvDetailPage}
               >
-                {data.info.shoppingBasket.titleName}
+                {data.info.titleName}
               </a>
               <span style={{ marginLeft: 8 }}></span>
             </Styled.CartProductContainerPProductTit>
             <Styled.CartProductContainerPProductDesc>
-              {data.info.shoppingBasket.planName}
+              {data.info.planName}
               <span style={{ fontSize: 14 }}></span>
             </Styled.CartProductContainerPProductDesc>
             <div style={{ margin: 0, marginBottom: 6 }}>
               <Styled.OptionItemSpan>
-                {data.info.shoppingBasket.colorName}
+                {data.info.colorName}
               </Styled.OptionItemSpan>
               <Styled.OptionItemLine />
               <Styled.OptionItemSpan>
-                {data.info.shoppingBasket.memory}GB
+                {data.info.memory}GB
               </Styled.OptionItemSpan>
               <Styled.OptionItemLine />
 
@@ -130,7 +136,7 @@ export default function CartProduct({ data, deleteCart }) {
                 data.discount > 1 ?
                 <Styled.PDetailProductPrice>{pricePerMonth.toLocaleString()}원</Styled.PDetailProductPrice>
                 :
-                <Styled.PDetailProductPrice>{data.info.shoppingBasket.planMonthPrice.toLocaleString()}원</Styled.PDetailProductPrice>
+                <Styled.PDetailProductPrice>{data.info.planMonthPrice.toLocaleString()}원</Styled.PDetailProductPrice>
               }
             </Styled.PDetailGroupItemInfoDiv>
           
@@ -150,7 +156,23 @@ export default function CartProduct({ data, deleteCart }) {
                 <Styled.COverflowMenuLi><Styled.COverflowMenua href="#!">매장 방문 예약</Styled.COverflowMenua></Styled.COverflowMenuLi>
               </Styled.COverflowMenu>
             </div>
-            <LGButton style={{marginTop:10}} variant="light" size="lg">
+            <LGButton style={{marginTop:10}}
+            variant={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.phoneId === data.info.phoneId
+              ) === -1
+                ? "light"
+                : "dark"
+            }
+            size="lg"
+            disabled={
+              propsList.comparePhoneList.findIndex(
+                (row) => row.phoneId === data.info.phoneId
+              ) === -1 && compareDisabled
+            }
+            onClick={() =>
+              inputComparePhone(phone, data.info.planId, propsList)
+            }>
               비교하기
             </LGButton>
           </div>

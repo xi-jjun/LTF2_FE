@@ -83,6 +83,7 @@ function App() {
       let result = false;
       for (let i of cart.data) {
         if (
+          i.registration === cookieUploadObject().registration &&
           i.color === cookieUploadObject().color &&
           i.discount === cookieUploadObject().discount &&
           i.phone === cookieUploadObject().phone &&
@@ -193,7 +194,8 @@ function App() {
           <Route
             path="/cart"
             exact
-            element={<Cart cart={cart} deleteCart={deleteCart} />}
+            element={<Cart cart={cart} deleteCart={deleteCart} modalShow={modalShow}
+            setModalShow={setModalShow} propsList={propsList} phones={phones}/>}
           />
           <Route path="/order" exact element={<Order />} />
           <Route
