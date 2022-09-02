@@ -1,9 +1,6 @@
 name: React build and push docker image to ECR and Deploy to ECS 
 
 on: 
-  push:
-    branches: [ dev ]
-
   pull_request_target:
     branches: [ dev ]
 
