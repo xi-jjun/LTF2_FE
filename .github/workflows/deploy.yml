@@ -3,7 +3,7 @@ name: React build and push docker image to ECR and Deploy to ECS
 on: 
   push:
     branches: [ dev ]
-    
+
   pull_request_target:
     branches: [ dev ]
 
@@ -13,8 +13,8 @@ env:
 
   ECS_CLUSTER_NAME: lg-develop-cluster
   ECS_CONTAINER_NAME: test-front-container
-  ECS_SERVICE_NAME: test-service1
-  ECS_TASK_DEFINITION: test-task
+  ECS_SERVICE_NAME: lg-develop-service
+  ECS_TASK_DEFINITION: lg-develop-task
 
 jobs:
   approve:
