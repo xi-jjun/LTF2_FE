@@ -16,6 +16,7 @@ export default function PhoneList({
   isShowMore
 }) {
   const phonesArray = search && !isShowMore ? [...phones].slice(0, 4) : [...phones];
+
   return (
     <>
       <Styles.InfoArea>
