@@ -24,8 +24,7 @@ export default function Phone({
 
   useEffect(() => {
     let month = 24;
-    if (filterOpt.disCountType !== "-1") month = filterOpt.disCountType;
-    console.log(month);
+    if (filterOpt.disCountType !== -1) month = filterOpt.disCountType;
     priceCalc1(
       phone.phoneId,
       filterOpt.planId,
@@ -37,7 +36,6 @@ export default function Phone({
 
   const compareDisabled =
     propsList.comparePhoneList.filter((row) => row.phoneId).length === 3;
-
   return (
     <Styles.CardLayout>
       <Styles.CardHeader onClick={() => navigate(`/detail/${phone.phoneId}`)}>

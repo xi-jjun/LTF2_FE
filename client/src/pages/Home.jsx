@@ -66,7 +66,7 @@ export default function Home({
         setDefaultValue(value);
         break;
       case "disCountType":
-        setFilterOpt(() => ({ ...filterOpt, disCountType: id }));
+        setFilterOpt(() => ({ ...filterOpt, disCountType: Number(id) }));
         break;
       default:
         break;
@@ -90,7 +90,7 @@ export default function Home({
       />
       <Styles.TotalLayout>
         <Styles.FilterTitle>{tech} 휴대폰</Styles.FilterTitle>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item md={2}>
             <Filter
               handleModal={handleModal}

@@ -1,7 +1,19 @@
 import * as detailInfo from "../styles/detailInfoStyle";
 import { LGButton } from "./Button";
 import * as Styles from "../styles/orderStyle";
+import { priceCalc } from "../util/priceCalc";
+import { useState } from "react";
+import { discountType } from "../util/transform";
 export default function OrderPhoneInfo({ state }) {
+  const [pay, setPay] = useState(
+    priceCalc(
+      state.phone,
+      state.plan,
+      state.supportPrice,
+      state.discount,
+      state.installment
+    )
+  );
   return (
     <detailInfo.SideBarContainer>
       <Styles.PhoneImg src={state.color.phoneImgList[0]} />
@@ -16,18 +28,19 @@ export default function OrderPhoneInfo({ state }) {
         <Styles.PhoneOrderType>
           <Styles.PhoneType>{state.registration}</Styles.PhoneType>
           <Styles.PhoneType>{state.plan.name}</Styles.PhoneType>
+          <Styles.PhoneType>{discountType(state.discount)}</Styles.PhoneType>
         </Styles.PhoneOrderType>
         <Styles.PlanInfo>
           <Styles.PlanRow>
             <Styles.PlanTitle>휴대폰 가격</Styles.PlanTitle>
             <Styles.PlanMoney>
-              월 {(state.phone.price / 12).toLocaleString()}원
+              월 {pay.phone.toLocaleString()}원
             </Styles.PlanMoney>
           </Styles.PlanRow>
           <Styles.PlanRow>
             <Styles.PlanTitle>통신 가격</Styles.PlanTitle>
             <Styles.PlanMoney>
-              월 {state.plan.monthPrice.toLocaleString()}원
+              월 {pay.plan.toLocaleString()}원
             </Styles.PlanMoney>
           </Styles.PlanRow>
         </Styles.PlanInfo>
@@ -36,11 +49,7 @@ export default function OrderPhoneInfo({ state }) {
             <Styles.PlanRow>
               <Styles.PlanTotalTitle>월 납부금액</Styles.PlanTotalTitle>
               <Styles.PlanTotalPrice>
-                {(
-                  state.phone.price / 12 +
-                  state.plan.monthPrice
-                ).toLocaleString()}
-                원
+                {pay.total.toLocaleString()}원
               </Styles.PlanTotalPrice>
             </Styles.PlanRow>
             <Styles.PlanRow>
