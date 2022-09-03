@@ -84,7 +84,11 @@ export default function NavBar() {
             onClick={() => goLink(row)}
             nowHover={nowHover}
             onMouseEnter={() => {
-              if (row.label === "유플일상" || row.label === "유독") {
+              if (
+                row.label === "유플일상" ||
+                row.label === "유독" ||
+                row.label === "크기"
+              ) {
                 setNowHover("");
               } else setNowHover(row.label);
             }}

@@ -18,6 +18,7 @@ export default function DetailInfomation({
   planList,
   handleModal,
   handleFilterOpt,
+  setShowPlan,
 }) {
   // active 요소 변경 함수
   const nowActive = (key, value) => setActive({ ...active, [key]: value });
@@ -154,7 +155,7 @@ export default function DetailInfomation({
                       <AddCircleOutlineIcon
                         onClick={(e) => {
                           e.stopPropagation();
-                          alert("클릭");
+                          setShowPlan({ row: row, show: true });
                         }}
                       />
                     </div>

@@ -14,6 +14,7 @@ import NotFound from "../components/NotFound";
 import { priceCalc } from "../util/priceCalc";
 import { deleteAll } from "../util/inputCompare";
 import PlanModal from "../components/PlanModal";
+import PlanBoxModal from "../components/PlanBoxModal";
 
 export default function Detail({
   modalShow,
@@ -26,6 +27,8 @@ export default function Detail({
   const [loading, setLoading] = useState(true);
 
   const [planList, setPlanList] = useState([]);
+
+  const [showPlan, setShowPlan] = useState({ row: {}, show: false });
 
   const [active, setActive] = useState({
     nav: "예상 납부금액",
@@ -145,6 +148,7 @@ export default function Detail({
     <NotFound />
   ) : (
     <div>
+      <PlanBoxModal showPlan={showPlan} setShowPlan={setShowPlan} />
       <PlanModal
         modalShow={modalShow}
         setModalShow={setModalShow}
@@ -166,6 +170,7 @@ export default function Detail({
           planList={planList}
           handleModal={handleModal}
           handleFilterOpt={handleFilterOpt}
+          setShowPlan={setShowPlan}
         />
         <DetailSideBar
           active={active}
