@@ -4,11 +4,10 @@ import { priceCalc } from "../util/priceCalc";
 import { LGButton } from "./Button";
 import DataOptSelect from "./DataOptSelect";
 import { useNavigate } from "react-router-dom";
-import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPhoneByPhoneId } from "../api/PhoneAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import CloseIcon from "@mui/icons-material/Close";
-import { deleteOne } from "../util/inputCompare";
+import { deleteAll, deleteOne } from "../util/inputCompare";
 
 export function ComparedModalPhoneBox({
   opt,
@@ -16,12 +15,9 @@ export function ComparedModalPhoneBox({
   modalShow,
   setModalShow,
   propsList,
+  plans,
 }) {
   const navigate = useNavigate();
-
-  const handleComparePhoneList = () => {
-    propsList.setComparePhoneList([{}, {}, {}]);
-  };
 
   const handleAllClose = () =>
     setModalShow({ ...modalShow, compare: false, comparePopup: false });
@@ -36,7 +32,7 @@ export function ComparedModalPhoneBox({
   };
 
   const goToDetail = (row) => {
-    handleComparePhoneList();
+    deleteAll(propsList);
     handleAllClose();
     navigate(`/detail/${row.phoneId}`);
   };
@@ -59,20 +55,24 @@ export function ComparedModalPhoneBox({
       if (d.status === 404) {
         return ["error", "error", "error"];
       } else {
-        const searchPlanId = d.phoneDetail.telecomTech === "5G" ? 1 : 17;
+        const defaultPlan = plans.filter(
+          (row) => row.telecomTech === d.phoneDetail.telecomTech
+        )[0];
         return await Promise.all([
           d,
-          getPlanByPlanId(searchPlanId),
-          getPublicSupportByPhoneIdAndPlanId({
-            phone_id: id,
-            plan_id: searchPlanId,
-          }).then((d) => {
-            if (d.status === 404) {
-              return 0;
-            } else {
-              return d.PublicSupportPrice;
-            }
-          }),
+          defaultPlan,
+          defaultPlan.planType === "다이렉트"
+            ? 0
+            : getPublicSupportByPhoneIdAndPlanId({
+                phone_id: id,
+                plan_id: defaultPlan.planId,
+              }).then((d) => {
+                if (d.status === 404) {
+                  return 0;
+                } else {
+                  return d.PublicSupportPrice;
+                }
+              }),
         ]);
       }
     });
@@ -81,7 +81,7 @@ export function ComparedModalPhoneBox({
     } else
       return {
         phone: phoneData.phoneDetail,
-        plan: planData.Plan,
+        plan: planData,
         supportPrice: supportPrice,
       };
   };

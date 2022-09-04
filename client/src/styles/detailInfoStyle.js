@@ -61,7 +61,7 @@ export const DiscountCard = styled.div`
     margin-bottom: 0px;
   }
   .type-description {
-    font-size: 24px;
+    font-size: 22px;
     margin-top: 0px;
     font-weight: bold;
   }

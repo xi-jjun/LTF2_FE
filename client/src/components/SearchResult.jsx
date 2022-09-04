@@ -32,7 +32,6 @@ export default function SearchResult({
             isShowMore
             saveCart={saveCart}
             propsList={propsList}
-            isShowMore
           />
         ) : (
           <PhoneList

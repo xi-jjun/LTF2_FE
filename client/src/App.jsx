@@ -137,7 +137,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App" style={{ width: "1840px" }}>
+      <div className="App" style={{ minWidth: "1700px", width: "100%" }}>
         <Header />
         <NavBar />
         <ComparedPopup
@@ -149,6 +149,7 @@ function App() {
           modalShow={modalShow}
           setModalShow={setModalShow}
           propsList={propsList}
+          plans={plans}
         />
         <Routes>
           <Route path="/" exact element={<Main />} />
@@ -189,14 +190,23 @@ function App() {
                 setModalShow={setModalShow}
                 saveCart={saveCart}
                 propsList={propsList}
+                plans={plans}
               />
             }
           />
           <Route
             path="/cart"
             exact
-            element={<Cart cart={cart} deleteCart={deleteCart} modalShow={modalShow}
-            setModalShow={setModalShow} propsList={propsList} phones={phones}/>}
+            element={
+              <Cart
+                cart={cart}
+                deleteCart={deleteCart}
+                modalShow={modalShow}
+                setModalShow={setModalShow}
+                propsList={propsList}
+                phones={phones}
+              />
+            }
           />
           <Route path="/order" exact element={<Order />} />
           <Route
@@ -204,8 +214,8 @@ function App() {
             exact
             element={<Search saveCart={saveCart} propsList={propsList} />}
           />
-          <Route path="/*" element={<NotFound />} />
           <Route path="/size" exact element={<Size />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

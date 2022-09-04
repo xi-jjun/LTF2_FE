@@ -9,8 +9,16 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { LGButton } from "../components/Button";
 import { getCartInfo } from "../api/CartAPI";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
-export default function Cart({ cart, deleteCart, modalShow, setModalShow, propsList, phones}) {
+export default function Cart({
+  cart,
+  deleteCart,
+  modalShow,
+  setModalShow,
+  propsList,
+  phones,
+}) {
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState({
     nav: "통신상품",
@@ -41,8 +49,7 @@ export default function Cart({ cart, deleteCart, modalShow, setModalShow, propsL
               };
               return tempArr;
             })
-            .catch((e) => {
-            })
+            .catch((e) => {})
       )
     );
     return pr;
@@ -83,10 +90,10 @@ export default function Cart({ cart, deleteCart, modalShow, setModalShow, propsL
   return (
     <PageContainer>
       {loading ? (
-        <div>로딩중입니다~</div>
+        <Loader />
       ) : (
         <div style={{ margin: 0, padding: 0 }}>
-          <TitleSection/>
+          <TitleSection />
           <div style={{ textAlign: "center" }}>
             <CartBar active={active} setActive={setActive} />
 

@@ -1,26 +1,26 @@
 import * as ModalStyle from "../styles/modalStyle";
 import * as Compare from "../styles/compareStyle";
 import DataOptSelect from "./DataOptSelect";
-import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
-export function ComparedModalSelectBox({ propsList }) {
+export function ComparedModalSelectBox({ propsList, plans }) {
   const getPlanData = async (i, id) => {
     const phoneId = propsList.comparePhoneList[i].phoneId;
+    const changePlan = plans.find((row) => row.planId === id);
     const [planData, supportPrice] = await Promise.all([
-      getPlanByPlanId(id)
-        .then((d) => d)
-        .catch((e) => console.log(e)),
-      getPublicSupportByPhoneIdAndPlanId({ phone_id: phoneId, plan_id: id })
-        .then((d) => {
-          if (d.status === 404) {
-            return { PublicSupportPrice: 0 };
-          } else return d;
-        })
-        .catch((e) => console.log(e)),
+      changePlan,
+      changePlan.planType === "다이렉트"
+        ? 0
+        : getPublicSupportByPhoneIdAndPlanId({ phone_id: phoneId, plan_id: id })
+            .then((d) => {
+              if (d.status === 404) {
+                return 0;
+              } else return d.PublicSupportPrice;
+            })
+            .catch((e) => console.log(e)),
     ]);
     return {
-      plan: planData.Plan,
+      plan: planData,
       supportPrice: supportPrice.PublicSupportPrice,
     };
   };

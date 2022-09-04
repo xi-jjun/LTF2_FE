@@ -14,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "1280px",
-  height: "480px",
+  height: "530px",
   bgcolor: "#fff",
   border: "none",
   borderRadius: "10px",
@@ -51,7 +51,29 @@ export default function PlanBoxModal({ showPlan, setShowPlan }) {
                 children={<CloseIcon onClick={handleClose} />}
               />
             </ModalStyle.Header>
-            <PlanStyle.Container style={{ height: "340px" }}>
+            <PlanStyle.Container style={{ height: "390px" }}>
+              <PlanStyle.PlanBar>
+                <PlanStyle.PlanBarItem
+                  style={{ width: "525px" }}
+                  children={<p children="요금제" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "135px" }}
+                  children={<p children="데이터" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "135px" }}
+                  children={<p children="나눠쓰기" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "135px" }}
+                  children={<p children="음성통화" />}
+                />
+                <PlanStyle.PlanBarItem
+                  style={{ width: "150px" }}
+                  children={<p children="메세지" />}
+                />
+              </PlanStyle.PlanBar>
               <PlanBox row={showPlan.row} />
             </PlanStyle.Container>
             <ModalStyle.Footer>

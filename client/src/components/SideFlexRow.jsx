@@ -21,3 +21,26 @@ export default function SideFlexRow({ left, right, title }) {
     </SideFlex>
   );
 }
+
+export function SideFlexDetailBoldRow({ left, right }) {
+  return (
+    <SideFlex>
+      <h3 className="left" children={left} />
+      <h3 className="right" children={right} />
+    </SideFlex>
+  );
+}
+
+export function SideFlexDetailRow({ left, right, discount }) {
+  return discount ? (
+    <SideFlex>
+      <p className="left" style={{ color: "#e6007e" }} children={left} />
+      <p className="right" style={{ color: "#e6007e" }} children={right} />
+    </SideFlex>
+  ) : (
+    <SideFlex>
+      <p className="left" children={left} />
+      <p className="right" children={right} />
+    </SideFlex>
+  );
+}

@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as detailInfo from "../styles/detailInfoStyle";
+import * as DetailInfo from "../styles/detailInfoStyle";
 import { LGButton } from "./Button";
 import MessageModal from "./MessageModal";
+import SideFlexRow, {
+  SideFlexDetailBoldRow,
+  SideFlexDetailRow,
+} from "./SideFlexRow";
 
 export default function DetailSideBar({ active, priceInfo, saveCart }) {
   const navigate = useNavigate();
@@ -50,7 +54,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
   };
 
   return (
-    <detailInfo.SideBarContainer>
+    <DetailInfo.SideBarContainer>
       <MessageModal
         open={open}
         setOpen={setOpen}
@@ -59,77 +63,64 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
         func={modalMsg.func}
       />
       <h2>{active.phone.titleName}</h2>
-      <p>{`${active.color.name} | 256GB | ${active.registration}`}</p>
+      <p>{`${active.color.name} | ${active.phone.phoneInfo.memory}GB | ${active.registration}`}</p>
       <hr />
       <h3>최종 결제금액 계산</h3>
-      <detailInfo.SideFlex>
-        <h3 className="left">
-          {active.installment === 1
-            ? "기기 완납 결제 가격"
-            : "월 휴대폰 할부금"}
-        </h3>
-        <h3 className="right">{priceInfo.phone.toLocaleString()} 원</h3>
-      </detailInfo.SideFlex>
-      <detailInfo.SideFlex>
-        <p className="left">정상가</p>
-        <p className="right">{priceInfo.originalPhone.toLocaleString()} 원</p>
-      </detailInfo.SideFlex>
+      <SideFlexDetailBoldRow
+        left={
+          active.installment === 1 ? "기기 완납 결제 가격" : "월 휴대폰 할부금"
+        }
+        right={`${priceInfo.phone.toLocaleString()} 원`}
+      />
+      <SideFlexDetailRow
+        left="정상가"
+        right={`${priceInfo.originalPhone.toLocaleString()} 원`}
+      />
       {active.discount === -1 && (
         <div>
-          <detailInfo.SideFlex>
-            <p className="left" style={{ color: "#e6007e" }}>
-              공시지원금
-            </p>
-            <p className="right" style={{ color: "#e6007e" }}>
-              -{priceInfo.supportPrice.toLocaleString()} 원
-            </p>
-          </detailInfo.SideFlex>
-          <detailInfo.SideFlex>
-            <p className="left" style={{ color: "#e6007e" }}>
-              추가지원금
-            </p>
-            <p className="right" style={{ color: "#e6007e" }}>
-              -{priceInfo.extraSupportPrice.toLocaleString()} 원
-            </p>
-          </detailInfo.SideFlex>
+          <SideFlexDetailRow
+            left="공시지원금"
+            right={`-${priceInfo.supportPrice.toLocaleString()} 원`}
+            discount
+          />
+          <SideFlexDetailRow
+            left="추가지원금"
+            right={`-${priceInfo.extraSupportPrice.toLocaleString()} 원`}
+            discount
+          />
         </div>
       )}
-      <detailInfo.SideFlex>
-        <p className="left">실구매가</p>
-        <p className="right">{priceInfo.actualPrice.toLocaleString()} 원</p>
-      </detailInfo.SideFlex>
+      <SideFlexDetailRow
+        left="실구매가"
+        right={`${priceInfo.actualPrice.toLocaleString()} 원`}
+      />
       {active.installment !== 1 && (
         <div>
-          <detailInfo.SideFlex>
-            <p className="left">할부 개월수</p>
-            <p className="right">{active.installment}개월</p>
-          </detailInfo.SideFlex>
-          <detailInfo.SideFlex>
-            <p className="left">할부수수료 (연 5.9%)</p>
-            <p className="right">
-              {priceInfo.installmentFee.toLocaleString()} 원
-            </p>
-          </detailInfo.SideFlex>
+          <SideFlexDetailRow
+            left="할부 개월수"
+            right={`${active.installment}개월`}
+          />
+          <SideFlexDetailRow
+            left="할부수수료 (연 5.9%)"
+            right={`${priceInfo.installmentFee.toLocaleString()} 원`}
+          />
         </div>
       )}
       <hr />
-      <detailInfo.SideFlex>
-        <h3 className="left">월 통신료</h3>
-        <h3 className="right">{priceInfo.plan.toLocaleString()} 원</h3>
-      </detailInfo.SideFlex>
-      <detailInfo.SideFlex>
-        <p className="left">{active.plan.name}</p>
-        <p className="right">{priceInfo.originalPlan.toLocaleString()} 원</p>
-      </detailInfo.SideFlex>
+      <SideFlexDetailRow
+        left="월 통신료"
+        right={`${priceInfo.plan.toLocaleString()} 원`}
+      />
+      <SideFlexDetailRow
+        left={active.plan.name}
+        right={`${priceInfo.originalPlan.toLocaleString()} 원`}
+      />
       {active.discount > 11 && (
-        <detailInfo.SideFlex>
-          <p className="left" style={{ color: "#e6007e" }}>
-            선택 약정 할인
-          </p>
-          <p className="right" style={{ color: "#e6007e" }}>
-            -{priceInfo.discountPlan.toLocaleString()} 원
-          </p>
-        </detailInfo.SideFlex>
+        <SideFlexDetailRow
+          left=" 선택 약정 할인"
+          right={`-${priceInfo.discountPlan.toLocaleString()} 원`}
+          discount
+        />
       )}
       <hr />
       <div
@@ -141,10 +132,11 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
           borderRadius: "10px",
         }}
       >
-        <detailInfo.SideFlex>
-          <h3 className="left">월 납부금액</h3>
-          <h2 className="right">{priceInfo.total.toLocaleString()} 원</h2>
-        </detailInfo.SideFlex>
+        <SideFlexRow
+          left="월 납부금액"
+          right={`${priceInfo.total.toLocaleString()} 원`}
+          title
+        />
         <hr />
       </div>
       <LGButton variant="primary" size="lg" onClick={goToOrder}>
@@ -153,6 +145,6 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       <LGButton variant="outline-dark" size="lg" onClick={goToCart}>
         장바구니
       </LGButton>
-    </detailInfo.SideBarContainer>
+    </DetailInfo.SideBarContainer>
   );
 }
