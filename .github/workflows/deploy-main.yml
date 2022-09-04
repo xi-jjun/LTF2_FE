@@ -1,4 +1,4 @@
-name: React build and push docker image to ECR and Deploy to ECS 
+name: Production deployment
 
 on: 
   push:
@@ -11,8 +11,8 @@ env:
   ECR_REPOSITORY: lguplus-prod-front
 
   ECS_CLUSTER_NAME: lg-prod-cluster 
-  ECS_CONTAINER_NAME: lg-prod-service
-  ECS_SERVICE_NAME: lg-develop-service
+  ECS_CONTAINER_NAME: lg-prod-front-container
+  ECS_SERVICE_NAME: lg-prod-service
   ECS_TASK_DEFINITION: lg-prod-task
 
 jobs:
