@@ -121,7 +121,7 @@ export default function Home({
               handleChange={handleChange}
             />
           </Grid>
-          <Grid item md={9}>
+          <Grid item md={10}>
             {phoneArr.length ? (
               <PhoneList
                 phones={list.length === 0 ? phoneArr : list}

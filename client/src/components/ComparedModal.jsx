@@ -37,7 +37,12 @@ const style = {
   p: 4,
 };
 
-export default function ComparedModal({ modalShow, setModalShow, propsList }) {
+export default function ComparedModal({
+  modalShow,
+  setModalShow,
+  propsList,
+  plans,
+}) {
   const [opt, setOpt] = useState([
     { tech: "5G", product: "", phoneId: "" },
     { tech: "5G", product: "", phoneId: "" },
@@ -81,6 +86,7 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                 modalShow={modalShow}
                 setModalShow={setModalShow}
                 propsList={propsList}
+                plans={plans}
               />
               <Accordion defaultExpanded>
                 <AccordionSummary
@@ -101,7 +107,12 @@ export default function ComparedModal({ modalShow, setModalShow, propsList }) {
                   children={<Typography children="할인유형, 요금제" />}
                 />
                 <AccordionDetails
-                  children={<ComparedModalSelectBox propsList={propsList} />}
+                  children={
+                    <ComparedModalSelectBox
+                      propsList={propsList}
+                      plans={plans}
+                    />
+                  }
                 />
               </Accordion>
               <Accordion>

@@ -3,8 +3,8 @@ import { getPlanByPlanId } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 
 export default async function sortPhoneList(
-  type, 
-  arr, 
+  type,
+  arr,
   planId,
   discount,
   installment,
@@ -48,14 +48,6 @@ export default async function sortPhoneList(
 
       // 정상 휴대폰 가격
       const originalPhone = phone.price || 0;
-      // 공시지원금
-      //   const publicSupportPrice =
-      //     discount === -1 ? Math.round(supportPrice / 1.15 / 100) * 100 : 0;
-      //   // 15% 추가 지원금
-      //   const extraSupportPrice =
-      //     discount === -1
-      //       ? Math.round(((supportPrice / 1.15) * 0.15) / 100) * 100
-      //       : 0;
       // 할부원금 (공시지원금 선택 시 공시지원금을 제외한 값)
       const actualPrice = originalPhone - (discount === -1 ? supportPrice : 0);
       // 월 휴대폰 할부금 (완납 결제 선택 시 할부원금 리턴)
@@ -75,32 +67,12 @@ export default async function sortPhoneList(
         discount > 11 ? Math.round((originalPlan * 0.25) / 100) * 100 : 0;
       // 월 지불해야할 요금
       const monthPlanPrice = originalPlan - discountPlan;
-      //   // 할부 이자의 합
-      //   const totalInstallmentFee =
-      //     month === 1
-      //       ? 0
-      //       : Math.round(
-      //           (((actualPrice * monthFee * Math.pow(1 + monthFee, month)) /
-      //             (Math.pow(1 + monthFee, month) - 1)) *
-      //             month -
-      //             actualPrice) /
-      //             10
-      //         ) * 10;
       // 월 지불해야 할 총 금액
       const monthTotalPrice =
         (month === 1 ? 0 : monthPhonePrice) + monthPlanPrice;
 
       return {
-        // planName: plan.name,
         originalPhone, // 정상 휴대폰 가격
-        // actualPrice, // 할부원금 (공시지원금 선택 시 공시지원금을 제외한 값)
-        // supportPrice: publicSupportPrice, // 공시지원금
-        // extraSupportPrice, // 15% 추가 지원금
-        // phone: monthPhonePrice, // 월 휴대폰 할부금 (완납 결제 선택 시 할부원금 리턴)
-        // installmentFee: totalInstallmentFee, // 할부 이자의 합
-        // originalPlan, // 정액제
-        // discountPlan, // 할인되는 요금
-        // plan: monthPlanPrice, // 월 지불해야할 요금
         total: monthTotalPrice, // 월 지불해야 할 총 금액
       };
     }

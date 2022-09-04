@@ -15,6 +15,8 @@ export default function ComparedModalDetailBox({ propsList }) {
     return priceCalc(phone, plan, supportPrice, discount, installment);
   };
 
+  const installmentOne = (i) => propsList.compareDataList[i].installment === 1;
+
   return (
     <ModalStyle.Row>
       {propsList.comparePhoneList.map((row, i) => {
@@ -25,16 +27,10 @@ export default function ComparedModalDetailBox({ propsList }) {
                 <Compare.ModalPhoneDetailHeader
                   children={
                     <SideFlexRow
-                      left={
-                        propsList.compareDataList[i].installment === 1
-                          ? "완납 시 가격"
-                          : "휴대폰 가격"
-                      }
-                      right={`${
-                        propsList.compareDataList[i].installment === 1
-                          ? ""
-                          : "월"
-                      } ${priceInfo(i).phone.toLocaleString()}원`}
+                      left={installmentOne(i) ? "완납 시 가격" : "휴대폰 가격"}
+                      right={`${installmentOne(i) ? "" : "월"} ${priceInfo(
+                        i
+                      ).phone.toLocaleString()}원`}
                       title
                     />
                   }

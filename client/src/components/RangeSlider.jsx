@@ -42,7 +42,7 @@ export default function RangeSlider({ state, setState, optKey }) {
   const handleChange = (e) => setState({ ...state, [optKey]: e.target.value });
 
   return (
-    <Box sx={{ width: 300 }}>
+    <Box sx={{ width: 200 }}>
       <Slider
         sx={{
           color: "#e6007e",
@@ -53,7 +53,7 @@ export default function RangeSlider({ state, setState, optKey }) {
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
         marks={optKey === "data" ? dataMarks : monthPriceMarks}
-        min={0}
+        min={optKey === "data" ? 0 : 30000}
         max={optKey === "data" ? 200 : 150000}
         step={optKey === "data" ? 10 : 10000}
       />

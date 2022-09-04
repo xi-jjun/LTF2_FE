@@ -7,7 +7,7 @@ import DetailInfomation from "../components/DetailInfomation";
 import DetailSideBar from "../components/DetailSideBar";
 import { useParams } from "react-router-dom";
 import { getPhoneByPhoneId } from "../api/PhoneAPI";
-import { getPlanByPlanId, getPlansByTelecomTech } from "../api/PlanAPI";
+import { getPlansByTelecomTech } from "../api/PlanAPI";
 import { getPublicSupportByPhoneIdAndPlanId } from "../api/PublicSupportAPI";
 import Loader from "../components/Loader";
 import NotFound from "../components/NotFound";
@@ -21,11 +21,15 @@ export default function Detail({
   setModalShow,
   saveCart,
   propsList,
+  plans,
 }) {
+  // 정보를 조회할 휴대폰의 id
   const { id } = useParams();
 
+  // loading state
   const [loading, setLoading] = useState(true);
 
+  // plan
   const [planList, setPlanList] = useState([]);
 
   const [showPlan, setShowPlan] = useState({ row: {}, show: false });
@@ -47,37 +51,60 @@ export default function Detail({
   const [priceInfo, setPriceInfo] = useState({});
 
   const handleData = async (planId) => {
+    const getPublicSupportPrice = (pId) =>
+      getPublicSupportByPhoneIdAndPlanId({
+        phone_id: id,
+        plan_id: pId,
+      }).then((s) => {
+        if (s.status === 404) {
+          return 0;
+        } else {
+          return s.PublicSupportPrice;
+        }
+      });
     const [phoneData, planData, planList, supportPrice] =
       await getPhoneByPhoneId(id).then(async (d) => {
         if (d.status === 404) {
-          return ["error", "error", "error"];
-        } else {
-          const searchPlanId = d.phoneDetail.telecomTech === "5G" ? 1 : 17;
+          return ["error", "error", "error", "error"];
+        } else if (plans.length !== 0) {
+          const planArr = plans.filter(
+            (row) => row.telecomTech === d.phoneDetail.telecomTech
+          );
+          const nowPlan = planId
+            ? plans.find((row) => row.planId === planId)
+            : planArr[0];
           return await Promise.all([
-            d,
-            getPlanByPlanId(planId || searchPlanId),
-            getPlansByTelecomTech(d.phoneDetail.telecomTech),
-            getPublicSupportByPhoneIdAndPlanId({
-              phone_id: id,
-              plan_id: planId || searchPlanId,
-            }).then((d) => {
-              if (d.status === 404) {
-                return 0;
-              } else {
-                return d.PublicSupportPrice;
-              }
-            }),
+            d.phoneDetail,
+            nowPlan,
+            planArr,
+            getPublicSupportPrice(nowPlan.planId),
           ]);
+        } else {
+          return await getPlansByTelecomTech(d.phoneDetail.telecomTech).then(
+            async (p) => {
+              const planArr = p.PlanList;
+              const nowPlan = planId
+                ? planArr.find((row) => row.planId === planId)
+                : planArr[0];
+              const values = await Promise.all([
+                d.phoneDetail,
+                nowPlan,
+                planArr,
+                getPublicSupportPrice(nowPlan.planId),
+              ]);
+              return values;
+            }
+          );
         }
       });
     if (phoneData === "error") {
       return "error";
     } else
       return {
-        phone: phoneData.phoneDetail,
-        color: phoneData.phoneDetail.colorList[0],
-        plan: planData.Plan,
-        planList: planList.PlanList,
+        phone: phoneData,
+        color: phoneData.colorList[0],
+        plan: planData,
+        planList: planList,
         supportPrice: supportPrice,
       };
   };
@@ -106,7 +133,7 @@ export default function Detail({
   const handleModal = () =>
     setModalShow((prev) => ({ ...prev, plan: !prev.plan }));
 
-  useEffect(() => {
+  useEffect(async () => {
     deleteAll(propsList);
   }, []);
 

@@ -6,7 +6,7 @@ export const OrderContainer = styled.div`
   display: flex;
   border-bottom: 1px solid lightgrey;
   background-color: white;
-  width: 100vw;
+  width: 100%;
   min-width: 1440px;
   overflow: hidden;
   position: sticky;
@@ -78,7 +78,7 @@ export const NavItem = styled.div`
 export const NavMap = styled.div`
   box-sizing: border-box;
   position: fixed;
-  height: 300px;
+  height: 350px;
   background: #fff;
   display: ${(props) => (props.nowHover ? "flex" : "none")};
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
@@ -108,6 +108,7 @@ export const NavMapCategory = styled.div`
 
       &:hover {
         text-decoration: underline;
+        color: #e6007e;
       }
     }
 
@@ -115,9 +116,11 @@ export const NavMapCategory = styled.div`
       margin: 5px 0px;
       cursor: pointer;
       text-indent: -10px;
+      color: grey;
 
       &:hover {
         text-decoration: underline;
+        color: #e6007e;
       }
 
       &:before {
