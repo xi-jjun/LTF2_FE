@@ -46,7 +46,7 @@ export default function PlanBoxModal({ showPlan, setShowPlan }) {
         <Fade in={showPlan.show}>
           <Box sx={style}>
             <ModalStyle.Header>
-              <ModalStyle.Title children="더 많은 요금제 보기" />
+              <ModalStyle.Title children="요금제 보기" />
               <ModalStyle.CloseBtn
                 children={<CloseIcon onClick={handleClose} />}
               />

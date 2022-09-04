@@ -8,6 +8,7 @@ import { useState } from "react";
 import MessageModal from "./MessageModal";
 import { SideFlex } from "../styles/detailInfoStyle";
 import { discountType } from "../util/transform";
+import goToCart from "../util/goToCart";
 
 export default function PhoneInfomation({
   active,
@@ -28,35 +29,8 @@ export default function PhoneInfomation({
   const changeModalMsg = (type, message, btnMessage, func) =>
     setModalMsg({ type, message, btnMessage, func });
 
-  const goToCart = () => {
-    switch (saveCart(active)) {
-      case "success": {
-        changeModalMsg(
-          "YN",
-          "장바구니에 주문이 저장되었습니다.",
-          "장바구니로 이동",
-          () => navigate("/cart")
-        );
-        setOpen(true);
-        break;
-      }
-      case "alreadyExist": {
-        changeModalMsg("", "이미 존재하는 주문 정보입니다!", "", "");
-        setOpen(true);
-        break;
-      }
-      default: {
-        changeModalMsg(
-          "",
-          "알 수 없는 오류가 발생했습니다. \n불편을 드려 죄송합니다.",
-          "",
-          ""
-        );
-        setOpen(true);
-        break;
-      }
-    }
-  };
+  const goCart = () =>
+    goToCart(active, saveCart, changeModalMsg, navigate, setOpen);
 
   const goToOrder = () => {
     navigate("/order", { state: active });
@@ -231,7 +205,7 @@ export default function PhoneInfomation({
           </PhoneInfo.Price>
           <PhoneInfo.Info>
             <Row justify="center">
-              <LGButton variant="outline-dark" size="lg" onClick={goToCart}>
+              <LGButton variant="outline-dark" size="lg" onClick={goCart}>
                 장바구니
               </LGButton>
               <LGButton variant="primary" size="lg" onClick={goToOrder}>
