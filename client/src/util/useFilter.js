@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 
 // ******************************
-const useFilter = ({ initState, callback ,filterModule }) => {
+const useFilter = ({ initState, initList ,callback ,filterModule, orderModule }) => {
   const [state, setState] = useState(initState);
-  const [list, setList] = useState([]);
-
+  const [list, setList] = useState(initList);
+  const [orderType,setOrderType] = useState("")
+  const [actualPay,setActualPay] = useState([])
   // ******************************
 
   useEffect(() => {
     const filteredList = filterModule(state,list)
     setList(filteredList)
+    if(orderType){
+
+    }
   }, [state]);
+
+  useEffect(() => {
+    const orderedList = orderModule(orderType,list,actualPay)
+    setList(orderedList)
+  }, [orderType]);
   
   // ******************************
   
@@ -34,9 +43,25 @@ const useFilter = ({ initState, callback ,filterModule }) => {
     }
   };
 
+  const handleOrder = (e,phones,actualPay) => {
+    const { value } = e.target;
+    setList(phones)
+    setActualPay(actualPay)
+    setOrderType(value)
+  };
+
+  const handleData = phones => {
+    setList(phones)
+  };
+
+  const resetFilter = () => {
+    setState(initState)
+  }
 
   return {
     handleChange,
+    handleOrder,
+    handleData,
     state,
     list
   };
