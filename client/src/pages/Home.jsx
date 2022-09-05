@@ -8,10 +8,8 @@ import Filter from "../components/Filter";
 import { PageContainer } from "../components/PageContainer";
 import PlanModal from "../components/PlanModal";
 import { filtering } from "../util/filtering";
-import useFilter from "../util/useFilter";
 import sortPhoneList from "../util/sortPhoneList";
 import NoResult from "../components/NoResult";
-import { ordering } from "../util/ordering";
 
 export default function Home({
   phones,
@@ -24,8 +22,9 @@ export default function Home({
   const navigate = useNavigate();
   const goToNotFound = () => navigate("/notfound");
 
-  const { tech, company } = useParams();
+  const { tech } = useParams();
 
+  const [isDefault, setIsDefault] = useState(true);
   const [filterOpt, setFilterOpt] = useState({ planId: 1, disCountType: -1 });
   const [sortId, setSortId] = useState([]);
   const [sortBy, setSortBy] = useState("");
@@ -37,11 +36,8 @@ export default function Home({
     setFilterOpt({ ...filterOpt, [key]: value });
 
   const techArr = ["5G", "LTE"];
-  const companyArr = ["삼성", "애플", "기타"];
 
-  const notFoundCondition =
-    techArr.indexOf(tech) === -1 ||
-    (companyArr.indexOf(company) === -1 && company !== undefined);
+  const notFoundCondition = techArr.indexOf(tech) === -1;
 
   const handleModal = () =>
     setModalShow((prev) => ({ ...prev, plan: !prev.plan }));
@@ -73,22 +69,17 @@ export default function Home({
     switch (key) {
       case "plan":
         setFilterOpt(() => ({ ...filterOpt, planId: id }));
+        setSortBy("");
         setDefaultValue(value);
         break;
       case "disCountType":
         setFilterOpt(() => ({ ...filterOpt, disCountType: Number(id) }));
+        setSortBy("");
         break;
       default:
         break;
     }
   };
-  // const { handleChange, handleOrder, handleData, state, list } = useFilter({
-  //   initState: filter,
-  //   initList: phoneArr,
-  //   callback: callback,
-  //   filterModule: filtering,
-  //   orderModule: ordering,
-  // });
 
   const handleChange = (e, phones) => {
     const { name, value } = e.target;
@@ -121,6 +112,8 @@ export default function Home({
       filterOpt.disCountType,
       setSortId
     );
+    setDefaultValue("전체");
+    setIsDefault(true);
   }, [tech, sortBy]);
 
   useEffect(() => {
@@ -145,6 +138,7 @@ export default function Home({
   return (
     <PageContainer>
       <PlanModal
+        tech={tech}
         modalShow={modalShow}
         setModalShow={setModalShow}
         nowPlanId={filterOpt.planId}
@@ -157,17 +151,19 @@ export default function Home({
         <Grid container spacing={4}>
           <Grid item md={2}>
             <Filter
+              filter={filter}
               handleModal={handleModal}
               phones={phoneArr}
               defaultValue={defaultValue}
               tech={tech}
               handleChange={handleChange}
+              setIsDefault={setIsDefault}
             />
           </Grid>
           <Grid item md={10}>
-            {/* {phoneArr.length ? (
+            {isDefault || filteredList.length !== 0 ? (
               <PhoneList
-                phones={list.length === 0 ? phoneArr : list}
+                phones={filteredList.length === 0 ? phoneArr : filteredList}
                 modalShow={modalShow}
                 saveCart={saveCart}
                 propsList={propsList}
@@ -175,22 +171,14 @@ export default function Home({
                 planList={planList}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                handleOrder={handleOrder}
               />
             ) : (
-              <NoResult />
-            )} */}
-            <PhoneList
-              phones={filteredList.length === 0 ? phoneArr : filteredList}
-              modalShow={modalShow}
-              saveCart={saveCart}
-              propsList={propsList}
-              filterOpt={filterOpt}
-              planList={planList}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              // handleOrder={handleOrder}
-            />
+              <NoResult
+                setFilter={setFilter}
+                setFilterOpt={setFilterOpt}
+                tech={tech}
+              />
+            )}
           </Grid>
         </Grid>
       </Styles.TotalLayout>

@@ -154,20 +154,6 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Main />} />
           <Route
-            path="/phone/:tech/:company"
-            exact
-            element={
-              <Home
-                phones={phones}
-                plans={plans}
-                modalShow={modalShow}
-                setModalShow={setModalShow}
-                saveCart={saveCart}
-                propsList={propsList}
-              />
-            }
-          />
-          <Route
             path="/phone/:tech"
             exact
             element={

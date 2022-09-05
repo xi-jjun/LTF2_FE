@@ -1,43 +1,15 @@
 const phoneMapData = [
-  [
-    { name: "5G 휴대폰", link: "/phone/5G" },
-    { name: "전체", link: "/phone/5G" },
-    { name: "삼성", link: "/phone/5G/삼성" },
-    { name: "애플", link: "/phone/5G/애플" },
-  ],
-  [
-    { name: "4G 휴대폰", link: "/phone/LTE" },
-    { name: "전체", link: "/phone/LTE" },
-    { name: "삼성", link: "/phone/LTE/삼성" },
-    { name: "애플", link: "/phone/LTE/애플" },
-  ],
+  [{ name: "5G 휴대폰", link: "/phone/5G" }],
+  [{ name: "4G 휴대폰", link: "/phone/LTE" }],
   [
     { name: "유심", link: "" },
     { name: "유심가입", link: "" },
     { name: "친구추천", link: "" },
   ],
-  [
-    { name: "태블릿", link: "" },
-    { name: "전체", link: "" },
-    { name: "삼성", link: "" },
-    { name: "애플", link: "" },
-  ],
-  [
-    { name: "스마트워치", link: "" },
-    { name: "전체", link: "" },
-    { name: "삼성", link: "" },
-    { name: "애플", link: "" },
-  ],
-  [
-    { name: "노트북", link: "" },
-    { name: "전체", link: "" },
-  ],
-  [
-    { name: "중고/자급제폰", link: "" },
-    { name: "전체", link: "" },
-    { name: "삼성", link: "" },
-    { name: "애플", link: "" },
-  ],
+  [{ name: "태블릿", link: "" }],
+  [{ name: "스마트워치", link: "" }],
+  [{ name: "노트북", link: "" }],
+  [{ name: "중고/자급제폰", link: "" }],
   [
     { name: "액세서리", link: "" },
     { name: "전체", link: "" },

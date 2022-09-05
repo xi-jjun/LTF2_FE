@@ -14,6 +14,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
 
   const [open, setOpen] = useState(false);
   const [modalMsg, setModalMsg] = useState({
+    type: "",
     message: "",
     btnMessage: "",
     func: "",
@@ -33,6 +34,7 @@ export default function DetailSideBar({ active, priceInfo, saveCart }) {
       <MessageModal
         open={open}
         setOpen={setOpen}
+        type={modalMsg.type}
         message={modalMsg.message}
         btnMessage={modalMsg.btnMessage}
         func={modalMsg.func}

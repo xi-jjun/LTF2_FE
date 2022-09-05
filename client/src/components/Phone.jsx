@@ -34,6 +34,7 @@ export default function Phone({
   const comparePlanId = search ? tech : filterOpt.planId;
 
   const [modalMsg, setModalMsg] = useState({
+    type: "",
     message: "",
     btnMessage: "",
     func: "",
@@ -88,6 +89,7 @@ export default function Phone({
       <MessageModal
         open={open}
         setOpen={setOpen}
+        type={modalMsg.type}
         message={modalMsg.message}
         btnMessage={modalMsg.btnMessage}
         func={modalMsg.func}

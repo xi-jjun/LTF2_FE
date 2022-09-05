@@ -15,7 +15,6 @@ export default function PhoneList({
   setSortBy,
   search,
   isShowMore,
-  // handleOrder,
 }) {
   const phonesArray =
     search && !isShowMore ? [...phones].slice(0, 4) : [...phones];
@@ -29,10 +28,14 @@ export default function PhoneList({
             <Styles.Select
               onChange={(e) => {
                 setSortBy(e.target.value);
-                // handleOrder(e, phones, actualPay);
               }}
+              value={sortBy}
             >
-              <Styles.Option value="" children="주간 판매량 많은 순" />
+              <Styles.Option value="" children="정렬" />
+              <Styles.Option
+                value="weeklyOrderDesc"
+                children="주간 판매량 많은 순"
+              />
               <Styles.Option value="orderDesc" children="누적 판매량 많은 순" />
               <Styles.Option value="actualAsc" children="실 구매가 낮은 순" />
               <Styles.Option value="actualDesc" children="실 구매가 높은 순" />

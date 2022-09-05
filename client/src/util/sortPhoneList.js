@@ -11,7 +11,7 @@ export default async function sortPhoneList(
   setState
 ) {
   // 가격들 가져옴
-  const installment = discount === 12 ? discount : 24 
+  const installment = discount === 12 ? discount : 24;
   const handleData = async (phoneId) => {
     const [phoneData, planData, publicPrice] = await getPhoneByPhoneId(
       phoneId
@@ -119,6 +119,9 @@ export default async function sortPhoneList(
       break;
     case "orderDesc":
       setState(sortDefaultArr("orderCount"));
+      break;
+    case "weeklyOrderDesc":
+      setState(sortDefaultArr("weeklyOrderCount"));
       break;
     default:
       setState(arr.map((row) => row.phoneId));
