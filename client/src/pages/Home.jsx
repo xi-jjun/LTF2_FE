@@ -69,12 +69,10 @@ export default function Home({
     switch (key) {
       case "plan":
         setFilterOpt(() => ({ ...filterOpt, planId: id }));
-        setSortBy("");
         setDefaultValue(value);
         break;
       case "disCountType":
         setFilterOpt(() => ({ ...filterOpt, disCountType: Number(id) }));
-        setSortBy("");
         break;
       default:
         break;
