@@ -7,10 +7,11 @@ export default async function sortPhoneList(
   arr,
   planId,
   discount,
-  installment,
+  install,
   setState
 ) {
   // 가격들 가져옴
+  const installment = discount === 12 ? discount : 24 
   const handleData = async (phoneId) => {
     const [phoneData, planData, publicPrice] = await getPhoneByPhoneId(
       phoneId

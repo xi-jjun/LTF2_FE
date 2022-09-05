@@ -11,6 +11,7 @@ import { filtering } from "../util/filtering";
 import useFilter from "../util/useFilter";
 import sortPhoneList from "../util/sortPhoneList";
 import NoResult from "../components/NoResult";
+import { ordering } from "../util/ordering";
 
 export default function Home({
   phones,
@@ -30,6 +31,8 @@ export default function Home({
   const [sortBy, setSortBy] = useState("");
   const [phoneArr, setPhoneArr] = useState([]);
   const [defaultValue, setDefaultValue] = useState("전체");
+  const [filteredList, setFilteredList] = useState([]);
+
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
 
@@ -54,7 +57,9 @@ export default function Home({
       setPhoneArr(phoneList);
     }
   }, [phones]);
+
   ////////////////////////////////////////////////
+
   const [filter, setFilter] = useState({
     plan: "전체",
     disCountType: "전체",
@@ -77,15 +82,51 @@ export default function Home({
         break;
     }
   };
-  const { handleChange, state, list } = useFilter({
-    initState: filter,
-    callback: callback,
-    filterModule: filtering,
-  });
+  // const { handleChange, handleOrder, handleData, state, list } = useFilter({
+  //   initState: filter,
+  //   initList: phoneArr,
+  //   callback: callback,
+  //   filterModule: filtering,
+  //   orderModule: ordering,
+  // });
+
+  const handleChange = (e, phones) => {
+    const { name, value } = e.target;
+    setFilter(phones);
+    setFilter(() => ({
+      ...filter,
+      [name]: value,
+    }));
+
+    switch (name) {
+      case "plan":
+        callback("plan", e.target);
+        break;
+      case "disCountType":
+        callback("disCountType", e.target);
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
-    sortPhoneList(sortBy, phoneList, 1, -1, 24, setSortId);
+    const id = tech === "5G" ? 1 : 17;
+    setFilterOpt(() => ({ ...filterOpt, planId: id }));
+    sortPhoneList(
+      sortBy,
+      phoneList,
+      filterOpt.planId,
+      filterOpt.disCountType,
+      filterOpt.disCountType,
+      setSortId
+    );
   }, [tech, sortBy]);
+
+  useEffect(() => {
+    const filteredList = filtering(filter, phoneArr);
+    setFilteredList(filteredList);
+  }, [filter]);
 
   useEffect(() => {
     const sortArr = () => {
@@ -97,6 +138,8 @@ export default function Home({
     };
 
     setPhoneArr(sortArr());
+    const filteredList = filtering(filter, sortArr());
+    setFilteredList(filteredList);
   }, [sortId]);
 
   return (
@@ -122,7 +165,7 @@ export default function Home({
             />
           </Grid>
           <Grid item md={10}>
-            {phoneArr.length ? (
+            {/* {phoneArr.length ? (
               <PhoneList
                 phones={list.length === 0 ? phoneArr : list}
                 modalShow={modalShow}
@@ -132,10 +175,22 @@ export default function Home({
                 planList={planList}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
+                handleOrder={handleOrder}
               />
             ) : (
               <NoResult />
-            )}
+            )} */}
+            <PhoneList
+              phones={filteredList.length === 0 ? phoneArr : filteredList}
+              modalShow={modalShow}
+              saveCart={saveCart}
+              propsList={propsList}
+              filterOpt={filterOpt}
+              planList={planList}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              // handleOrder={handleOrder}
+            />
           </Grid>
         </Grid>
       </Styles.TotalLayout>

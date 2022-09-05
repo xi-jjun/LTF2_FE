@@ -16,6 +16,7 @@ export default function Phone({
   propsList,
   filterOpt,
   search,
+  setActualPay,
 }) {
   const navigate = useNavigate();
 
@@ -83,6 +84,13 @@ export default function Phone({
     const tech = phone.telecomTech === "5G" ? 1 : 17;
     search && priceCalcbyId(phone.phoneId, tech, -1, 24, setPriceInfo);
   }, []);
+
+  useEffect(() => {
+    setActualPay((prev) => ({
+      ...prev,
+      [phone.phoneId]: priceInfo,
+    }));
+  }, [priceInfo]);
 
   useEffect(() => {
     if (!search) {
