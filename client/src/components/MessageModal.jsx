@@ -26,8 +26,16 @@ const style = {
   p: 4,
 };
 
-export default function MessageModal({ open, setOpen, message, func }) {
+export default function MessageModal({
+  open,
+  setOpen,
+  type,
+  message,
+  btnMessage,
+  func,
+}) {
   const handleClose = () => setOpen(false);
+  const btnText = btnMessage === "" ? "확인" : btnMessage;
   const run = func === "" ? handleClose : func;
 
   return (
@@ -49,11 +57,20 @@ export default function MessageModal({ open, setOpen, message, func }) {
               id="transition-modal-title"
               variant="h6"
               component="h2"
-              style={{ marginBottom: "10px" }}
+              style={{ marginBottom: "20px" }}
             >
               {message}
             </Typography>
-            <LGButton onClick={run} children="확인" />
+            <div style={{ display: "flex" }}>
+              {type === "YN" && (
+                <LGButton
+                  variant="light"
+                  onClick={handleClose}
+                  children="닫기"
+                />
+              )}
+              <LGButton onClick={run} children={btnText} />
+            </div>
           </Box>
         </Fade>
       </Modal>

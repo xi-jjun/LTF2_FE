@@ -1,15 +1,21 @@
 import styled from "styled-components";
 
 export const OrderContainer = styled.div`
+  box-sizing: border-box;
   text-align: left;
   display: flex;
   border-bottom: 1px solid lightgrey;
   background-color: white;
   width: 100%;
-  min-width: 1000px;
+  min-width: 1440px;
   overflow: hidden;
   position: sticky;
-  top: 0px;
+  top: 102px;
+  left: 0px;
+  right: 0px;
+  z-index: 9;
+  padding-left: 48px;
+  padding-right: 48px;
 `;
 
 export const OrderItem = styled.div`
@@ -31,22 +37,27 @@ export const OrderItem = styled.div`
 `;
 
 export const NavContainer = styled.div`
+  box-sizing: border-box;
   text-align: left;
   display: flex;
   border-bottom: 1px solid lightgrey;
   background-color: white;
   position: fixed;
   top: 50px;
+  left: 0px;
+  right: 0px;
   width: 100%;
-  min-width: 1000px;
+  min-width: 1440px;
   overflow: hidden;
   height: 52px;
   z-index: 10;
+  padding-left: 48px;
+  padding-right: 48px;
 `;
 
 export const NavItem = styled.div`
   margin: 0px 25px;
-  height: 50px;
+  height: 49px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -65,14 +76,20 @@ export const NavItem = styled.div`
 `;
 
 export const NavMap = styled.div`
+  box-sizing: border-box;
   position: fixed;
-  width: 100%;
-  height: 300px;
+  height: 350px;
   background: #fff;
   display: ${(props) => (props.nowHover ? "flex" : "none")};
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-  top: 103px;
-  z-index: 100;
+  top: 102px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  min-width: 1440px;
+  z-index: 150;
+  padding-left: 48px;
+  padding-right: 48px;
 `;
 
 export const NavMapCategory = styled.div`
@@ -91,6 +108,7 @@ export const NavMapCategory = styled.div`
 
       &:hover {
         text-decoration: underline;
+        color: #e6007e;
       }
     }
 
@@ -98,9 +116,11 @@ export const NavMapCategory = styled.div`
       margin: 5px 0px;
       cursor: pointer;
       text-indent: -10px;
+      color: grey;
 
       &:hover {
         text-decoration: underline;
+        color: #e6007e;
       }
 
       &:before {
@@ -128,17 +148,23 @@ export const NavMapContent = styled.li`
 `;
 
 export const MainContainer = styled.div`
+  box-sizing: border-box;
   padding: 10px 20px;
   text-align: left;
   border-bottom: 1px solid lightgrey;
   background-color: white;
   position: fixed;
-  top: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   width: 100%;
-  height: 29px;
+  min-width: 1440px;
+  height: 50px;
   display: flex;
   align-items: center;
   z-index: 10;
+  padding-left: 78px;
+  padding-right: 78px;
 `;
 
 export const MainLogo = styled.img`

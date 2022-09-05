@@ -1,6 +1,6 @@
 import * as Bar from "../styles/searchBarStyle";
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchBar({keyword, isShowMore, setIsShowMore}) {
@@ -26,6 +26,11 @@ export default function SearchBar({keyword, isShowMore, setIsShowMore}) {
             onClick();
         }
     }
+
+    useEffect(async () => {
+        setNowValue(keyword);
+        setIsShowMore(false);
+    }, [keyword]);
 
     return (
         <Bar.SearchBox>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-  padding-left: 48px;
-  padding-right: 48px;
+  width: 100%;
+  height: 100vh;
 `;

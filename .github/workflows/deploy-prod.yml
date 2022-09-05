@@ -1,27 +1,24 @@
-name: React build and push docker image to ECR
+name: Production deployment
+
 on: 
-  # merge:
-  #   branches:
-  #     - dev
-  
   pull_request_target:
-    branches: [ dev ]
+    branches: [ main ]
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: lguplus-front
+  ECR_REPOSITORY: lguplus-prod-front
 
-  ECS_CLUSTER_NAME: front-dev-cluster
-  ECS_CONTAINER_NAME: front-dev-container
-  ECS_SERVICE_NAME: front-dev-service
-  ECS_TASK_DEFINITION: front-dev-task
+  ECS_CLUSTER_NAME: lg-prod-cluster 
+  ECS_CONTAINER_NAME: lg-prod-front-container
+  ECS_SERVICE_NAME: lg-prod-service
+  ECS_TASK_DEFINITION: lg-prod-task
 
 jobs:
   approve:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Approve
+    - name: Approve 
       run: echo For security reasons, all pull requests need to be approved first before running any automated CI
 
   CI_CD_start:
@@ -35,10 +32,6 @@ jobs:
       run: npm install
       working-directory: "./client"
 
-    # - name: build test
-    #   run: npm run test
-    #   working-directory: "./client"
-
     - name: npm build                  
       run: npm run build
       working-directory: "./client"
@@ -49,7 +42,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - run: echo "${{ secrets.AWS_ACCESS_KEY_ID }}"
         
     - name: Login to Amazon ECR
       id: login-ecr

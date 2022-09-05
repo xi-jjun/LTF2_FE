@@ -2,9 +2,13 @@ import styled from "styled-components";
 
 export const ResultBox = styled.div`
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export const ResultBar = styled.div`
+    width: 90%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -27,6 +31,6 @@ export const ResultBar = styled.div`
 `
 
 export const ResultList = styled.div`
-    width: 100%;
+    width: 90%;
     margin-top : 15px;
 `
