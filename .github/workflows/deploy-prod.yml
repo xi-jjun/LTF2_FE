@@ -1,8 +1,6 @@
 name: Production deployment
 
 on: 
-  push:
-    branches: [ dev ] # 임시
   pull_request_target:
     branches: [ main ]
 
