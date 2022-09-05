@@ -77,7 +77,9 @@ export default function Detail({
             d.phoneDetail,
             nowPlan,
             planArr,
-            getPublicSupportPrice(nowPlan.planId),
+            nowPlan.planType === "다이렉트"
+              ? 0
+              : getPublicSupportPrice(nowPlan.planId),
           ]);
         } else {
           return await getPlansByTelecomTech(d.phoneDetail.telecomTech).then(
@@ -90,7 +92,9 @@ export default function Detail({
                 d.phoneDetail,
                 nowPlan,
                 planArr,
-                getPublicSupportPrice(nowPlan.planId),
+                nowPlan.planType === "다이렉트"
+                  ? 0
+                  : getPublicSupportPrice(nowPlan.planId),
               ]);
               return values;
             }
@@ -110,7 +114,7 @@ export default function Detail({
   };
 
   const handleFilterOpt = async (key, value) => {
-    const isEconomic = (plan, supportPrice) => {
+    const isEconomical = (plan, supportPrice) => {
       return plan.monthPrice * 0.25 * 24 > supportPrice ? 24 : -1;
     };
 
@@ -125,7 +129,7 @@ export default function Detail({
         discount:
           planList.find((row) => row.planId === value).planType === "다이렉트"
             ? 0
-            : isEconomic(values.plan, values.supportPrice),
+            : isEconomical(values.plan, values.supportPrice),
       });
     }
   };
