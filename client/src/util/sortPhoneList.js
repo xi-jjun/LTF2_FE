@@ -7,10 +7,11 @@ export default async function sortPhoneList(
   arr,
   planId,
   discount,
-  installment,
+  install,
   setState
 ) {
   // 가격들 가져옴
+  const installment = discount === 12 ? discount : 24;
   const handleData = async (phoneId) => {
     const [phoneData, planData, publicPrice] = await getPhoneByPhoneId(
       phoneId
@@ -18,27 +19,32 @@ export default async function sortPhoneList(
       if (d.status === 404) {
         return ["error", "error", "error"];
       } else {
-        return await Promise.all([
-          d,
-          getPlanByPlanId(planId),
-          getPublicSupportByPhoneIdAndPlanId({
-            phone_id: phoneId,
-            plan_id: planId,
-          }).then((d) => {
-            if (d.status === 404) {
-              return 0;
-            } else {
-              return d.PublicSupportPrice;
-            }
-          }),
-        ]);
+        return await getPlanByPlanId(planId).then(async (p) => {
+          if (p.Plan.planType === "다이렉트") {
+            return [d.phoneDetail, p.Plan, 0];
+          } else
+            return await Promise.all([
+              d.phoneDetail,
+              p.Plan,
+              getPublicSupportByPhoneIdAndPlanId({
+                phone_id: phoneId,
+                plan_id: planId,
+              }).then((d) => {
+                if (d.status === 404) {
+                  return 0;
+                } else {
+                  return d.PublicSupportPrice;
+                }
+              }),
+            ]);
+        });
       }
     });
     if (phoneData === "error") {
       return "error";
     } else {
-      let phone = phoneData.phoneDetail;
-      let plan = planData.Plan;
+      let phone = phoneData;
+      let plan = planData;
       let supportPrice = publicPrice;
 
       const month = installment || 24;
@@ -113,6 +119,9 @@ export default async function sortPhoneList(
       break;
     case "orderDesc":
       setState(sortDefaultArr("orderCount"));
+      break;
+    case "weeklyOrderDesc":
+      setState(sortDefaultArr("weeklyOrderCount"));
       break;
     default:
       setState(arr.map((row) => row.phoneId));

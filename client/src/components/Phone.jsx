@@ -8,6 +8,7 @@ import { priceCalcbyId } from "../util/priceCalc";
 import { useState } from "react";
 import { useEffect } from "react";
 import MessageModal from "./MessageModal";
+import goToCart from "../util/goToCart";
 
 export default function Phone({
   phone,
@@ -16,6 +17,7 @@ export default function Phone({
   propsList,
   filterOpt,
   search,
+  setActualPay,
 }) {
   const navigate = useNavigate();
 
@@ -32,6 +34,7 @@ export default function Phone({
   const comparePlanId = search ? tech : filterOpt.planId;
 
   const [modalMsg, setModalMsg] = useState({
+    type: "",
     message: "",
     btnMessage: "",
     func: "",
@@ -39,7 +42,7 @@ export default function Phone({
   const changeModalMsg = (type, message, btnMessage, func) =>
     setModalMsg({ type, message, btnMessage, func });
 
-  const goToCart = () => {
+  const goCart = () => {
     const active = {
       phone,
       plan: { planId: comparePlanId },
@@ -50,39 +53,20 @@ export default function Phone({
       installment: 24,
       discount: 24,
     };
-    switch (saveCart(active)) {
-      case "success": {
-        changeModalMsg(
-          "YN",
-          "장바구니에 주문이 저장되었습니다.",
-          "장바구니로 이동",
-          () => navigate("/cart")
-        );
-        setOpen(true);
-        break;
-      }
-      case "alreadyExist": {
-        changeModalMsg("", "이미 존재하는 주문 정보입니다!", "", "");
-        setOpen(true);
-        break;
-      }
-      default: {
-        changeModalMsg(
-          "",
-          "알 수 없는 오류가 발생했습니다. \n불편을 드려 죄송합니다.",
-          "",
-          ""
-        );
-        setOpen(true);
-        break;
-      }
-    }
+    goToCart(active, saveCart, changeModalMsg, navigate, setOpen);
   };
 
   useEffect(() => {
     const tech = phone.telecomTech === "5G" ? 1 : 17;
     search && priceCalcbyId(phone.phoneId, tech, -1, 24, setPriceInfo);
   }, []);
+
+  useEffect(() => {
+    setActualPay((prev) => ({
+      ...prev,
+      [phone.phoneId]: priceInfo,
+    }));
+  }, [priceInfo]);
 
   useEffect(() => {
     if (!search) {
@@ -105,6 +89,7 @@ export default function Phone({
       <MessageModal
         open={open}
         setOpen={setOpen}
+        type={modalMsg.type}
         message={modalMsg.message}
         btnMessage={modalMsg.btnMessage}
         func={modalMsg.func}
@@ -168,7 +153,7 @@ export default function Phone({
           >
             비교하기
           </LGButton>
-          <Styles.CartButton onClick={goToCart} />
+          <Styles.CartButton onClick={goCart} />
         </Styles.CompareButton>
       </Styles.CardFooter>
     </Styles.CardLayout>

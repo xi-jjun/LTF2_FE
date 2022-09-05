@@ -1,7 +1,17 @@
 import * as Styled from "../styles/cartStyle";
 import { LGButton } from "./Button";
 
-export default function NoResult() {
+export default function NoResult({ setFilterOpt, setFilter, tech }) {
+  const onClick = () => {
+    setFilter({
+      plan: "전체",
+      disCountType: "전체",
+      manufacturingCompany: "전체",
+      storage: "전체",
+      memory: "전체",
+    });
+    setFilterOpt({ planId: tech === "5G" ? 1 : 17, disCountType: -1 });
+  };
   return (
     <div>
       <Styled.CartImgLayout>
@@ -14,7 +24,7 @@ export default function NoResult() {
         </Styled.CartText>
       </Styled.CartLayout>
       <Styled.MvMainBtnLayout>
-        <LGButton size="lg" children="필터 초기화" />
+        <LGButton onClick={onClick} size="lg" children="필터 초기화" />
       </Styled.MvMainBtnLayout>
     </div>
   );

@@ -57,7 +57,7 @@ export const NavContainer = styled.div`
 
 export const NavItem = styled.div`
   margin: 0px 25px;
-  height: 50px;
+  height: 49px;
   cursor: pointer;
   display: flex;
   align-items: center;

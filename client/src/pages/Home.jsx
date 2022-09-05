@@ -8,7 +8,6 @@ import Filter from "../components/Filter";
 import { PageContainer } from "../components/PageContainer";
 import PlanModal from "../components/PlanModal";
 import { filtering } from "../util/filtering";
-import useFilter from "../util/useFilter";
 import sortPhoneList from "../util/sortPhoneList";
 import NoResult from "../components/NoResult";
 
@@ -23,22 +22,22 @@ export default function Home({
   const navigate = useNavigate();
   const goToNotFound = () => navigate("/notfound");
 
-  const { tech, company } = useParams();
+  const { tech } = useParams();
 
+  const [isDefault, setIsDefault] = useState(true);
   const [filterOpt, setFilterOpt] = useState({ planId: 1, disCountType: -1 });
   const [sortId, setSortId] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [phoneArr, setPhoneArr] = useState([]);
   const [defaultValue, setDefaultValue] = useState("전체");
+  const [filteredList, setFilteredList] = useState([]);
+
   const handleFilterOpt = (key, value) =>
     setFilterOpt({ ...filterOpt, [key]: value });
 
   const techArr = ["5G", "LTE"];
-  const companyArr = ["삼성", "애플", "기타"];
 
-  const notFoundCondition =
-    techArr.indexOf(tech) === -1 ||
-    (companyArr.indexOf(company) === -1 && company !== undefined);
+  const notFoundCondition = techArr.indexOf(tech) === -1;
 
   const handleModal = () =>
     setModalShow((prev) => ({ ...prev, plan: !prev.plan }));
@@ -54,7 +53,9 @@ export default function Home({
       setPhoneArr(phoneList);
     }
   }, [phones]);
+
   ////////////////////////////////////////////////
+
   const [filter, setFilter] = useState({
     plan: "전체",
     disCountType: "전체",
@@ -68,24 +69,57 @@ export default function Home({
     switch (key) {
       case "plan":
         setFilterOpt(() => ({ ...filterOpt, planId: id }));
+        setSortBy("");
         setDefaultValue(value);
         break;
       case "disCountType":
         setFilterOpt(() => ({ ...filterOpt, disCountType: Number(id) }));
+        setSortBy("");
         break;
       default:
         break;
     }
   };
-  const { handleChange, state, list } = useFilter({
-    initState: filter,
-    callback: callback,
-    filterModule: filtering,
-  });
+
+  const handleChange = (e, phones) => {
+    const { name, value } = e.target;
+    setFilter(phones);
+    setFilter(() => ({
+      ...filter,
+      [name]: value,
+    }));
+
+    switch (name) {
+      case "plan":
+        callback("plan", e.target);
+        break;
+      case "disCountType":
+        callback("disCountType", e.target);
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
-    sortPhoneList(sortBy, phoneList, 1, -1, 24, setSortId);
+    const id = tech === "5G" ? 1 : 17;
+    setFilterOpt(() => ({ ...filterOpt, planId: id }));
+    sortPhoneList(
+      sortBy,
+      phoneList,
+      filterOpt.planId,
+      filterOpt.disCountType,
+      filterOpt.disCountType,
+      setSortId
+    );
+    setDefaultValue("전체");
+    setIsDefault(true);
   }, [tech, sortBy]);
+
+  useEffect(() => {
+    const filteredList = filtering(filter, phoneArr);
+    setFilteredList(filteredList);
+  }, [filter]);
 
   useEffect(() => {
     const sortArr = () => {
@@ -97,11 +131,14 @@ export default function Home({
     };
 
     setPhoneArr(sortArr());
+    const filteredList = filtering(filter, sortArr());
+    setFilteredList(filteredList);
   }, [sortId]);
 
   return (
     <PageContainer>
       <PlanModal
+        tech={tech}
         modalShow={modalShow}
         setModalShow={setModalShow}
         nowPlanId={filterOpt.planId}
@@ -114,17 +151,19 @@ export default function Home({
         <Grid container spacing={4}>
           <Grid item md={2}>
             <Filter
+              filter={filter}
               handleModal={handleModal}
               phones={phoneArr}
               defaultValue={defaultValue}
               tech={tech}
               handleChange={handleChange}
+              setIsDefault={setIsDefault}
             />
           </Grid>
           <Grid item md={10}>
-            {phoneArr.length ? (
+            {isDefault || filteredList.length !== 0 ? (
               <PhoneList
-                phones={list.length === 0 ? phoneArr : list}
+                phones={filteredList.length === 0 ? phoneArr : filteredList}
                 modalShow={modalShow}
                 saveCart={saveCart}
                 propsList={propsList}
@@ -134,7 +173,11 @@ export default function Home({
                 setSortBy={setSortBy}
               />
             ) : (
-              <NoResult />
+              <NoResult
+                setFilter={setFilter}
+                setFilterOpt={setFilterOpt}
+                tech={tech}
+              />
             )}
           </Grid>
         </Grid>

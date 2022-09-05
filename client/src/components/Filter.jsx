@@ -14,14 +14,22 @@ import * as OptionData from "../assets/filterOptions";
 import { LGButton } from "./Button";
 
 export default function Filter({
+  filter,
   phones,
   tech,
   defaultValue,
   handleChange,
   handleModal,
+  setIsDefault,
 }) {
   const data = OptionData["default"][tech];
-
+  const converter = {
+    요금제: "plan",
+    "할인 유형": "disCountType",
+    제조사: "manufacturingCompany",
+    "배터리 용량": "storage",
+    저장용량: "memory",
+  };
   const Options = (values) => {
     const keys = Object.keys(values);
     return keys.map((name, idx) => {
@@ -36,7 +44,6 @@ export default function Filter({
       );
     });
   };
-
   return (
     <>
       {Object.keys(data).map((k, i) => {
@@ -57,6 +64,7 @@ export default function Filter({
                       name={data[k].name}
                       onChange={(e) => {
                         handleChange(e, phones);
+                        setIsDefault(false);
                       }}
                     >
                       {Options(data[k].values)}
@@ -71,10 +79,11 @@ export default function Filter({
                   </>
                 ) : (
                   <RadioGroup
-                    defaultValue={"전체"}
+                    value={filter[converter[k]]}
                     name={data[k].name}
                     onChange={(e) => {
                       handleChange(e, phones);
+                      setIsDefault(false);
                     }}
                   >
                     {Options(data[k].values)}
